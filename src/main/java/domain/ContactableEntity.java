@@ -2,7 +2,7 @@ package domain;
 
 import utils.Validator;
 
-public class ContactableEntity extends BaseEntity {
+public abstract class ContactableEntity extends BaseEntity {
 
     private String email;
     private String phoneNumber;
