@@ -1,6 +1,9 @@
 package domain.physically_contactable_entities;
 
 import domain.abstract_entities.PhysicallyContactableEntity;
+import domain.value_objects.Address;
+import domain.value_objects.Email;
+import domain.value_objects.PhoneNumber;
 
 public class Warehouse extends PhysicallyContactableEntity {
 
@@ -8,15 +11,15 @@ public class Warehouse extends PhysicallyContactableEntity {
     private int amountOfProducts;
     private final static int MINIMAL_CAPACITY = 100;
 
-    public Warehouse(String email, String phoneNumber, String name, String address,
+    public Warehouse(Email email, PhoneNumber phoneNumber, String name, Address address,
                      int capacity, int amountOfProducts) {
         super(email, phoneNumber, name, address);
         setCapacity(capacity);
         setAmountOfProducts(amountOfProducts);
     }
 
-    public Warehouse(Long id, String email, String phoneNumber, String name,
-                     String address, int capacity, int amountOfProducts) {
+    public Warehouse(Long id, Email email, PhoneNumber phoneNumber, String name,
+                     Address address, int capacity, int amountOfProducts) {
         super(id, email, phoneNumber, name, address);
         setCapacity(capacity);
         setAmountOfProducts(amountOfProducts);

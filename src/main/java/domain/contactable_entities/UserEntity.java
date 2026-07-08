@@ -1,18 +1,20 @@
 package domain.contactable_entities;
 
 import domain.abstract_entities.ContactableEntity;
+import domain.value_objects.Email;
+import domain.value_objects.PhoneNumber;
 
 public class UserEntity extends ContactableEntity {
 
     private String surname;
 
 
-    public UserEntity(String email, String phoneNumber, String name, String surname) {
+    public UserEntity(Email email, PhoneNumber phoneNumber, String name, String surname) {
         super(email, phoneNumber, name);
         setSurname(surname);
     }
 
-    public UserEntity(Long id, String email, String phoneNumber, String name, String surname) {
+    public UserEntity(Long id, Email email, PhoneNumber phoneNumber, String name, String surname) {
         super(id, email, phoneNumber, name);
         setSurname(surname);
     }
