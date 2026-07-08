@@ -1,11 +1,11 @@
-package domain.base_entities;
+package domain.entities.base_entities;
 
-import domain.abstract_entities.BaseEntity;
+import domain.entities.abstract_entities.BaseEntity;
 import domain.value_objects.Address;
 
 import java.time.LocalDate;
 
-public class Order extends BaseEntity {
+public class OrderEntity extends BaseEntity {
 
     private Long userId;
     private Long productId;
@@ -14,7 +14,7 @@ public class Order extends BaseEntity {
     private int deliveryPeriod;
 
 
-    public Order(Long userId, Long productId, Address deliveryAddress, LocalDate dateOfCreation, int deliveryPeriod) {
+    public OrderEntity(Long userId, Long productId, Address deliveryAddress, LocalDate dateOfCreation, int deliveryPeriod) {
         setUserId(userId);
         setProductId(productId);
         setDeliveryAddress(deliveryAddress);
@@ -22,7 +22,7 @@ public class Order extends BaseEntity {
         setDeliveryPeriod(deliveryPeriod);
     }
 
-    public Order(Long id, Long userId, Long productId, Address deliveryAddress, LocalDate dateOfCreation, int deliveryPeriod) {
+    public OrderEntity(Long id, Long userId, Long productId, Address deliveryAddress, LocalDate dateOfCreation, int deliveryPeriod) {
         setId(id);
         setUserId(userId);
         setProductId(productId);

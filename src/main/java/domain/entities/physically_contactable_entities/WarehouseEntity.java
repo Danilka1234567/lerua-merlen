@@ -1,25 +1,25 @@
-package domain.physically_contactable_entities;
+package domain.entities.physically_contactable_entities;
 
-import domain.abstract_entities.PhysicallyContactableEntity;
+import domain.entities.abstract_entities.PhysicallyContactableEntity;
 import domain.value_objects.Address;
 import domain.value_objects.Email;
 import domain.value_objects.PhoneNumber;
 
-public class Warehouse extends PhysicallyContactableEntity {
+public class WarehouseEntity extends PhysicallyContactableEntity {
 
     private int capacity;
     private int amountOfProducts;
     private final static int MINIMAL_CAPACITY = 100;
 
-    public Warehouse(Email email, PhoneNumber phoneNumber, String name, Address address,
-                     int capacity, int amountOfProducts) {
+    public WarehouseEntity(Email email, PhoneNumber phoneNumber, String name, Address address,
+                           int capacity, int amountOfProducts) {
         super(email, phoneNumber, name, address);
         setCapacity(capacity);
         setAmountOfProducts(amountOfProducts);
     }
 
-    public Warehouse(Long id, Email email, PhoneNumber phoneNumber, String name,
-                     Address address, int capacity, int amountOfProducts) {
+    public WarehouseEntity(Long id, Email email, PhoneNumber phoneNumber, String name,
+                           Address address, int capacity, int amountOfProducts) {
         super(id, email, phoneNumber, name, address);
         setCapacity(capacity);
         setAmountOfProducts(amountOfProducts);

@@ -1,6 +1,6 @@
-package domain.base_entities;
+package domain.entities.base_entities;
 
-import domain.abstract_entities.BaseEntity;
+import domain.entities.abstract_entities.BaseEntity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

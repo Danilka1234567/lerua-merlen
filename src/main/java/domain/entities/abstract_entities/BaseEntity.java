@@ -1,4 +1,4 @@
-package domain.abstract_entities;
+package domain.entities.abstract_entities;
 
 public abstract class BaseEntity {
 

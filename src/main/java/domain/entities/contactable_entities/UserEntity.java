@@ -1,6 +1,6 @@
-package domain.contactable_entities;
+package domain.entities.contactable_entities;
 
-import domain.abstract_entities.ContactableEntity;
+import domain.entities.abstract_entities.ContactableEntity;
 import domain.value_objects.Email;
 import domain.value_objects.PhoneNumber;
 

@@ -1,4 +1,4 @@
-package domain.abstract_entities;
+package domain.entities.abstract_entities;
 
 import domain.value_objects.Address;
 import domain.value_objects.Email;
