@@ -1,4 +1,4 @@
-package domain;
+package domain.abstract_entities;
 
 import utils.Validator;
 
@@ -6,15 +6,31 @@ public abstract class ContactableEntity extends BaseEntity {
 
     private String email;
     private String phoneNumber;
+    private String name;
 
-    public ContactableEntity(String email, String phoneNumber){
+    public ContactableEntity(String email, String phoneNumber, String name){
         setEmail(email);
         setPhoneNumber(phoneNumber);
+        setName(name);
     }
 
-    public ContactableEntity(Long id, String email, String phoneNumber){
-        this(email, phoneNumber);
+    public ContactableEntity(Long id, String email, String phoneNumber, String name){
+        this(email, phoneNumber, name);
         setId(id);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+
+        if (name == null || name.isBlank() || name.length() < 2)
+            throw new IllegalArgumentException(
+                    "Name of contactable entity must contain at least 2 valid characters!"
+            );
+
+        this.name = name;
     }
 
     public String getEmail() {

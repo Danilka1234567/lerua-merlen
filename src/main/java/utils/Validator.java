@@ -12,6 +12,10 @@ public class Validator {
             "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
     );
 
+    private static final Pattern RUSSIAN_ADDRESS_PATTERN = Pattern.compile(
+            "^(?=.*[А-Яа-яЁё])(?=.*\\d)[А-Яа-яЁё0-9\\s\\.,\\-\\/]+(?:\\s*,\\s*[А-Яа-яЁё0-9\\s\\.,\\-\\/]+)*$"
+    );
+
     public static boolean isValidNumber(String phoneNumber){
         if (phoneNumber == null)
             return false;
@@ -43,5 +47,11 @@ public class Validator {
         return EMAIL_PATTERN.matcher(email).matches();
     }
 
+    public static boolean isValidAddress(String address){
+        if (address == null)
+            return false;
+
+        return RUSSIAN_ADDRESS_PATTERN.matcher(address).matches();
+    }
 
 }
