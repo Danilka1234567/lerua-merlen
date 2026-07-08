@@ -1,20 +1,22 @@
 package domain.abstract_entities;
 
-import utils.Validator;
+
+import domain.value_objects.Email;
+import domain.value_objects.PhoneNumber;
 
 public abstract class ContactableEntity extends BaseEntity {
 
-    private String email;
-    private String phoneNumber;
+    private Email email;
+    private PhoneNumber phoneNumber;
     private String name;
 
-    public ContactableEntity(String email, String phoneNumber, String name){
+    public ContactableEntity(Email email, PhoneNumber phoneNumber, String name){
         setEmail(email);
         setPhoneNumber(phoneNumber);
         setName(name);
     }
 
-    public ContactableEntity(Long id, String email, String phoneNumber, String name){
+    public ContactableEntity(Long id, Email email, PhoneNumber phoneNumber, String name){
         this(email, phoneNumber, name);
         setId(id);
     }
@@ -33,34 +35,34 @@ public abstract class ContactableEntity extends BaseEntity {
         this.name = name;
     }
 
-    public String getEmail() {
+    public Email getEmail() {
         return email;
     }
 
 
-    public void setEmail(String email) {
+    public void setEmail(Email email) {
 
-        if (! Validator.isValidEmail(email))
+        if (email == null)
             throw new IllegalArgumentException(
-                    "Invalid email!"
+                    "Email can't be null"
             );
 
         this.email = email;
     }
 
 
-    public String getPhoneNumber() {
+    public PhoneNumber getPhoneNumber() {
         return phoneNumber;
     }
 
 
-    public void setPhoneNumber(String phoneNumber) {
+    public void setPhoneNumber(PhoneNumber phoneNumber) {
 
-        if (! Validator.isValidNumber(phoneNumber))
+        if (phoneNumber == null)
             throw new IllegalArgumentException(
-                    "Invalid phone number!"
+                    "Phone number can't be null"
             );
 
-        this.phoneNumber = Validator.getNormalizedPhoneNumber(phoneNumber);
+        this.phoneNumber = phoneNumber;
     }
 }

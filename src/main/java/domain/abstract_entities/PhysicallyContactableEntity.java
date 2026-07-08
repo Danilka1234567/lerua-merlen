@@ -1,32 +1,34 @@
 package domain.abstract_entities;
 
-import utils.Validator;
+import domain.value_objects.Address;
+import domain.value_objects.Email;
+import domain.value_objects.PhoneNumber;
 
 public abstract class PhysicallyContactableEntity extends ContactableEntity {
 
-    private String address;
+    private Address address;
 
-    public PhysicallyContactableEntity(String email, String phoneNumber, String name, String address) {
+    public PhysicallyContactableEntity(Email email, PhoneNumber phoneNumber,
+                                       String name, Address address) {
         super(email, phoneNumber, name);
         setAddress(address);
     }
 
-    public PhysicallyContactableEntity(Long id, String email, String phoneNumber, String name, String address) {
+    public PhysicallyContactableEntity(Long id, Email email, PhoneNumber phoneNumber,
+                                       String name, Address address) {
         super(id, email, phoneNumber, name);
         setAddress(address);
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
-
-        if (!Validator.isValidAddress(address))
+    public void setAddress(Address address) {
+        if (address == null)
             throw new IllegalArgumentException(
-                    "Invalid address"
+                    "Adress can't be null"
             );
-
         this.address = address;
     }
 }

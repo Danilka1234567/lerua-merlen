@@ -1,7 +1,7 @@
 package domain.base_entities;
 
 import domain.abstract_entities.BaseEntity;
-import utils.Validator;
+import domain.value_objects.Address;
 
 import java.time.LocalDate;
 
@@ -9,12 +9,12 @@ public class Order extends BaseEntity {
 
     private Long userId;
     private Long productId;
-    private String deliveryAddress;
+    private Address deliveryAddress;
     private LocalDate dateOfCreation;
     private int deliveryPeriod;
 
 
-    public Order(Long userId, Long productId, String deliveryAddress, LocalDate dateOfCreation, int deliveryPeriod) {
+    public Order(Long userId, Long productId, Address deliveryAddress, LocalDate dateOfCreation, int deliveryPeriod) {
         setUserId(userId);
         setProductId(productId);
         setDeliveryAddress(deliveryAddress);
@@ -22,7 +22,7 @@ public class Order extends BaseEntity {
         setDeliveryPeriod(deliveryPeriod);
     }
 
-    public Order(Long id, Long userId, Long productId, String deliveryAddress, LocalDate dateOfCreation, int deliveryPeriod) {
+    public Order(Long id, Long userId, Long productId, Address deliveryAddress, LocalDate dateOfCreation, int deliveryPeriod) {
         setId(id);
         setUserId(userId);
         setProductId(productId);
@@ -58,15 +58,15 @@ public class Order extends BaseEntity {
         this.productId = productId;
     }
 
-    public String getDeliveryAddress() {
+    public Address getDeliveryAddress() {
         return deliveryAddress;
     }
 
-    public void setDeliveryAddress(String deliveryAddress) {
+    public void setDeliveryAddress(Address deliveryAddress) {
 
-        if (! Validator.isValidAddress(deliveryAddress))
+        if (deliveryAddress == null)
             throw new IllegalArgumentException(
-                    "Invalid address"
+                    "Delivery address can't be null"
             );
 
         this.deliveryAddress = deliveryAddress;
