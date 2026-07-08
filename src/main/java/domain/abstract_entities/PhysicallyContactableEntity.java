@@ -2,7 +2,7 @@ package domain.abstract_entities;
 
 import utils.Validator;
 
-public class PhysicallyContactableEntity extends ContactableEntity {
+public abstract class PhysicallyContactableEntity extends ContactableEntity {
 
     private String address;
 
