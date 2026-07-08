@@ -1,4 +1,4 @@
-package domain.physically_contactable_entity;
+package domain.physically_contactable_entities;
 
 import domain.abstract_entities.PhysicallyContactableEntity;
 
