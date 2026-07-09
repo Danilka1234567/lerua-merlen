@@ -1,11 +1,11 @@
-package domain.entities.base_entities;
+package model.entities;
 
-import domain.entities.abstract_entities.BaseEntity;
+import model.entities.abstract_entities.BaseEntity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class ProductEntity extends BaseEntity {
+public class Product extends BaseEntity {
 
     private final static double MAX_DISCOUNT = 0.75;
 
@@ -17,8 +17,8 @@ public class ProductEntity extends BaseEntity {
     private BigDecimal price;
     private BigDecimal discount;
 
-    public ProductEntity(String name, Long manufacturerId, Long warehouseId, LocalDate dateOfManufacturing,
-                         LocalDate dateOfPlacementToWarehouse, BigDecimal price, BigDecimal discount) {
+    public Product(String name, Long manufacturerId, Long warehouseId, LocalDate dateOfManufacturing,
+                   LocalDate dateOfPlacementToWarehouse, BigDecimal price, BigDecimal discount) {
         setName(name);
         setManufacturerId(manufacturerId);
         setWarehouseId(warehouseId);
@@ -28,8 +28,8 @@ public class ProductEntity extends BaseEntity {
         setDiscount(discount);
     }
 
-    public ProductEntity(Long id, String name, Long manufacturerId, Long warehouseId, LocalDate dateOfManufacturing,
-                         LocalDate dateOfPlacementToWarehouse, BigDecimal price, BigDecimal discount) {
+    public Product(Long id, String name, Long manufacturerId, Long warehouseId, LocalDate dateOfManufacturing,
+                   LocalDate dateOfPlacementToWarehouse, BigDecimal price, BigDecimal discount) {
         this(name, manufacturerId, warehouseId, dateOfManufacturing, dateOfPlacementToWarehouse, price, discount);
         setId(id);
     }

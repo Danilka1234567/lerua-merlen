@@ -1,8 +1,8 @@
-package domain.entities.abstract_entities;
+package model.entities.abstract_entities;
 
 
-import domain.value_objects.Email;
-import domain.value_objects.PhoneNumber;
+import model.valueobjects.Email;
+import model.valueobjects.PhoneNumber;
 
 public abstract class ContactableEntity extends BaseEntity {
 

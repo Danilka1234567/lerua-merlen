@@ -1,12 +1,12 @@
-package domain.entities.base_entities;
+package model.entities;
 
-import domain.entities.abstract_entities.BaseEntity;
-import domain.entities.enums.OrderStatus;
-import domain.value_objects.Address;
+import model.entities.abstract_entities.BaseEntity;
+import utils.enums.OrderStatus;
+import model.valueobjects.Address;
 
 import java.time.LocalDate;
 
-public class OrderEntity extends BaseEntity {
+public class Order extends BaseEntity {
 
     private Long userId;
     private Long productId;
@@ -16,7 +16,7 @@ public class OrderEntity extends BaseEntity {
     private OrderStatus status;
 
 
-    public OrderEntity(Long userId, Long productId, Address deliveryAddress, LocalDate dateOfCreation, int deliveryPeriod) {
+    public Order(Long userId, Long productId, Address deliveryAddress, LocalDate dateOfCreation, int deliveryPeriod) {
         setUserId(userId);
         setProductId(productId);
         setDeliveryAddress(deliveryAddress);
@@ -25,7 +25,7 @@ public class OrderEntity extends BaseEntity {
         status = OrderStatus.PREPARING;
     }
 
-    public OrderEntity(Long id, Long userId, Long productId, Address deliveryAddress, LocalDate dateOfCreation, int deliveryPeriod, OrderStatus status) {
+    public Order(Long id, Long userId, Long productId, Address deliveryAddress, LocalDate dateOfCreation, int deliveryPeriod, OrderStatus status) {
         this(userId, productId, deliveryAddress, dateOfCreation, deliveryPeriod);
         setId(id);
         this.status = status;

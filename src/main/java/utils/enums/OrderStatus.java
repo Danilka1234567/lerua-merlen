@@ -1,4 +1,4 @@
-package domain.entities.enums;
+package utils.enums;
 
 public enum OrderStatus {
 

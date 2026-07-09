@@ -1,20 +1,20 @@
-package domain.entities.physically_contactable_entities;
+package model.entities;
 
-import domain.entities.abstract_entities.PhysicallyContactableEntity;
-import domain.value_objects.Address;
-import domain.value_objects.Email;
-import domain.value_objects.PhoneNumber;
+import model.entities.abstract_entities.PhysicallyContactableEntity;
+import model.valueobjects.Address;
+import model.valueobjects.Email;
+import model.valueobjects.PhoneNumber;
 
-public class ManufacturerEntity extends PhysicallyContactableEntity {
+public class Manufacturer extends PhysicallyContactableEntity {
 
     private String specialization;
 
-    public ManufacturerEntity(Email email, PhoneNumber phoneNumber, String name, Address address, String specialization) {
+    public Manufacturer(Email email, PhoneNumber phoneNumber, String name, Address address, String specialization) {
         super(email, phoneNumber, name, address);
         setSpecialization(specialization);
     }
 
-    public ManufacturerEntity(Long id, Email email, PhoneNumber phoneNumber, String name, Address address, String specialization) {
+    public Manufacturer(Long id, Email email, PhoneNumber phoneNumber, String name, Address address, String specialization) {
         super(id, email, phoneNumber, name, address);
         setSpecialization(specialization);
     }
