@@ -14,10 +14,20 @@ public class Main {
         UserRepository repository = new UserRepositoryImpl();
 
         repository.save(new User(
-                new Email("test@example.com"),
-                new PhoneNumber("+79956083169"),
-                "Vacya",
-                "Pupkin"
+                new Email("test2324@example.com"),
+                new PhoneNumber("+79776083169"),
+                "Petya",
+                "Petrushkin"
+        ));
+
+        Long id = repository.findByEmail( new Email("test2324@example.com")).get().getId();
+
+        repository.update(new User(
+                id,
+                new Email("test123@example.com"),
+                new PhoneNumber("+79776083169"),
+                "Petya",
+                "Petrushkin"
         ));
 
 

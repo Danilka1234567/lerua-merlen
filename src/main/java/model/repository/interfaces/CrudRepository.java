@@ -4,9 +4,9 @@ import java.util.Optional;
 
 public interface CrudRepository<T> {
 
-    Long save(T obj);
+    long save(T obj);
     Optional<T> findById(Long id);
     int update(T obj);
-    int remove(Long id);
+    void remove(Long id);
 
 }
