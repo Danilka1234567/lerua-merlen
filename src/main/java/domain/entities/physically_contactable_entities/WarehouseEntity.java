@@ -8,21 +8,18 @@ import domain.value_objects.PhoneNumber;
 public class WarehouseEntity extends PhysicallyContactableEntity {
 
     private int capacity;
-    private int amountOfProducts;
     private final static int MINIMAL_CAPACITY = 100;
 
     public WarehouseEntity(Email email, PhoneNumber phoneNumber, String name, Address address,
-                           int capacity, int amountOfProducts) {
+                           int capacity) {
         super(email, phoneNumber, name, address);
         setCapacity(capacity);
-        setAmountOfProducts(amountOfProducts);
     }
 
     public WarehouseEntity(Long id, Email email, PhoneNumber phoneNumber, String name,
-                           Address address, int capacity, int amountOfProducts) {
+                           Address address, int capacity) {
         super(id, email, phoneNumber, name, address);
         setCapacity(capacity);
-        setAmountOfProducts(amountOfProducts);
     }
 
 
@@ -40,39 +37,5 @@ public class WarehouseEntity extends PhysicallyContactableEntity {
             );
 
         this.capacity = capacity;
-    }
-
-    public int getAmountOfProducts() {
-        return amountOfProducts;
-    }
-
-    public void setAmountOfProducts(int amountOfProducts) {
-
-        if (amountOfProducts < 0)
-            throw new IllegalArgumentException(
-                    "Can't be less than one good"
-            );
-
-        this.amountOfProducts = amountOfProducts;
-    }
-
-
-    public void raiseAmountOfProducts(int amount){
-        if (amount <= 0)
-            throw new IllegalArgumentException(
-                    "Can't add negative amount of goods"
-            );
-
-        setAmountOfProducts(amountOfProducts + amount);
-    }
-
-
-    public void decreaseAmountOfProducts(int amount){
-        if (amount <= 0)
-            throw new IllegalArgumentException(
-                    "Decreasable amount must be bigger than 0"
-            );
-
-        setAmountOfProducts(amountOfProducts - amount);
     }
 }

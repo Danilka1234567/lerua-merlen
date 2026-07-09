@@ -9,23 +9,45 @@ public class ProductEntity extends BaseEntity {
 
     private final static double MAX_DISCOUNT = 0.75;
 
+    private String name;
     private Long manufacturerId;
     private Long warehouseId;
     private LocalDate dateOfManufacturing;
     private LocalDate dateOfPlacementToWarehouse;
     private BigDecimal price;
-    private double discount;
+    private BigDecimal discount;
 
-    public ProductEntity(Long manufacturerId, Long warehouseId, LocalDate dateOfManufacturing,
-                         LocalDate dateOfPlacementToWarehouse, BigDecimal price, double discount) {
-
+    public ProductEntity(String name, Long manufacturerId, Long warehouseId, LocalDate dateOfManufacturing,
+                         LocalDate dateOfPlacementToWarehouse, BigDecimal price, BigDecimal discount) {
+        setName(name);
+        setManufacturerId(manufacturerId);
+        setWarehouseId(warehouseId);
+        setDateOfManufacturing(dateOfManufacturing);
+        setDateOfPlacementToWarehouse(dateOfPlacementToWarehouse);
+        setPrice(price);
+        setDiscount(discount);
     }
 
-    public ProductEntity(Long id, Long manufacturerId, Long warehouseId, LocalDate dateOfManufacturing,
-                         LocalDate dateOfPlacementToWarehouse, BigDecimal price, double discount) {
+    public ProductEntity(Long id, String name, Long manufacturerId, Long warehouseId, LocalDate dateOfManufacturing,
+                         LocalDate dateOfPlacementToWarehouse, BigDecimal price, BigDecimal discount) {
+        this(name, manufacturerId, warehouseId, dateOfManufacturing, dateOfPlacementToWarehouse, price, discount);
         setId(id);
     }
 
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+
+        if (name == null || name.isBlank())
+            throw new IllegalArgumentException(
+                    "Name can't be empty!"
+            );
+
+        this.name = name;
+    }
 
     public Long getManufacturerId() {
         return manufacturerId;
@@ -85,13 +107,13 @@ public class ProductEntity extends BaseEntity {
         this.price = price;
     }
 
-    public double getDiscount() {
+    public BigDecimal getDiscount() {
         return discount;
     }
 
-    public void setDiscount(double discount) {
+    public void setDiscount(BigDecimal discount) {
 
-        if (discount < 0 || discount > MAX_DISCOUNT)
+        if (discount.compareTo(BigDecimal.ZERO) < 0 || discount.compareTo(BigDecimal.valueOf(MAX_DISCOUNT)) > 0)
             throw new IllegalArgumentException(
                     "Discount must be between 0 and %.2f".formatted(
                             MAX_DISCOUNT
@@ -99,12 +121,6 @@ public class ProductEntity extends BaseEntity {
             );
 
         this.discount = discount;
-    }
-
-
-    public BigDecimal calculateFinalCost(){
-        BigDecimal discountSum = price.multiply(BigDecimal.valueOf(discount));
-        return price.subtract(discountSum);
     }
 
 }

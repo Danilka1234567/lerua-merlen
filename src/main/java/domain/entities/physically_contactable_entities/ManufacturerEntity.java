@@ -11,12 +11,12 @@ public class ManufacturerEntity extends PhysicallyContactableEntity {
 
     public ManufacturerEntity(Email email, PhoneNumber phoneNumber, String name, Address address, String specialization) {
         super(email, phoneNumber, name, address);
-        this.specialization = specialization;
+        setSpecialization(specialization);
     }
 
     public ManufacturerEntity(Long id, Email email, PhoneNumber phoneNumber, String name, Address address, String specialization) {
         super(id, email, phoneNumber, name, address);
-        this.specialization = specialization;
+        setSpecialization(specialization);
     }
 
 
