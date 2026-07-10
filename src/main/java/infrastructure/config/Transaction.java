@@ -1,5 +1,7 @@
 package infrastructure.config;
 
+import infrastructure.exceptions.repository.RepositoryException;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -15,7 +17,7 @@ public class Transaction {
             return result;
         } catch (SQLException e) {
             conn.rollback();
-            throw new RuntimeException(e);
+            throw e;
         }finally {
             conn.setAutoCommit(commitStatus);
         }
