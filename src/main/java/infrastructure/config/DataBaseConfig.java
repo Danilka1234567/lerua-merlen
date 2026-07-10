@@ -40,10 +40,10 @@ public class DataBaseConfig {
                     CREATE TABLE IF NOT EXISTS warehouses (
                     id BIGSERIAL PRIMARY KEY,
                     name VARCHAR(64) NOT NULL,
-                    address VARCHAR(255) NOT NULL,
+                    address VARCHAR(255) NOT NULL UNIQUE,
                     phone_number VARCHAR(12) NOT NULL,
                     email VARCHAR(255) NOT NULL UNIQUE,
-                    warehouse_capacity INT NOT NULL CHECK (warehouse_capacity > 0)
+                    capacity INT NOT NULL CHECK (capacity > 0)
                     );""";
 
             String manufacturerSql = """
