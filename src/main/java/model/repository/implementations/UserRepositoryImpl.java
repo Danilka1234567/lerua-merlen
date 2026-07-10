@@ -2,6 +2,8 @@ package model.repository.implementations;
 
 import infrastructure.config.DataBaseConfig;
 import infrastructure.config.Transaction;
+import infrastructure.exceptions.repository.RepositoryException;
+
 import model.entities.User;
 import model.repository.interfaces.UserRepository;
 import model.valueobjects.Email;
@@ -16,7 +18,7 @@ public class UserRepositoryImpl implements UserRepository {
             "SELECT id, name, surname, phone_number, email FROM users WHERE email = ?";
 
     private static final String EXISTS_BY_EMAIL_SQL =
-            "SELECT EXISTS(SELECT 1 FROM users WHERE email = ?)";
+            "SELECT EXISTS(SELECT 1 FROM users WHERE email = ? LIMIT 1)";
 
     private static final String SAVE_SQL =
             "INSERT INTO users (name, surname, phone_number, email) VALUES (?, ?, ?, ?)";
@@ -53,7 +55,7 @@ public class UserRepositoryImpl implements UserRepository {
             }
 
         }catch (SQLException e){
-            throw new RuntimeException(
+            throw new RepositoryException(
                     "Can't find user by email: " + email, e
             );
         }
@@ -70,14 +72,13 @@ public class UserRepositoryImpl implements UserRepository {
         try(Connection connection = DataBaseConfig.getConnection();
             PreparedStatement statement = connection.prepareStatement(EXISTS_BY_EMAIL_SQL)){
 
-                statement.setString(1, email.getValue());
-
+            statement.setString(1, email.getValue());
             try(ResultSet rs = statement.executeQuery()){
                 return rs.getBoolean(1);
             }
 
         }catch (SQLException e){
-            throw new RuntimeException(
+            throw new RepositoryException(
                     "Can't check user existence by email: " + email, e
             );
         }
@@ -111,7 +112,7 @@ public class UserRepositoryImpl implements UserRepository {
             });
 
         }catch (SQLException e){
-            throw new RuntimeException(
+            throw new RepositoryException(
                     "Can't save user with email: " + obj.getEmail().getValue(), e
             );
         }
@@ -140,7 +141,7 @@ public class UserRepositoryImpl implements UserRepository {
             }
 
         }catch (SQLException e){
-            throw new RuntimeException(
+            throw new RepositoryException(
                     "Can't find user by id: " + id, e
             );
         }
@@ -152,6 +153,11 @@ public class UserRepositoryImpl implements UserRepository {
         if (obj == null)
             throw new IllegalArgumentException(
                     "Can't update user: user is null"
+            );
+
+        if (obj.getId() == null)
+            throw new IllegalArgumentException(
+                    "Can't update user: user's id is null"
             );
 
         try(Connection conn = DataBaseConfig.getConnection()){
@@ -175,7 +181,7 @@ public class UserRepositoryImpl implements UserRepository {
                 }
             });
         }catch (SQLException e){
-            throw new RuntimeException(
+            throw new RepositoryException(
                     "Can't update user with id: " + obj.getId(), e
             );
         }
@@ -205,7 +211,7 @@ public class UserRepositoryImpl implements UserRepository {
             });
 
         }catch (SQLException e){
-            throw new RuntimeException(
+            throw new RepositoryException(
                     "Can't remove user with id " + id, e
             );
         }
