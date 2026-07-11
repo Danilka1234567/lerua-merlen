@@ -1,9 +1,9 @@
-package model.repository.implementations;
+package model.repository.implementations.manufacturer;
 
 import infrastructure.config.DataBaseConfig;
-import infrastructure.config.Transaction;
 import infrastructure.exceptions.repository.RepositoryException;
 import model.entities.Manufacturer;
+import model.repository.implementations.crud.CrudRepositoryImpl;
 import model.repository.interfaces.ManufacturerRepository;
 import model.valueobjects.Address;
 import model.valueobjects.Email;

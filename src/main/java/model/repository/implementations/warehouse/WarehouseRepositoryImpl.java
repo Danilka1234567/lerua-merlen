@@ -1,8 +1,9 @@
-package model.repository.implementations;
+package model.repository.implementations.warehouse;
 
 import infrastructure.config.DataBaseConfig;
 import infrastructure.exceptions.repository.RepositoryException;
 import model.entities.Warehouse;
+import model.repository.implementations.crud.CrudRepositoryImpl;
 import model.repository.interfaces.WarehouseRepository;
 import model.valueobjects.Address;
 import model.valueobjects.Email;

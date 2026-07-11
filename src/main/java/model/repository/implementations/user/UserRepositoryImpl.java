@@ -1,9 +1,10 @@
-package model.repository.implementations;
+package model.repository.implementations.user;
 
 import infrastructure.config.DataBaseConfig;
 import infrastructure.exceptions.repository.RepositoryException;
 
 import model.entities.User;
+import model.repository.implementations.crud.CrudRepositoryImpl;
 import model.repository.interfaces.UserRepository;
 import model.valueobjects.Email;
 import model.valueobjects.PhoneNumber;

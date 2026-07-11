@@ -1,6 +1,6 @@
 import infrastructure.config.DataBaseConfig;
 import model.entities.User;
-import model.repository.implementations.UserRepositoryImpl;
+import model.repository.implementations.user.UserRepositoryImpl;
 import model.repository.interfaces.UserRepository;
 import model.valueobjects.Email;
 import model.valueobjects.PhoneNumber;

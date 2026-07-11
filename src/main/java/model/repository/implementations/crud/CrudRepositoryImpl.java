@@ -1,4 +1,4 @@
-package model.repository.implementations;
+package model.repository.implementations.crud;
 
 import infrastructure.config.DataBaseConfig;
 import infrastructure.config.Transaction;
