@@ -93,4 +93,12 @@ public class Order extends BaseEntity {
 
         this.deliveryPeriod = deliveryPeriod;
     }
+
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
 }
