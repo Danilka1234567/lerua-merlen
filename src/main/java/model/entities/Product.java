@@ -7,8 +7,6 @@ import java.time.LocalDate;
 
 public class Product extends BaseEntity {
 
-    private final static double MAX_DISCOUNT = 0.75;
-
     private String name;
     private Long manufacturerId;
     private Long warehouseId;
@@ -113,11 +111,9 @@ public class Product extends BaseEntity {
 
     public void setDiscount(BigDecimal discount) {
 
-        if (discount.compareTo(BigDecimal.ZERO) < 0 || discount.compareTo(BigDecimal.valueOf(MAX_DISCOUNT)) > 0)
+        if (discount.compareTo(BigDecimal.ZERO) < 0 || discount.compareTo(BigDecimal.ONE) > 0)
             throw new IllegalArgumentException(
-                    "Discount must be between 0 and %.2f".formatted(
-                            MAX_DISCOUNT
-                    )
+                    "Discount must be between 0 and 1"
             );
 
         this.discount = discount;

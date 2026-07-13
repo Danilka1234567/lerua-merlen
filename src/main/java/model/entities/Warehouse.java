@@ -8,7 +8,6 @@ import model.valueobjects.PhoneNumber;
 public class Warehouse extends PhysicallyContactableEntity {
 
     private int capacity;
-    private final static int MINIMAL_CAPACITY = 100;
 
     public Warehouse(Email email, PhoneNumber phoneNumber, String name, Address address,
                      int capacity) {
@@ -29,13 +28,10 @@ public class Warehouse extends PhysicallyContactableEntity {
 
     public void setCapacity(int capacity) {
 
-        if (capacity < MINIMAL_CAPACITY)
+        if (capacity < 0)
             throw new IllegalArgumentException(
-                    "To work with as warehouse must be able to contain at least %d goods".formatted(
-                            MINIMAL_CAPACITY
-                    )
+                    "To work with as warehouse must be able to contain at least 1 product"
             );
-
         this.capacity = capacity;
     }
 }
