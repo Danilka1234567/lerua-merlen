@@ -84,7 +84,7 @@ public class DataBaseConfig {
                     status VARCHAR(32) NOT NULL,
                     delivery_address VARCHAR(64) NOT NULL,
                     creation_date DATE NOT NULL,
-                    last_delivering_day DATE NOT NULL,
+                    delivering_period INT NOT NULL CHECK(delivering_period > 0),
                     CONSTRAINT user_fk
                         FOREIGN KEY (user_id)
                         REFERENCES users (id)
