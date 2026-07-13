@@ -6,6 +6,7 @@ import model.entities.Order;
 import model.repository.implementations.crud.CrudRepositoryImpl;
 import model.repository.interfaces.OrderRepository;
 import model.valueobjects.Address;
+import utils.enums.OrderStatus;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -85,11 +86,13 @@ public class OrderRepositoryImpl extends CrudRepositoryImpl<Order> implements Or
     @Override
     protected Order mapResult(ResultSet rs) throws SQLException {
         return new Order(
+                rs.getLong("id"),
                 rs.getLong("user_id"),
                 rs.getLong("product_id"),
                 new Address(rs.getString("delivery_address")),
                 LocalDate.ofInstant(rs.getDate("date_of_creation").toInstant(), ZoneId.systemDefault()),
-                rs.getInt("delivering_period")
+                rs.getInt("delivering_period"),
+                OrderStatus.valueOf(rs.getString("status"))
         );
     }
 
