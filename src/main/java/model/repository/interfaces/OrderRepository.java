@@ -11,7 +11,7 @@ public interface OrderRepository extends CrudRepository<Order>{
     List<Order> findAllByAddress(Address address);
     List<Order> findAllByUserId(Long id);
     List<Order> findAllByProductId(Long id);
-    List<Order> findAllByArrivingDate(LocalDate date);
+    List<Order> findAllByArrivingDate(LocalDate date, int deliveringPeriod);
     List<Order> findAllByCreationDate(LocalDate date);
 
 
