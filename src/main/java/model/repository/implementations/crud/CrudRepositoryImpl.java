@@ -97,14 +97,7 @@ public abstract class CrudRepositoryImpl<T extends BaseEntity> implements CrudRe
                     try(PreparedStatement statement = conn.prepareStatement(getUpdateSql())){
                         setUpdateValues(statement, entity);
 
-                        int affectedRows = statement.executeUpdate();
-                        if (affectedRows == 0){
-                            throw new SQLException(
-                                    "Unknown entity"
-                            );
-                        }
-
-                        return affectedRows;
+                        return statement.executeUpdate();
                     }
                 }
             );
@@ -117,24 +110,18 @@ public abstract class CrudRepositoryImpl<T extends BaseEntity> implements CrudRe
     }
 
     @Override
-    public void remove(Long id) {
+    public int remove(Long id) {
         if (id == null)
             throw new IllegalArgumentException(
                     "Can't remove entity: id is null"
             );
 
         try(Connection conn = DataBaseConfig.getConnection()){
-            Transaction.execute(conn, () -> {
+            return Transaction.execute(conn, () -> {
                 try(PreparedStatement statement = conn.prepareStatement(getRemoveSql())){
                     setRemoveValues(statement, id);
 
-                    int affectedRows = statement.executeUpdate();
-                    if (affectedRows == 0)
-                        throw new SQLException(
-                                "Unknown id: " + id
-                        );
-
-
+                    return statement.executeUpdate();
                 }
             });
         }catch (SQLException e){
