@@ -27,11 +27,6 @@ public class Warehouse extends PhysicallyContactableEntity {
     }
 
     public void setCapacity(int capacity) {
-
-        if (capacity < 0)
-            throw new IllegalArgumentException(
-                    "To work with as warehouse must be able to contain at least 1 product"
-            );
         this.capacity = capacity;
     }
 }

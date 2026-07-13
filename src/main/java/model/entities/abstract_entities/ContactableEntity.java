@@ -26,12 +26,6 @@ public abstract class ContactableEntity extends BaseEntity {
     }
 
     public void setName(String name) {
-
-        if (name == null || name.isBlank() || name.length() < 2)
-            throw new IllegalArgumentException(
-                    "Name of contactable entity must contain at least 2 valid characters!"
-            );
-
         this.name = name;
     }
 
@@ -41,12 +35,6 @@ public abstract class ContactableEntity extends BaseEntity {
 
 
     public void setEmail(Email email) {
-
-        if (email == null)
-            throw new IllegalArgumentException(
-                    "Email can't be null"
-            );
-
         this.email = email;
     }
 
@@ -57,12 +45,6 @@ public abstract class ContactableEntity extends BaseEntity {
 
 
     public void setPhoneNumber(PhoneNumber phoneNumber) {
-
-        if (phoneNumber == null)
-            throw new IllegalArgumentException(
-                    "Phone number can't be null"
-            );
-
         this.phoneNumber = phoneNumber;
     }
 }

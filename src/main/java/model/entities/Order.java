@@ -85,12 +85,6 @@ public class Order extends BaseEntity {
     }
 
     public void setDeliveryPeriod(int deliveryPeriod) {
-
-        if (deliveryPeriod < 1)
-            throw new IllegalArgumentException(
-                    "Delivery period can't be less than 1 day"
-            );
-
         this.deliveryPeriod = deliveryPeriod;
     }
 

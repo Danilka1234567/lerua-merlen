@@ -25,12 +25,6 @@ public class Manufacturer extends PhysicallyContactableEntity {
     }
 
     public void setSpecialization(String specialization) {
-
-        if (specialization == null || specialization.isBlank())
-            throw new IllegalArgumentException(
-                    "specialization can't be empty!"
-            );
-
         this.specialization = specialization;
     }
 

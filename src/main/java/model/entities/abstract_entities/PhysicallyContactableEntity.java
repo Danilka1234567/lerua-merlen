@@ -25,10 +25,6 @@ public abstract class PhysicallyContactableEntity extends ContactableEntity {
     }
 
     public void setAddress(Address address) {
-        if (address == null)
-            throw new IllegalArgumentException(
-                    "Adress can't be null"
-            );
         this.address = address;
     }
 }

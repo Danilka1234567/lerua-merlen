@@ -25,12 +25,6 @@ public class User extends ContactableEntity {
     }
 
     public void setSurname(String surname) {
-
-        if (surname == null || surname.isBlank() || surname.length() < 2)
-            throw new IllegalArgumentException(
-                    "User's surname must contain at least three characters"
-            );
-
         this.surname = surname;
     }
 }

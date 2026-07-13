@@ -110,12 +110,6 @@ public class Product extends BaseEntity {
     }
 
     public void setDiscount(BigDecimal discount) {
-
-        if (discount.compareTo(BigDecimal.ZERO) < 0 || discount.compareTo(BigDecimal.ONE) > 0)
-            throw new IllegalArgumentException(
-                    "Discount must be between 0 and 1"
-            );
-
         this.discount = discount;
     }
 
