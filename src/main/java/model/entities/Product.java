@@ -1,6 +1,6 @@
 package model.entities;
 
-import model.entities.abstract_entities.BaseEntity;
+import model.entities.base.BaseEntity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

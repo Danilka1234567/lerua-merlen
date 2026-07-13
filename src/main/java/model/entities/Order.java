@@ -1,6 +1,6 @@
 package model.entities;
 
-import model.entities.abstract_entities.BaseEntity;
+import model.entities.base.BaseEntity;
 import utils.enums.OrderStatus;
 import model.valueobjects.Address;
 

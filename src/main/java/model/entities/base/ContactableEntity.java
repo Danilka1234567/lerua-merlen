@@ -1,4 +1,4 @@
-package model.entities.abstract_entities;
+package model.entities.base;
 
 
 import model.valueobjects.Email;

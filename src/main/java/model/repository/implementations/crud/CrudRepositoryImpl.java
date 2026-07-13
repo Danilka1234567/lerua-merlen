@@ -3,7 +3,7 @@ package model.repository.implementations.crud;
 import infrastructure.config.DataBaseConfig;
 import infrastructure.config.Transaction;
 import infrastructure.exceptions.repository.RepositoryException;
-import model.entities.abstract_entities.BaseEntity;
+import model.entities.base.BaseEntity;
 import model.repository.interfaces.CrudRepository;
 
 import java.sql.*;

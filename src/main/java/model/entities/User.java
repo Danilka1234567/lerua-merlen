@@ -1,6 +1,6 @@
 package model.entities;
 
-import model.entities.abstract_entities.ContactableEntity;
+import model.entities.base.ContactableEntity;
 import model.valueobjects.Email;
 import model.valueobjects.PhoneNumber;
 
