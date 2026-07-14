@@ -3,7 +3,9 @@ package model.repository.implementations.manufacturer;
 import infrastructure.config.DataBaseConfig;
 import infrastructure.exceptions.repository.RepositoryException;
 import model.entities.Manufacturer;
+import model.repository.implementations.base.BaseRepositoryImpl;
 import model.repository.implementations.crud.CrudRepositoryImpl;
+import model.repository.interfaces.BaseRepository;
 import model.repository.interfaces.ManufacturerRepository;
 import model.valueobjects.Address;
 import model.valueobjects.Email;
@@ -14,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ManufacturerRepositoryImpl extends CrudRepositoryImpl<Manufacturer> implements ManufacturerRepository {
+public class ManufacturerRepositoryImpl extends BaseRepositoryImpl<Manufacturer> implements ManufacturerRepository {
 
 
     private final static String FIND_ALL_BY_SPECIALIZATION_SQL =
@@ -32,6 +34,10 @@ public class ManufacturerRepositoryImpl extends CrudRepositoryImpl<Manufacturer>
     private final static String EXISTS_BY_EMAIL_SQL =
             "SELECT EXISTS(SELECT 1 FROM manufacturers WHERE email = ?)";
 
+    @Override
+    protected String getExistsByIdSql() {
+        return "SELECT EXISTS(SELECT 1 FROM manufacturers WHERE id = ?)";
+    }
 
     @Override
     protected String getSaveSql() {
@@ -62,10 +68,6 @@ public class ManufacturerRepositoryImpl extends CrudRepositoryImpl<Manufacturer>
         statement.setString(5, entity.getSpecialization());
     }
 
-    @Override
-    protected void setFindByIdValues(PreparedStatement statement, Long id) throws SQLException {
-        statement.setLong(1, id);
-    }
 
     @Override
     protected void setUpdateValues(PreparedStatement statement, Manufacturer entity) throws SQLException {
@@ -75,11 +77,6 @@ public class ManufacturerRepositoryImpl extends CrudRepositoryImpl<Manufacturer>
         statement.setString(4, entity.getEmail().getValue());
         statement.setString(5, entity.getSpecialization());
         statement.setLong(6, entity.getId());
-    }
-
-    @Override
-    protected void setRemoveValues(PreparedStatement statement, Long id) throws SQLException {
-        statement.setLong(1, id);
     }
 
     @Override
@@ -228,4 +225,5 @@ public class ManufacturerRepositoryImpl extends CrudRepositoryImpl<Manufacturer>
             );
         }
     }
+
 }

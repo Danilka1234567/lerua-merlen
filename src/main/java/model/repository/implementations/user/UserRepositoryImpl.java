@@ -4,6 +4,7 @@ import infrastructure.config.DataBaseConfig;
 import infrastructure.exceptions.repository.RepositoryException;
 
 import model.entities.User;
+import model.repository.implementations.base.BaseRepositoryImpl;
 import model.repository.implementations.crud.CrudRepositoryImpl;
 import model.repository.interfaces.UserRepository;
 import model.valueobjects.Email;
@@ -12,7 +13,7 @@ import model.valueobjects.PhoneNumber;
 import java.sql.*;
 import java.util.Optional;
 
-public class UserRepositoryImpl extends CrudRepositoryImpl<User> implements UserRepository {
+public class UserRepositoryImpl extends BaseRepositoryImpl<User> implements UserRepository {
 
     private static final String FIND_BY_EMAIL_SQL =
             "SELECT id, name, surname, phone_number, email FROM users WHERE email = ?";
@@ -20,6 +21,10 @@ public class UserRepositoryImpl extends CrudRepositoryImpl<User> implements User
     private static final String EXISTS_BY_EMAIL_SQL =
             "SELECT EXISTS(SELECT 1 FROM users WHERE email = ?)";
 
+    @Override
+    protected String getExistsByIdSql() {
+        return "SELECT EXISTS(SELECT 1 FROM users WHERE id = ?)";
+    }
 
     @Override
     protected String getSaveSql() {
@@ -50,22 +55,12 @@ public class UserRepositoryImpl extends CrudRepositoryImpl<User> implements User
     }
 
     @Override
-    protected void setFindByIdValues(PreparedStatement statement, Long id) throws SQLException{
-        statement.setLong(1, id);
-    }
-
-    @Override
     protected void setUpdateValues(PreparedStatement statement, User entity) throws SQLException{
         statement.setString(1, entity.getName());
         statement.setString(2, entity.getSurname());
         statement.setString(3, entity.getPhoneNumber().getValue());
         statement.setString(4, entity.getEmail().getValue());
         statement.setLong(5, entity.getId());
-    }
-
-    @Override
-    protected void setRemoveValues(PreparedStatement statement, Long id) throws SQLException{
-        statement.setLong(1, id);
     }
 
     @Override

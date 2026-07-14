@@ -5,7 +5,7 @@ import model.valueobjects.Address;
 
 import java.util.Optional;
 
-public interface WarehouseRepository extends CrudRepository<Warehouse> {
+public interface WarehouseRepository extends BaseRepository<Warehouse> {
 
     Optional<Warehouse> findByAddress(Address address);
     boolean existsByAddress(Address address);

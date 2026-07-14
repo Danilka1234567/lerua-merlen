@@ -3,6 +3,7 @@ package model.repository.implementations.order;
 import infrastructure.config.DataBaseConfig;
 import infrastructure.exceptions.repository.RepositoryException;
 import model.entities.Order;
+import model.repository.implementations.base.BaseRepositoryImpl;
 import model.repository.implementations.crud.CrudRepositoryImpl;
 import model.repository.interfaces.OrderRepository;
 import model.valueobjects.Address;
@@ -14,7 +15,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderRepositoryImpl extends CrudRepositoryImpl<Order> implements OrderRepository {
+public class OrderRepositoryImpl extends BaseRepositoryImpl<Order> implements OrderRepository {
 
 
     private final static String FIND_ALL_BY_ADDRESS_SQL =
@@ -31,6 +32,12 @@ public class OrderRepositoryImpl extends CrudRepositoryImpl<Order> implements Or
 
     private final static String FIND_ALL_BY_CREATION_DATE_SQL =
             "SELECT id, user_id, product_id, status, delivery_address, creation_date, delivering_period FROM orders WHERE creation_date = ?";
+
+
+    @Override
+    protected String getExistsByIdSql() {
+        return "SELECT EXISTS(SELECT 1 FROM orders WHERE id = ?)";
+    }
 
     @Override
     protected String getSaveSql() {
@@ -63,11 +70,6 @@ public class OrderRepositoryImpl extends CrudRepositoryImpl<Order> implements Or
     }
 
     @Override
-    protected void setFindByIdValues(PreparedStatement statement, Long id) throws SQLException {
-        statement.setLong(1, id);
-    }
-
-    @Override
     protected void setUpdateValues(PreparedStatement statement, Order entity) throws SQLException {
         statement.setLong(1, entity.getUserId());
         statement.setLong(2, entity.getProductId());
@@ -76,11 +78,6 @@ public class OrderRepositoryImpl extends CrudRepositoryImpl<Order> implements Or
         statement.setDate(5, Date.valueOf(entity.getDateOfCreation()));
         statement.setInt(6, entity.getDeliveryPeriod());
         statement.setLong(7, entity.getId());
-    }
-
-    @Override
-    protected void setRemoveValues(PreparedStatement statement, Long id) throws SQLException {
-        statement.setLong(1, id);
     }
 
     @Override

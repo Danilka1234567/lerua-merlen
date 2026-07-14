@@ -3,6 +3,7 @@ package model.repository.implementations.product;
 import infrastructure.config.DataBaseConfig;
 import infrastructure.exceptions.repository.RepositoryException;
 import model.entities.Product;
+import model.repository.implementations.base.BaseRepositoryImpl;
 import model.repository.implementations.crud.CrudRepositoryImpl;
 import model.repository.interfaces.ProductRepository;
 
@@ -12,7 +13,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductRepositoryImpl extends CrudRepositoryImpl<Product> implements ProductRepository {
+public class ProductRepositoryImpl extends BaseRepositoryImpl<Product> implements ProductRepository {
 
 
     private final static String FIND_ALL_BY_MANUFACTURER_ID_SQL ="""
@@ -22,6 +23,11 @@ public class ProductRepositoryImpl extends CrudRepositoryImpl<Product> implement
     private final static String FIND_ALL_BY_WAREHOUSE_ID_SQL = """
                 SELECT id, name, manufacturer_id, warehouse_id, date_of_manufacturing, date_of_placement_to_warehouse, cost, discount
                 FROM products WHERE warehouse_id = ?""";
+
+    @Override
+    protected String getExistsByIdSql() {
+        return "SELECT EXISTS(SELECT 1 FROM products WHERE id = ?)";
+    }
 
     @Override
     protected String getSaveSql() {
@@ -69,11 +75,6 @@ public class ProductRepositoryImpl extends CrudRepositoryImpl<Product> implement
     }
 
     @Override
-    protected void setFindByIdValues(PreparedStatement statement, Long id) throws SQLException {
-        statement.setLong(1, id);
-    }
-
-    @Override
     protected void setUpdateValues(PreparedStatement statement, Product entity) throws SQLException {
         statement.setString(1, entity.getName());
         statement.setLong(2, entity.getManufacturerId());
@@ -82,11 +83,6 @@ public class ProductRepositoryImpl extends CrudRepositoryImpl<Product> implement
         statement.setDate(5, Date.valueOf(entity.getDateOfPlacementToWarehouse()));
         statement.setBigDecimal(6, entity.getPrice());
         statement.setBigDecimal(7, entity.getDiscount());
-    }
-
-    @Override
-    protected void setRemoveValues(PreparedStatement statement, Long id) throws SQLException {
-        statement.setLong(1, id);
     }
 
     @Override

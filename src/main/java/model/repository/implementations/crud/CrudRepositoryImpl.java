@@ -20,9 +20,14 @@ public abstract class CrudRepositoryImpl<T extends BaseEntity> implements CrudRe
     protected abstract String getRemoveSql();
 
     protected abstract void setSaveValues(PreparedStatement statement, T entity) throws SQLException;
-    protected abstract void setFindByIdValues(PreparedStatement statement, Long id) throws SQLException;
     protected abstract void setUpdateValues(PreparedStatement statement, T entity) throws SQLException;
-    protected abstract void setRemoveValues(PreparedStatement statement, Long id) throws SQLException;
+
+    protected void setRemoveValues(PreparedStatement statement, Long id) throws SQLException{
+        statement.setLong(1, id);
+    }
+    protected void setFindByIdValues(PreparedStatement statement, Long id) throws SQLException{
+        statement.setLong(1, id);
+    }
 
     protected abstract T mapResult(ResultSet rs) throws SQLException;
 

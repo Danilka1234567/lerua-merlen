@@ -5,7 +5,7 @@ import model.valueobjects.Email;
 
 import java.util.Optional;
 
-public interface UserRepository extends CrudRepository<User>{
+public interface UserRepository extends BaseRepository<User>{
 
     Optional<User> findByEmail(Email email);
     boolean existsByEmail(Email email);

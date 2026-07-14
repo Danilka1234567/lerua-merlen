@@ -6,7 +6,7 @@ import model.valueobjects.Address;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface OrderRepository extends CrudRepository<Order>{
+public interface OrderRepository extends BaseRepository<Order>{
 
     List<Order> findAllByAddress(Address address);
     List<Order> findAllByUserId(Long id);

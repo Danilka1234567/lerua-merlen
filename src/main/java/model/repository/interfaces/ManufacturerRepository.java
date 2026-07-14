@@ -7,7 +7,7 @@ import model.valueobjects.Email;
 import java.util.List;
 import java.util.Optional;
 
-public interface ManufacturerRepository extends CrudRepository<Manufacturer>{
+public interface ManufacturerRepository extends BaseRepository<Manufacturer>{
 
     List<Manufacturer> findAllBySpecialization(String specialization);
     Optional<Manufacturer> findByAddress(Address address);
