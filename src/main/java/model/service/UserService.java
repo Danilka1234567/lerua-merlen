@@ -1,6 +1,6 @@
 package model.service;
 
-import infrastructure.exceptions.service.EmailAlreadyExistsException;
+import infrastructure.exceptions.service.EntityAlreadyExistsException;
 import infrastructure.exceptions.service.UnknownEntityException;
 import model.dto.request.UserRequestDto;
 import model.dto.response.UserResponseDto;
@@ -16,7 +16,7 @@ public class UserService {
     public UserResponseDto register(UserRequestDto request){
 
         if (userRepository.existsByEmail(request.getEmail()))
-            throw new EmailAlreadyExistsException(
+            throw new EntityAlreadyExistsException(
                     "Can't register new user: user with such email is already in database"
             );
 
