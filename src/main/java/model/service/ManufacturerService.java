@@ -43,10 +43,15 @@ public class ManufacturerService {
     }
 
     public void update(ManufacturerRequestDto request, Long id){
-        int affectedRows = repository.update(mapRequestToEntity(request));
+
+        Manufacturer entity = mapRequestToEntity(request);
+        entity.setId(id);
+
+        int affectedRows = repository.update(entity);
         if (affectedRows == 0)
             throw new UnknownEntityException(
-                    "Can't update manufacturer with id "
+                    "Can't update manufacturer with id " + id +
+                            ":no such id in database"
             );
     }
 
