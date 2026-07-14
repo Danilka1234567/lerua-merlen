@@ -2,6 +2,7 @@ package model.repository.implementations.crud;
 
 import infrastructure.config.DataBaseConfig;
 import infrastructure.config.Transaction;
+import infrastructure.exceptions.repository.ForeignKeyException;
 import infrastructure.exceptions.repository.RepositoryException;
 import model.entities.base.BaseEntity;
 import model.repository.interfaces.CrudRepository;
@@ -10,6 +11,8 @@ import java.sql.*;
 import java.util.Optional;
 
 public abstract class CrudRepositoryImpl<T extends BaseEntity> implements CrudRepository<T> {
+
+    private static final String FOREIGN_KEY_ERROR_SQL_STATE = "2503";
 
     protected abstract String getSaveSql();
     protected abstract String getFindByIdSql();
@@ -45,8 +48,14 @@ public abstract class CrudRepositoryImpl<T extends BaseEntity> implements CrudRe
                 }
             });
         } catch (SQLException e) {
+
+            if (FOREIGN_KEY_ERROR_SQL_STATE.equals(e.getSQLState()))
+                throw new ForeignKeyException(
+                        "Can't save entity with simple class name: " + entity.getClass().getSimpleName() + "foreign key violation", e
+                );
+
             throw new RepositoryException(
-                    "Can't save entity: " + entity.getClass().getSimpleName(), e
+                    "Can't save entity with simple class name: " + entity.getClass().getSimpleName(), e
             );
         }
     }
@@ -103,6 +112,12 @@ public abstract class CrudRepositoryImpl<T extends BaseEntity> implements CrudRe
             );
 
         }catch (SQLException e){
+
+            if (FOREIGN_KEY_ERROR_SQL_STATE.equals(e.getSQLState()))
+                throw new ForeignKeyException(
+                        "Can't update entity with id " + entity.getId() + "foreign key violation", e
+                );
+
             throw new RepositoryException(
                     "Can't update entity with id: " + entity.getId(), e
             );
