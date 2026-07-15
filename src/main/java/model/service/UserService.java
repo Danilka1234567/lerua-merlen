@@ -11,7 +11,11 @@ import model.valueobjects.Email;
 
 public class UserService {
 
-    private final UserRepository userRepository = new UserRepositoryImpl();
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository){
+        this.userRepository = userRepository;
+    }
 
     public UserResponseDto register(UserRequestDto request){
 

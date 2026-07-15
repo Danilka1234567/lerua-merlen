@@ -1,6 +1,8 @@
 package model.repository.implementations.product;
 
 import infrastructure.config.DataBaseConfig;
+import infrastructure.config.Transaction;
+import infrastructure.exceptions.repository.ForeignKeyException;
 import infrastructure.exceptions.repository.RepositoryException;
 import model.entities.Product;
 import model.repository.implementations.base.BaseRepositoryImpl;
@@ -150,6 +152,42 @@ public class ProductRepositoryImpl extends BaseRepositoryImpl<Product> implement
         }catch (SQLException e){
             throw new RepositoryException(
                     "Can't find products by warehouse_id: " + id, e
+            );
+        }
+    }
+
+    @Override
+    public void saveBatch(List<Product> products) {
+
+        if (products == null)
+            throw new IllegalArgumentException(
+                    "Can't save products: products is null"
+            );
+
+        if (products.isEmpty())
+            return;
+
+        try(Connection conn = DataBaseConfig.getConnection()){
+            Transaction.execute(conn, () -> {
+                        try(PreparedStatement statement = conn.prepareStatement(getSaveSql())){
+                            for (Product product : products){
+                                setSaveValues(statement, product);
+                                statement.addBatch();
+                            }
+
+                            statement.executeBatch();
+                        }
+                    }
+            );
+        }catch (SQLException e){
+
+            if (FOREIGN_KEY_ERROR_SQL_STATE.equals(e.getSQLState()))
+                throw new ForeignKeyException(
+                        "Can't save products: foreign key violation"
+                );
+
+            throw new RepositoryException(
+                    "Can't save products:", e
             );
         }
     }

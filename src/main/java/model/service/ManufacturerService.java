@@ -14,7 +14,11 @@ import java.util.List;
 
 public class ManufacturerService {
 
-    private final ManufacturerRepository repository = new ManufacturerRepositoryImpl();
+    private final ManufacturerRepository repository;
+
+    public ManufacturerService(ManufacturerRepository repository){
+        this.repository = repository;
+    }
 
     public ManufacturerResponseDto register(ManufacturerRequestDto request){
 

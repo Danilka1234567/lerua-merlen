@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public abstract class CrudRepositoryImpl<T extends BaseEntity> implements CrudRepository<T> {
 
-    private static final String FOREIGN_KEY_ERROR_SQL_STATE = "2503";
+    protected static final String FOREIGN_KEY_ERROR_SQL_STATE = "2503";
 
     protected abstract String getSaveSql();
     protected abstract String getFindByIdSql();

@@ -8,6 +8,6 @@ public interface ProductRepository extends BaseRepository<Product> {
 
     List<Product> findAllByManufacturerId(Long id);
     List<Product> findAllByWarehouseId(Long id);
-
+    void saveBatch(List<Product> products);
 
 }

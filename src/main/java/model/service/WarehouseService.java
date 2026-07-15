@@ -5,14 +5,17 @@ import infrastructure.exceptions.service.UnknownEntityException;
 import model.dto.request.WarehouseRequestDto;
 import model.dto.response.WarehouseResponseDto;
 import model.entities.Warehouse;
-import model.repository.implementations.warehouse.WarehouseRepositoryImpl;
 import model.repository.interfaces.WarehouseRepository;
 import model.valueobjects.Address;
 
 public class WarehouseService {
 
-    private final WarehouseRepository repository = new WarehouseRepositoryImpl();
+    private final WarehouseRepository repository;
     private static final int MIN_CAPACITY = 50;
+
+    public WarehouseService(WarehouseRepository warehouseRepository){
+        this.repository = warehouseRepository;
+    }
 
     public WarehouseResponseDto register(WarehouseRequestDto request){
 
