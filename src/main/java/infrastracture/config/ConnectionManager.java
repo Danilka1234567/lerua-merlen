@@ -23,7 +23,7 @@ public class ConnectionManager {
 
 
         Dotenv dotenv = Dotenv.load();
-        URL = "jdbc:postgresql://" + dotenv.get("DB_HOST") + ":" + dotenv.get("DB_PORT") + dotenv.get("DB_NAME");
+        URL = "jdbc:postgresql://" + dotenv.get("DB_HOST") + ":" + dotenv.get("DB_PORT") + "/" + dotenv.get("DB_NAME");
         USERNAME = dotenv.get("DB_USER");
         PASSWORD = dotenv.get("DB_PASSWORD");
 
