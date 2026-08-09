@@ -1,4 +1,4 @@
-package infrastracture.config;
+package infrastructure.config;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -31,8 +31,14 @@ public class Transaction {
             T result = operation.run();
             conn.commit();
             return result;
-        } catch (SQLException e) {
-            conn.rollback();
+        } catch (Exception e) {
+            try{
+                conn.rollback();
+            } catch (SQLException ex) {
+                e.addSuppressed(ex);
+                throw new SQLException("Changes weren't rolled back!", e);
+            }
+
             throw new SQLException("Changes were rolled back!", e);
         }finally {
             conn.setAutoCommit(autocommitStatus);
@@ -41,27 +47,9 @@ public class Transaction {
 
 
     public static void complete(Connection conn, VoidOperation operation) throws SQLException{
-
-        if (conn == null)
-            throw new IllegalArgumentException(
-                    "Connection can't be null!"
-            );
-
-        if (operation == null)
-            throw new IllegalArgumentException(
-                    "Operation can't be null!"
-            );
-
-        boolean autocommitStatus = conn.getAutoCommit();
-        try{
-            conn.setAutoCommit(false);
+        complete(conn, () -> {
             operation.run();
-            conn.commit();
-        } catch (SQLException e) {
-            conn.rollback();
-            throw new SQLException("Changes were rolled back!", e);
-        }finally {
-            conn.setAutoCommit(autocommitStatus);
-        }
+            return null;
+        });
     }
 }

@@ -1,4 +1,4 @@
-package infrastracture.config;
+package infrastructure.config;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
