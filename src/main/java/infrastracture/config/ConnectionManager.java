@@ -34,7 +34,7 @@ public class ConnectionManager {
         }
     }
 
-    public Connection getConnection() throws SQLException{
+    public static Connection getConnection() throws SQLException{
         currentConn.setAutoCommit(true);
         return currentConn;
     }
