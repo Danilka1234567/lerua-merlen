@@ -9,22 +9,22 @@ public class FullAddress {
 
     public FullAddress(String country, String region, String city, StreetAddress streetAddress){
         if (country == null)
-            throw new NullPointerException(
+            throw new IllegalArgumentException(
                     "Country can't be null"
             );
 
         if (region == null)
-            throw new NullPointerException(
+            throw new IllegalArgumentException(
                     "Region can't be null"
             );
 
         if (city == null)
-            throw new NullPointerException(
+            throw new IllegalArgumentException(
                     "City can't be null"
             );
 
         if (streetAddress == null)
-            throw new NullPointerException(
+            throw new IllegalArgumentException(
                     "Street address can't be null"
             );
 

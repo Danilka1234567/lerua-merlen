@@ -8,12 +8,12 @@ public class ContactInfo {
     public ContactInfo(PhoneNumber phoneNumber, Email email){
 
         if (phoneNumber == null)
-            throw new NullPointerException(
+            throw new IllegalArgumentException(
                     "Phone number can't be null"
             );
 
         if (email == null)
-            throw new NullPointerException(
+            throw new IllegalArgumentException(
                     "Email can't be null"
             );
 

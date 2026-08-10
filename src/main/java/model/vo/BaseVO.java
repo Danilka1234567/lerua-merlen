@@ -9,7 +9,7 @@ public abstract class BaseVO {
     public BaseVO(String value){
 
         if (value == null)
-            throw new NullPointerException(
+            throw new IllegalArgumentException(
                     "VO value can't be null"
             );
 
