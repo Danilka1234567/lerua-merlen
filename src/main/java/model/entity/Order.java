@@ -1,0 +1,82 @@
+package model.entity;
+
+import model.entity.abstr.ExtendedEntity;
+import model.vo.FullAddress;
+
+import java.time.LocalDate;
+
+public class Order extends ExtendedEntity {
+
+    private Long userId;
+    private Long productId;
+    private int deliveryPeriod;
+    private FullAddress deliveryAddress;
+
+    public Order(Long userId, Long productId, int deliveryPeriod, FullAddress deliveryAddress) {
+        setUserId(userId);
+        setProductId(productId);
+        setDeliveryPeriod(deliveryPeriod);
+        setDeliveryAddress(deliveryAddress);
+    }
+
+    public Order(Long id, boolean isDeleted, LocalDate registrationDate, Long userId, Long productId, int deliveryPeriod, FullAddress deliveryAddress) {
+        super(id, isDeleted, registrationDate);
+        setUserId(userId);
+        setProductId(productId);
+        setDeliveryPeriod(deliveryPeriod);
+        setDeliveryAddress(deliveryAddress);
+    }
+
+
+    private void setUserId(Long userId) {
+        if(userId == null)
+            throw new IllegalArgumentException(
+                    "userId can't be null"
+            );
+
+        this.userId = userId;
+    }
+
+    private void setProductId(Long productId) {
+        if (productId == null)
+            throw new IllegalArgumentException(
+                    "productId can't be null"
+            );
+
+        this.productId = productId;
+    }
+
+    private void setDeliveryPeriod(int deliveryPeriod) {
+        if (deliveryPeriod <= 0)
+            throw new IllegalArgumentException(
+                    "deliveryPeriod can't be less than zero or equal to it"
+            );
+
+        this.deliveryPeriod = deliveryPeriod;
+    }
+
+    private void setDeliveryAddress(FullAddress deliveryAddress) {
+        if (deliveryAddress == null)
+            throw new IllegalArgumentException(
+                    "deliveryAddress can't be null"
+            );
+
+        this.deliveryAddress = deliveryAddress;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public int getDeliveryPeriod() {
+        return deliveryPeriod;
+    }
+
+    public FullAddress getDeliveryAddress() {
+        return deliveryAddress;
+    }
+}
