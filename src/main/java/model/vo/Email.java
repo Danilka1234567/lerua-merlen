@@ -23,8 +23,11 @@ public class Email extends BaseVO{
 
         List<String> violations = new ArrayList<>();
         if (! EMAIL_PATTERN.matcher(value).matches()){
-            violations.add("NOT AN EMAIL");
+            violations.add("not an email");
         }
+
+        if (value.length() > 255)
+            violations.add("email is too long. maximum length is 255 symbols");
 
         return violations;
     }

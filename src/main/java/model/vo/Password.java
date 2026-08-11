@@ -17,8 +17,10 @@ public class Password extends BaseVO{
         List<String> violations = new ArrayList<>();
 
         if (value == null || value.length() < 8)
-            violations.add("Password is too short. Minimum length is 8");
+            violations.add("password is too short. minimum length is 8");
 
+        if (value.length() > 64)
+            violations.add("password is too long. maximum length is 64");
         boolean hasSpecialSymbols = false;
         boolean hasCapitalLetter = false;
         boolean hasSmallLetter = false;

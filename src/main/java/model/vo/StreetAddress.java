@@ -27,8 +27,12 @@ public class StreetAddress extends BaseVO{
     protected List<String> getViolations(String value) {
         List<String> violations = new ArrayList<>();
         if (! RU_STREET_ADDRESS.matcher(value).matches()){
-            violations.add("Invalid address format");
+            violations.add("invalid address format");
         }
+
+        if (value.length() > 128)
+            violations.add("address is too long. maximum length is 128");
+
         return violations;
     }
 }

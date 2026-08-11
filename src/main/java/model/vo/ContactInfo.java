@@ -9,7 +9,7 @@ public class ContactInfo {
 
         if (email == null)
             throw new IllegalArgumentException(
-                    "Email can't be null"
+                    "email can't be null"
             );
 
         this.phoneNumber = phoneNumber;

@@ -28,6 +28,23 @@ public class FullAddress {
                     "Street address can't be null"
             );
 
+
+        if (country.length() > 64)
+            throw new IllegalArgumentException(
+                    "country is too big. maximum length is 64"
+            );
+
+        if (region.length() > 128)
+            throw new IllegalArgumentException(
+                    "region is too big. maximum length is 128"
+            );
+
+        if (city.length() > 64)
+            throw new IllegalArgumentException(
+                    "city is too big. maximum length is 64"
+            );
+
+
         this.country = country;
         this.region = region;
         this.city = city;
