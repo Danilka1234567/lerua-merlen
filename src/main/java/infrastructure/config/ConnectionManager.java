@@ -11,7 +11,7 @@ public class ConnectionManager {
     private static final String URL;
     private static final String USERNAME;
     private static final String PASSWORD;
-    private static final Connection currentConn;
+    private static Connection currentConn;
 
     static{
 
@@ -27,15 +27,30 @@ public class ConnectionManager {
         USERNAME = dotenv.get("DB_USER");
         PASSWORD = dotenv.get("DB_PASSWORD");
 
+
+        establishConnection();
+    }
+
+    private static void establishConnection(){
+
         try{
             currentConn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         } catch (SQLException e) {
             throw new RuntimeException("Can't create connection with DB", e);
         }
+
     }
 
-    public static Connection getConnection() throws SQLException{
-        currentConn.setAutoCommit(true);
-        return currentConn;
+    public static Connection getConnection(){
+        try{
+
+            if(currentConn.isClosed())
+                establishConnection();
+
+            currentConn.setAutoCommit(true);
+            return currentConn;
+        } catch (SQLException e) {
+            throw new RuntimeException("Major conn exception", e);
+        }
     }
 }
