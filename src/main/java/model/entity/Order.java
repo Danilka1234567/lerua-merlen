@@ -38,11 +38,6 @@ public class Order extends ExtendedEntity {
     }
 
     private void setProductId(Long productId) {
-        if (productId == null)
-            throw new IllegalArgumentException(
-                    "productId can't be null"
-            );
-
         this.productId = productId;
     }
 
