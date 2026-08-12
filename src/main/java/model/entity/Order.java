@@ -38,7 +38,7 @@ public class Order extends ExtendedEntity {
     }
 
     private void setProductId(Long productId) {
-        this.productId = productId;
+                this.productId = productId;
     }
 
     private void setDeliveryPeriod(int deliveryPeriod) {
