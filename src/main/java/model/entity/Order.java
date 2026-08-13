@@ -12,6 +12,9 @@ public class Order extends ExtendedEntity {
     private int deliveryPeriod;
     private FullAddress deliveryAddress;
 
+    private User user;
+    private Product product;
+
     public Order(Long userId, Long productId, int deliveryPeriod, FullAddress deliveryAddress) {
         setUserId(userId);
         setProductId(productId);
@@ -73,5 +76,22 @@ public class Order extends ExtendedEntity {
 
     public FullAddress getDeliveryAddress() {
         return deliveryAddress;
+    }
+
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }

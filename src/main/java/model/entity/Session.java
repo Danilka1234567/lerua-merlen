@@ -2,13 +2,14 @@ package model.entity;
 
 import model.entity.abstr.BaseEntity;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class Session extends BaseEntity {
+public class Session extends BaseEntity{
 
     private Long userId;
     private LocalDateTime expirationDate;
+
+    private User user;
 
     public Session(Long userId, LocalDateTime expirationDate) {
         setUserId(userId);
@@ -43,5 +44,13 @@ public class Session extends BaseEntity {
 
     public LocalDateTime getExpirationDate() {
         return expirationDate;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

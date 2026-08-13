@@ -13,6 +13,9 @@ public class Product extends ExtendedEntity {
     private BigDecimal price;
     private BigDecimal discount;
 
+    private Warehouse warehouse;
+    private Manufacturer manufacturer;
+
     public Product(Long warehouseId, Long manufacturerId, String name, BigDecimal price, BigDecimal discount) {
         setWarehouseId(warehouseId);
         setManufacturerId(manufacturerId);
@@ -100,5 +103,21 @@ public class Product extends ExtendedEntity {
 
     public BigDecimal getDiscount() {
         return discount;
+    }
+
+    public Warehouse getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
+    }
+
+    public Manufacturer getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(Manufacturer manufacturer) {
+        this.manufacturer = manufacturer;
     }
 }
