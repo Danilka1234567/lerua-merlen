@@ -1,0 +1,72 @@
+package infrastructure.repositoryImpl;
+
+import infrastructure.exception.GeneratedKeysException;
+import infrastructure.exception.RepositoryException;
+import infrastructure.repositoryImpl.rsmapper.RsMapper;
+import model.entity.abstr.BaseEntity;
+import model.repository.common.BaseRepository;
+
+import java.sql.*;
+
+public abstract class BaseRepositoryImpl<T extends BaseEntity> implements BaseRepository<T> {
+
+    protected abstract String getSaveSql();
+    protected abstract String getSetDeletionStatusSql();
+    protected abstract String getRemoveSql();
+
+    protected abstract void fillSaveStatement(PreparedStatement statement, T entity) throws SQLException;
+    protected abstract void fillSetDeletionStatusStatement(PreparedStatement statement,
+                                                           Long id, boolean deletionStatus) throws SQLException;
+
+    @Override
+    public Long save(T entity, Connection conn) {
+
+        try(PreparedStatement statement = conn.prepareStatement(getSaveSql(), Statement.RETURN_GENERATED_KEYS)){
+            fillSaveStatement(statement, entity);
+
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0){
+                throw new SQLException("your query affected 0 rows");
+            }
+
+            try(ResultSet rs = statement.getGeneratedKeys()){
+
+                if (! rs.next())
+                    throw new SQLException("there are no generated key!");
+
+                return rs.getLong(1);
+            }catch (SQLException e){
+                throw new GeneratedKeysException(
+                        "Can't receive generated key from DB", e
+                );
+            }
+
+        }catch (SQLException e){
+            throw new RepositoryException("Can't save entity into DB!", e);
+        }
+    }
+
+    @Override
+    public int setDeletionStatus(boolean status, Long id, Connection conn) {
+
+        try(PreparedStatement statement = conn.prepareStatement(getSetDeletionStatusSql())){
+            fillSetDeletionStatusStatement(statement, id, status);
+
+            return statement.executeUpdate();
+        }catch (SQLException e){
+            throw new RepositoryException("Can't set deletion status in DB!", e);
+        }
+    }
+
+    @Override
+    public int remove(Connection conn) {
+
+        try(PreparedStatement statement = conn.prepareStatement(getRemoveSql())){
+            return statement.executeUpdate();
+
+        }catch (SQLException e){
+            throw new RepositoryException("Can't remove entities from DB!", e);
+        }
+    }
+
+}
