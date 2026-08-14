@@ -32,7 +32,7 @@ public abstract class BaseRepositoryImpl<T extends BaseEntity> implements BaseRe
             try(ResultSet rs = statement.getGeneratedKeys()){
 
                 if (! rs.next())
-                    throw new SQLException("there are no generated key!");
+                    throw new SQLException("there are no generated keys!");
 
                 return rs.getLong(1);
             }catch (SQLException e){
