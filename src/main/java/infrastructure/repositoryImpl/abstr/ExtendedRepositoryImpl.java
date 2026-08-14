@@ -1,4 +1,4 @@
-package infrastructure.repositoryImpl;
+package infrastructure.repositoryImpl.abstr;
 
 import infrastructure.exception.RepositoryException;
 import infrastructure.repositoryImpl.rsmapper.RsMapper;

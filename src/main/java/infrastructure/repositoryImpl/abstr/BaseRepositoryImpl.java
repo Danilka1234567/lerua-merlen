@@ -1,8 +1,7 @@
-package infrastructure.repositoryImpl;
+package infrastructure.repositoryImpl.abstr;
 
 import infrastructure.exception.GeneratedKeysException;
 import infrastructure.exception.RepositoryException;
-import infrastructure.repositoryImpl.rsmapper.RsMapper;
 import model.entity.abstr.BaseEntity;
 import model.repository.common.BaseRepository;
 
