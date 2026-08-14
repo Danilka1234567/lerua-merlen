@@ -15,7 +15,7 @@ public class DbInitializer {
 
         try(Statement statement = conn.createStatement();){
 
-            String directory = "sql/init/";
+            String directory = "sql/ddl/";
             statement.execute(ResourceReader.read(directory + "create_manufacturer.sql"));
             statement.execute(ResourceReader.read(directory + "create_warehouse.sql"));
             statement.execute(ResourceReader.read(directory + "create_user.sql"));
