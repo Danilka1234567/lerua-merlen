@@ -1,0 +1,1 @@
+DELETE FROM orders WHERE is_deleted = true

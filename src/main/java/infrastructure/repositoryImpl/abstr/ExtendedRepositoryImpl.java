@@ -6,8 +6,8 @@ import model.entity.abstr.ExtendedEntity;
 import model.repository.common.ExtendedRepository;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,10 +24,10 @@ public abstract class ExtendedRepositoryImpl<T extends ExtendedEntity> extends B
     protected abstract String getFindByIdSql();
 
 
-    protected abstract void fillFindAllByRegDatePstmt(PreparedStatement statement, Date date) throws SQLException;
+    protected abstract void fillFindAllByRegDatePstmt(PreparedStatement statement, LocalDate date) throws SQLException;
     protected abstract void fillFindAllBetweenRegDatePstmt(PreparedStatement statement,
-                                                           Date start, Date end) throws SQLException;
-    protected abstract void fillUpdatePstmt(PreparedStatement statement, T entity) throws  SQLException;
+                                                           LocalDate start, LocalDate end) throws SQLException;
+    protected abstract void fillUpdatePstmt(PreparedStatement statement, T entity, Long id) throws  SQLException;
     protected abstract void fillFindAllByDeleteStatusPstmt(PreparedStatement statement,
                                                            boolean status) throws  SQLException;
     protected abstract void fillFindByIdPstmt(PreparedStatement statement, Long id) throws SQLException;
@@ -42,7 +42,7 @@ public abstract class ExtendedRepositoryImpl<T extends ExtendedEntity> extends B
     }
 
     @Override
-    public List<T> findAllByRegDate(Date date, Connection conn) {
+    public List<T> findAllByRegDate(LocalDate date, Connection conn) {
 
         try(PreparedStatement statement = conn.prepareStatement(getFindAllByRegDateSql())){
             fillFindAllByRegDatePstmt(statement, date);
@@ -58,7 +58,7 @@ public abstract class ExtendedRepositoryImpl<T extends ExtendedEntity> extends B
     }
 
     @Override
-    public List<T> findAllBetweenRegDate(Date start, Date end, Connection conn) {
+    public List<T> findAllBetweenRegDate(LocalDate start, LocalDate end, Connection conn) {
 
         try(PreparedStatement statement = conn.prepareStatement(getFindAllBetweenRegDateSql())){
             fillFindAllBetweenRegDatePstmt(statement, start, end);
@@ -74,9 +74,9 @@ public abstract class ExtendedRepositoryImpl<T extends ExtendedEntity> extends B
     }
 
     @Override
-    public int update(T entity, Connection conn) {
+    public int update(T entity, Long id, Connection conn) {
         try(PreparedStatement statement = conn.prepareStatement(getUpdateSql())){
-            fillUpdatePstmt(statement, entity);
+            fillUpdatePstmt(statement, entity, id);
             return statement.executeUpdate();
         }catch (SQLException e){
             throw new RepositoryException(

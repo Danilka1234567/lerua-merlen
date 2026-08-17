@@ -1,0 +1,1 @@
+INSERT INTO sessions(user_id, expiration_date) VALUES (?, ?)

@@ -1,0 +1,1 @@
+UPDATE sessions SET is_deleted = ? WHERE id = ?
