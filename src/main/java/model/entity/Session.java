@@ -16,10 +16,11 @@ public class Session extends BaseEntity{
         setExpirationDate(expirationDate);
     }
 
-    public Session(Long id, boolean isDeleted, Long userId, LocalDateTime expirationDate) {
+    public Session(Long id, boolean isDeleted, Long userId, LocalDateTime expirationDate, User user) {
         super(id, isDeleted);
         setUserId(userId);
         setExpirationDate(expirationDate);
+        setUser(user);
     }
 
     private void setUserId(Long userId){
@@ -50,7 +51,7 @@ public class Session extends BaseEntity{
         return user;
     }
 
-    public void setUser(User user) {
+    private void setUser(User user) {
         this.user = user;
     }
 }

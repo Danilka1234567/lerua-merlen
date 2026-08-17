@@ -25,13 +25,16 @@ public class Product extends ExtendedEntity {
     }
 
     public Product(Long id, boolean isDeleted, LocalDate registrationDate, Long warehouseId,
-                   Long manufacturerId, String name, BigDecimal price, BigDecimal discount) {
+                   Long manufacturerId, String name, BigDecimal price, BigDecimal discount, Warehouse warehouse,
+                   Manufacturer manufacturer) {
         super(id, isDeleted, registrationDate);
         setWarehouseId(warehouseId);
         setManufacturerId(manufacturerId);
         setName(name);
         setPrice(price);
         setDiscount(discount);
+        setWarehouse(warehouse);
+        setManufacturer(manufacturer);
     }
 
     private void setWarehouseId(Long warehouseId) {
@@ -109,7 +112,7 @@ public class Product extends ExtendedEntity {
         return warehouse;
     }
 
-    public void setWarehouse(Warehouse warehouse) {
+    private void setWarehouse(Warehouse warehouse) {
         this.warehouse = warehouse;
     }
 
@@ -117,7 +120,7 @@ public class Product extends ExtendedEntity {
         return manufacturer;
     }
 
-    public void setManufacturer(Manufacturer manufacturer) {
+    private void setManufacturer(Manufacturer manufacturer) {
         this.manufacturer = manufacturer;
     }
 }

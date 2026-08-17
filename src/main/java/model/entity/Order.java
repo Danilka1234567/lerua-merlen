@@ -22,12 +22,15 @@ public class Order extends ExtendedEntity {
         setDeliveryAddress(deliveryAddress);
     }
 
-    public Order(Long id, boolean isDeleted, LocalDate registrationDate, Long userId, Long productId, int deliveryPeriod, FullAddress deliveryAddress) {
+    public Order(Long id, boolean isDeleted, LocalDate registrationDate, Long userId,
+                 Long productId, int deliveryPeriod, FullAddress deliveryAddress, Product product, User user) {
         super(id, isDeleted, registrationDate);
         setUserId(userId);
         setProductId(productId);
         setDeliveryPeriod(deliveryPeriod);
         setDeliveryAddress(deliveryAddress);
+        setProduct(product);
+        setUser(user);
     }
 
 
@@ -91,7 +94,7 @@ public class Order extends ExtendedEntity {
         return product;
     }
 
-    public void setProduct(Product product) {
+    private void setProduct(Product product) {
         this.product = product;
     }
 }

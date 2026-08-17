@@ -43,12 +43,6 @@ public class User extends ContactableEntity {
     }
 
     private void setPassword(Password password) {
-
-        if (password == null)
-            throw new IllegalArgumentException(
-                    "password can't be null"
-            );
-
         this.password = password;
     }
 
