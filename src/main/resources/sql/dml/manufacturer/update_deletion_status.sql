@@ -1,0 +1,1 @@
+UPDATE manufacturers SET is_deleted = ? WHERE id = ?

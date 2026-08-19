@@ -1,0 +1,1 @@
+SELECT EXISTS(SELECT 1 FROM manufacturers WHERE country = ? AND region = ? AND city = ? AND street_address = ? AND is_deleted = false)

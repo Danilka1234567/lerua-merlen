@@ -1,0 +1,32 @@
+package infrastructure.repositoryImpl.rsmapper;
+
+import model.entity.Manufacturer;
+import model.vo.*;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class ManufacturerMapper implements RsMapper<Manufacturer>{
+
+
+    @Override
+    public Manufacturer mapRsToEntity(ResultSet rs) throws SQLException {
+        return new Manufacturer(
+                rs.getLong("id"),
+                rs.getBoolean("is_deleted"),
+                rs.getDate("registration_date").toLocalDate(),
+                new ContactInfo(
+                        new PhoneNumber(rs.getString("phone_number")),
+                        new Email(rs.getString("email"))
+                ),
+                new FullAddress(
+                        rs.getString("country"),
+                        rs.getString("region"),
+                        rs.getString("city"),
+                        new StreetAddress(rs.getString("street_address"))
+                ),
+                rs.getString("name"),
+                rs.getString("specialization")
+        );
+    }
+}

@@ -1,0 +1,1 @@
+DELETE FROM manufacturers WHERE is_deleted = true
