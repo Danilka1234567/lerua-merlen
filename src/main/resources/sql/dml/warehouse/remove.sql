@@ -1,0 +1,1 @@
+DELETE FROM warehouses WHERE is_deleted = true

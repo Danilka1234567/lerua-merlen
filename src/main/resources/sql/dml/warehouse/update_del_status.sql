@@ -1,0 +1,1 @@
+UPDATE warehouses SET is_deleted = ? WHERE id = ?
