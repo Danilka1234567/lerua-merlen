@@ -6,4 +6,4 @@ UPDATE orders SET
     city = ?,
     street_address = ?,
     delivery_period = ?
-WHERE id = ?
+WHERE id = ? AND is_deleted = false

@@ -5,5 +5,5 @@ UPDATE warehouses
         region = ?,
         city = ?,
         street_address = ?,
-        capacity = ?,
+        capacity = ?
 WHERE id = ?
