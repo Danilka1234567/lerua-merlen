@@ -4,6 +4,7 @@ import infrastructure.exception.RepositoryException;
 import infrastructure.repositoryImpl.abstr.ContactableRepositoryImpl;
 import infrastructure.repositoryImpl.rsmapper.RsMapper;
 import infrastructure.repositoryImpl.rsmapper.UserMapper;
+import infrastructure.repositoryImpl.shared.ExsistenceChecker;
 import infrastructure.utils.ResourceReader;
 import model.entity.User;
 import model.enums.UserRole;

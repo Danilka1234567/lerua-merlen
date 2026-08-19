@@ -1,4 +1,4 @@
-package infrastructure.repositoryImpl;
+package infrastructure.repositoryImpl.shared;
 
 import infrastructure.exception.RepositoryException;
 
