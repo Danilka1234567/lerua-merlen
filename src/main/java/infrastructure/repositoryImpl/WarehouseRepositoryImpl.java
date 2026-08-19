@@ -2,11 +2,10 @@ package infrastructure.repositoryImpl;
 
 import infrastructure.repositoryImpl.abstr.OrganizationRepositoryImpl;
 import infrastructure.repositoryImpl.rsmapper.RsMapper;
-import infrastructure.repositoryImpl.shared.ExsistenceChecker;
+import infrastructure.repositoryImpl.shared.ExistenceChecker;
 import infrastructure.utils.ResourceReader;
 import model.entity.Warehouse;
 import model.repository.WarehouseRepository;
-import model.repository.common.OrganizationRepository;
 import model.vo.Email;
 import model.vo.FullAddress;
 import model.vo.PhoneNumber;
@@ -196,6 +195,6 @@ public class WarehouseRepositoryImpl extends OrganizationRepositoryImpl<Warehous
 
     @Override
     public boolean existsById(Long id, Connection conn) {
-        return ExsistenceChecker.checkExistenceById(conn, id, ResourceReader.read("sql/dql/warehouse/exists_by_id.sql"));
+        return ExistenceChecker.checkExistenceById(conn, id, ResourceReader.read("sql/dql/warehouse/exists_by_id.sql"));
     }
 }

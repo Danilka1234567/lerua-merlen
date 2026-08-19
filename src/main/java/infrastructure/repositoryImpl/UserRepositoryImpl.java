@@ -4,7 +4,7 @@ import infrastructure.exception.RepositoryException;
 import infrastructure.repositoryImpl.abstr.ContactableRepositoryImpl;
 import infrastructure.repositoryImpl.rsmapper.RsMapper;
 import infrastructure.repositoryImpl.rsmapper.UserMapper;
-import infrastructure.repositoryImpl.shared.ExsistenceChecker;
+import infrastructure.repositoryImpl.shared.ExistenceChecker;
 import infrastructure.utils.ResourceReader;
 import model.entity.User;
 import model.enums.UserRole;
@@ -150,6 +150,6 @@ public class UserRepositoryImpl extends ContactableRepositoryImpl<User> implemen
 
     @Override
     public boolean existsById(Long id, Connection conn) {
-        return ExsistenceChecker.checkExistenceById(conn, id, checkExistenceByIdSql);
+        return ExistenceChecker.checkExistenceById(conn, id, checkExistenceByIdSql);
     }
 }

@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ExsistenceChecker {
+public class ExistenceChecker {
 
 
     public static boolean checkExistenceById(Connection connection, Long id, String sqlQuery){
