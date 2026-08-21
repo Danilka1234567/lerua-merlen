@@ -13,14 +13,23 @@ public class User extends ContactableEntity {
     private Password password;
     private UserRole role;
 
-    public User(ContactInfo contactInfo, String name, Password password, UserRole role) {
+    public static User createNew(ContactInfo contactInfo, String name, Password password, UserRole role){
+        return new User(contactInfo, name, password, role);
+    }
+
+    public static User loadFromDb(Long id, boolean isDeleted, LocalDate registrationDate,
+                                  ContactInfo contactInfo, String name, Password password, UserRole role){
+        return new User(id, isDeleted, registrationDate, contactInfo, name, password, role);
+    }
+
+    private User(ContactInfo contactInfo, String name, Password password, UserRole role) {
         super(contactInfo);
         setName(name);
         setPassword(password);
         setRole(role);
     }
 
-    public User(Long id, boolean isDeleted, LocalDate registrationDate, ContactInfo contactInfo, String name, Password password, UserRole role) {
+    private User(Long id, boolean isDeleted, LocalDate registrationDate, ContactInfo contactInfo, String name, Password password, UserRole role) {
         super(id, isDeleted, registrationDate, contactInfo);
         setName(name);
         setPassword(password);

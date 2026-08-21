@@ -6,12 +6,12 @@ public abstract class ExtendedEntity extends BaseEntity {
 
     private final LocalDate registrationDate;
 
-    public ExtendedEntity() {
+    protected ExtendedEntity() {
         super();
         registrationDate = LocalDate.now();
     }
 
-    public ExtendedEntity(Long id, boolean isDeleted, LocalDate registrationDate){
+    protected ExtendedEntity(Long id, boolean isDeleted, LocalDate registrationDate){
         super(id, isDeleted);
 
         if(registrationDate == null)

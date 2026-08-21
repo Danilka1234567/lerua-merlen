@@ -16,7 +16,20 @@ public class Product extends ExtendedEntity {
     private Warehouse warehouse;
     private Manufacturer manufacturer;
 
-    public Product(Long warehouseId, Long manufacturerId, String name, BigDecimal price, BigDecimal discount) {
+
+    public static Product createNew(Long warehouseId, Long manufacturerId, String name,
+                                    BigDecimal price, BigDecimal discount){
+        return new Product(warehouseId, manufacturerId, name, price, discount);
+    }
+
+    public static Product loadFromDb(Long id, boolean isDeleted, LocalDate registrationDate, Long warehouseId,
+                                     Long manufacturerId, String name, BigDecimal price, BigDecimal discount,
+                                     Warehouse warehouse, Manufacturer manufacturer){
+        return new Product(id, isDeleted, registrationDate, warehouseId, manufacturerId, name, price, discount,
+                            warehouse, manufacturer);
+    }
+
+    private Product(Long warehouseId, Long manufacturerId, String name, BigDecimal price, BigDecimal discount) {
         setWarehouseId(warehouseId);
         setManufacturerId(manufacturerId);
         setName(name);
@@ -24,7 +37,7 @@ public class Product extends ExtendedEntity {
         setDiscount(discount);
     }
 
-    public Product(Long id, boolean isDeleted, LocalDate registrationDate, Long warehouseId,
+    private Product(Long id, boolean isDeleted, LocalDate registrationDate, Long warehouseId,
                    Long manufacturerId, String name, BigDecimal price, BigDecimal discount, Warehouse warehouse,
                    Manufacturer manufacturer) {
         super(id, isDeleted, registrationDate);

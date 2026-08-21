@@ -15,14 +15,25 @@ public class Order extends ExtendedEntity {
     private User user;
     private Product product;
 
-    public Order(Long userId, Long productId, int deliveryPeriod, FullAddress deliveryAddress) {
+    public static Order createNew(Long userId, Long productId, int deliveryPeriod, FullAddress deliveryAddress){
+        return new Order(userId, productId, deliveryPeriod, deliveryAddress);
+    }
+
+    public static Order loadFromDb(Long id, boolean isDeleted, LocalDate registrationDate, Long userId,
+                                   Long productId, int deliveryPeriod, FullAddress deliveryAddress,
+                                   Product product, User user){
+        return new Order(id, isDeleted, registrationDate, userId,
+                productId, deliveryPeriod, deliveryAddress, product, user);
+    }
+
+    private Order(Long userId, Long productId, int deliveryPeriod, FullAddress deliveryAddress) {
         setUserId(userId);
         setProductId(productId);
         setDeliveryPeriod(deliveryPeriod);
         setDeliveryAddress(deliveryAddress);
     }
 
-    public Order(Long id, boolean isDeleted, LocalDate registrationDate, Long userId,
+    private Order(Long id, boolean isDeleted, LocalDate registrationDate, Long userId,
                  Long productId, int deliveryPeriod, FullAddress deliveryAddress, Product product, User user) {
         super(id, isDeleted, registrationDate);
         setUserId(userId);

@@ -17,12 +17,12 @@ public class SessionMapper implements RsMapper<Session> {
 
     @Override
     public Session mapRsToEntity(ResultSet rs) throws SQLException {
-        return new Session(
+        return Session.loadFromDb(
                 rs.getLong("session_id"),
                 rs.getBoolean("session_is_deleted"),
                 rs.getLong("user_id"),
                 rs.getTimestamp("expiration_date").toLocalDateTime(),
-                new User(
+                User.loadFromDb(
                         rs.getLong("user_id"),
                         rs.getBoolean("user_is_deleted"),
                         rs.getDate("registration_date").toLocalDate(),

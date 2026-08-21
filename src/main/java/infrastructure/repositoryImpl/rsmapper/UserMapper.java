@@ -14,7 +14,7 @@ public class UserMapper implements RsMapper<User> {
 
     @Override
     public User mapRsToEntity(ResultSet rs) throws SQLException {
-        return new User(
+        return User.loadFromDb(
                 rs.getLong("id"),
                 rs.getBoolean("is_deleted"),
                 rs.getDate("registration_date").toLocalDate(),

@@ -1,15 +1,15 @@
 package model.entity.abstr;
 
-public abstract class BaseEntity {
+public abstract class BaseEntity{
 
     private Long id;
     private final boolean isDeleted;
 
-    public BaseEntity(){
+    protected BaseEntity(){
         isDeleted = false;
     }
 
-    public BaseEntity(Long id, boolean isDeleted){
+    protected BaseEntity(Long id, boolean isDeleted){
         if (id == null)
             throw new IllegalArgumentException(
                     "Id can't be null"

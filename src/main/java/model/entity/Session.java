@@ -11,12 +11,21 @@ public class Session extends BaseEntity{
 
     private User user;
 
-    public Session(Long userId, LocalDateTime expirationDate) {
+    public static Session createNew(Long userId, LocalDateTime expirationDate){
+        return new Session(userId, expirationDate);
+    }
+
+    public static Session loadFromDb(Long id, boolean isDeleted, Long userId, LocalDateTime expirationDate,
+                                     User user){
+        return new Session(id, isDeleted, userId, expirationDate, user);
+    }
+
+    private Session(Long userId, LocalDateTime expirationDate) {
         setUserId(userId);
         setExpirationDate(expirationDate);
     }
 
-    public Session(Long id, boolean isDeleted, Long userId, LocalDateTime expirationDate, User user) {
+    private Session(Long id, boolean isDeleted, Long userId, LocalDateTime expirationDate, User user) {
         super(id, isDeleted);
         setUserId(userId);
         setExpirationDate(expirationDate);

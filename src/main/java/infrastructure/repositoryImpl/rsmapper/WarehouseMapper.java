@@ -10,7 +10,7 @@ public class WarehouseMapper implements RsMapper<Warehouse> {
 
     @Override
     public Warehouse mapRsToEntity(ResultSet rs) throws SQLException {
-        return new Warehouse(
+        return Warehouse.loadFromDb(
                 rs.getLong("id"),
                 rs.getBoolean("is_deleted"),
                 rs.getDate("registration_date").toLocalDate(),

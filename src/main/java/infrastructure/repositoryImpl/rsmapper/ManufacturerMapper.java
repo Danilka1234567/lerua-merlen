@@ -11,7 +11,7 @@ public class ManufacturerMapper implements RsMapper<Manufacturer>{
 
     @Override
     public Manufacturer mapRsToEntity(ResultSet rs) throws SQLException {
-        return new Manufacturer(
+        return Manufacturer.loadFromDb(
                 rs.getLong("id"),
                 rs.getBoolean("is_deleted"),
                 rs.getDate("registration_date").toLocalDate(),

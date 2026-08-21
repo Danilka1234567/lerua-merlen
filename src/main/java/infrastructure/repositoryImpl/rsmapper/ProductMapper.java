@@ -12,7 +12,7 @@ public class ProductMapper implements RsMapper<Product>{
 
     @Override
     public Product mapRsToEntity(ResultSet rs) throws SQLException {
-        return new Product(
+        return Product.loadFromDb(
                 rs.getLong("product_id"),
                 rs.getBoolean("product_is_deleted"),
                 rs.getDate("product_registration_date").toLocalDate(),
@@ -21,7 +21,7 @@ public class ProductMapper implements RsMapper<Product>{
                 rs.getString("product_name"),
                 rs.getBigDecimal("price"),
                 rs.getBigDecimal("discount"),
-                new Warehouse(
+                Warehouse.loadFromDb(
                         rs.getLong("warehouse_id"),
                         rs.getBoolean("warehouse_id_deleted"),
                         rs.getDate("warehouse_registration_date").toLocalDate(),
@@ -37,7 +37,7 @@ public class ProductMapper implements RsMapper<Product>{
                         ),
                         rs.getInt("capacity")
                 ),
-                new Manufacturer(
+                Manufacturer.loadFromDb(
                         rs.getLong("manufacturer_id"),
                         rs.getBoolean("manufacturer_is_deleted"),
                         rs.getDate("manufacturer_registration_date").toLocalDate(),

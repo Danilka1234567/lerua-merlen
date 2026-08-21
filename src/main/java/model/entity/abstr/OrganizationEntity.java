@@ -9,12 +9,12 @@ public abstract class OrganizationEntity extends ContactableEntity {
 
     private FullAddress fullAddress;
 
-    public OrganizationEntity(ContactInfo contactInfo, FullAddress fullAddress) {
+    protected OrganizationEntity(ContactInfo contactInfo, FullAddress fullAddress) {
         super(contactInfo);
         setFullAddress(fullAddress);
     }
 
-    public OrganizationEntity(Long id, boolean isDeleted, LocalDate registrationDate,
+    protected OrganizationEntity(Long id, boolean isDeleted, LocalDate registrationDate,
                               ContactInfo contactInfo, FullAddress fullAddress) {
         super(id, isDeleted, registrationDate, contactInfo);
         setFullAddress(fullAddress);

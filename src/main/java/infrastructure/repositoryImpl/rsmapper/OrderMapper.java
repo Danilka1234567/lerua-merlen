@@ -13,7 +13,7 @@ public class OrderMapper implements RsMapper<Order> {
 
     @Override
     public Order mapRsToEntity(ResultSet rs) throws SQLException {
-        return new Order(
+        return Order.loadFromDb(
                 rs.getLong("order_id"),
                 rs.getBoolean("order_is_deleted"),
                 rs.getDate("order_registration_date").toLocalDate(),
@@ -26,7 +26,7 @@ public class OrderMapper implements RsMapper<Order> {
                         rs.getString("city"),
                         new StreetAddress(rs.getString("street_address"))
                 ),
-                new Product(
+                Product.loadFromDb(
                         rs.getLong("product_id"),
                         rs.getBoolean("product_is_deleted"),
                         rs.getDate("product_registration_date").toLocalDate(),
@@ -38,7 +38,7 @@ public class OrderMapper implements RsMapper<Order> {
                         null,
                         null
                 ),
-                new User(
+                User.loadFromDb(
                         rs.getLong("user_id"),
                         rs.getBoolean("user_is_deleted"),
                         rs.getDate("user_registration_date").toLocalDate(),

@@ -11,13 +11,24 @@ public class Manufacturer extends OrganizationEntity {
     private String name;
     private String specialization;
 
-    public Manufacturer(ContactInfo contactInfo, FullAddress fullAddress, String name, String specialization) {
+    public static Manufacturer createNew(ContactInfo contactInfo, FullAddress fullAddress, String name, String specialization) {
+        return new Manufacturer(contactInfo, fullAddress, name, specialization);
+    }
+
+    private Manufacturer(ContactInfo contactInfo, FullAddress fullAddress, String name, String specialization){
         super(contactInfo, fullAddress);
         setName(name);
         setSpecialization(specialization);
     }
 
-    public Manufacturer(Long id, boolean isDeleted, LocalDate registrationDate, ContactInfo contactInfo, FullAddress fullAddress, String name, String specialization) {
+    public static Manufacturer loadFromDb(Long id, boolean isDeleted, LocalDate registrationDate,
+                                          ContactInfo contactInfo, FullAddress fullAddress,
+                                          String name, String specialization){
+        return new Manufacturer(id, isDeleted, registrationDate, contactInfo, fullAddress, name, specialization);
+    }
+
+    private Manufacturer(Long id, boolean isDeleted, LocalDate registrationDate,
+                        ContactInfo contactInfo, FullAddress fullAddress, String name, String specialization) {
         super(id, isDeleted, registrationDate, contactInfo, fullAddress);
         setName(name);
         setSpecialization(specialization);

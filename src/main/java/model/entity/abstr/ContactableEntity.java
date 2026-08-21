@@ -8,12 +8,12 @@ public abstract class ContactableEntity extends ExtendedEntity {
 
     private ContactInfo contactInfo;
 
-    public ContactableEntity(ContactInfo contactInfo){
+    protected ContactableEntity(ContactInfo contactInfo){
         super();
         setContactInfo(contactInfo);
     }
 
-    public ContactableEntity(Long id, boolean isDeleted, LocalDate registrationDate, ContactInfo contactInfo) {
+    protected ContactableEntity(Long id, boolean isDeleted, LocalDate registrationDate, ContactInfo contactInfo) {
         super(id, isDeleted, registrationDate);
         setContactInfo(contactInfo);
     }
