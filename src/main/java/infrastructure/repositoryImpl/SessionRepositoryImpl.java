@@ -13,23 +13,37 @@ import java.util.Optional;
 
 public class SessionRepositoryImpl extends BaseRepositoryImpl<Session> implements SessionRepository {
 
-
     private static final SessionMapper mapper = new SessionMapper();
-    private static final String findByUserIdSql = ResourceReader.read("sql/dql/session/select_by_user_id.sql");
+
+    private static final String findByUserIdSql = ResourceReader.read(
+            "sql/dql/session/select_by_user_id.sql"
+    );
+
+    private static final String saveSql = ResourceReader.read(
+            "sql/dml/session/insert.sql"
+    );
+
+    private static final String setDeletionStatusSql = ResourceReader.read(
+            "sql/dml/session/update_deletion_status.sql"
+    );
+
+    private static final String removeSql = ResourceReader.read(
+            "sql/dml/session/delete.sql"
+    );
 
     @Override
     protected String getSaveSql() {
-        return ResourceReader.read("sql/dml/session/insert.sql");
+        return saveSql;
     }
 
     @Override
     protected String getSetDeletionStatusSql() {
-        return ResourceReader.read("sql/dml/session/update_deletion_status.sql");
+        return setDeletionStatusSql;
     }
 
     @Override
     protected String getRemoveSql() {
-        return ResourceReader.read("sql/dml/session/delete.sql");
+        return removeSql;
     }
 
     @Override
@@ -46,12 +60,11 @@ public class SessionRepositoryImpl extends BaseRepositoryImpl<Session> implement
 
     @Override
     public Optional<Session> findByUserId(Long userId, Connection conn) {
-
         try(PreparedStatement statement = conn.prepareStatement(findByUserIdSql)){
             statement.setLong(1, userId);
 
             try(ResultSet rs = statement.executeQuery()){
-                if (! rs.next())
+                if (!rs.next())
                     return Optional.empty();
 
                 return Optional.of(mapper.mapRsToEntity(rs));

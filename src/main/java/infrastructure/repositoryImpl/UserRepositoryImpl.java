@@ -18,64 +18,109 @@ import java.util.List;
 
 public class UserRepositoryImpl extends ContactableRepositoryImpl<User> implements UserRepository {
 
-    private static final String selectByRoleSQL = ResourceReader.read("sql/dql/user/select_by_role.sql");
+    private static final RsMapper<User> mapper = new UserMapper();
 
-    private static final String checkExistenceByIdSql = ResourceReader.read("sql/dql/user/exists_by_id.sql");
+    private static final String findByRoleSql = ResourceReader.read(
+            "sql/dql/user/select_by_role.sql"
+    );
+
+    private static final String existsByIdSql = ResourceReader.read(
+            "sql/dql/user/exists_by_id.sql"
+    );
+
+    private static final String findByPhoneNumberSql = ResourceReader.read(
+            "sql/dql/user/select_by_phone_number.sql"
+    );
+
+    private static final String findByEmailSql = ResourceReader.read(
+            "sql/dql/user/select_by_email.sql"
+    );
+
+    private static final String findAllByRegDateSql = ResourceReader.read(
+            "sql/dql/user/select_by_reg_date.sql"
+    );
+
+    private static final String findAllBetweenRegDatesSql = ResourceReader.read(
+            "sql/dql/user/select_between_reg_dates.sql"
+    );
+
+    private static final String updateSql = ResourceReader.read(
+            "sql/dml/user/update.sql"
+    );
+
+    private static final String findAllByDeleteStatusSql = ResourceReader.read(
+            "sql/dql/user/select_by_delete_status.sql"
+    );
+
+    private static final String findByIdSql = ResourceReader.read(
+            "sql/dql/user/select_by_id.sql"
+    );
+
+    private static final String saveSql = ResourceReader.read(
+            "sql/dml/user/insert.sql"
+    );
+
+    private static final String setDeletionStatusSql = ResourceReader.read(
+            "sql/dml/user/update_deletion_status.sql"
+    );
+
+    private static final String removeSql = ResourceReader.read(
+            "sql/dml/user/delete.sql"
+    );
 
     @Override
     protected RsMapper<User> getMapper() {
-        return new UserMapper();
+        return mapper;
     }
 
     @Override
     protected String getFindByPhoneNumberSql() {
-        return ResourceReader.read("sql/dql/user/select_by_id.sql");
+        return findByPhoneNumberSql;
     }
 
     @Override
     protected String getFindByEmailSql() {
-        return ResourceReader.read("sql/dql/user/select_by_email.sql");
+        return findByEmailSql;
     }
 
     @Override
     protected String getFindAllByRegDateSql() {
-        return ResourceReader.read("sql/dql/user/select_by_reg_date.sql");
+        return findAllByRegDateSql;
     }
 
     @Override
     protected String getFindAllBetweenRegDateSql() {
-        return ResourceReader.read("sql/dql/user/select_between_reg_dates.sql");
+        return findAllBetweenRegDatesSql;
     }
 
     @Override
     protected String getUpdateSql() {
-        return ResourceReader.read("sql/dml/user/update.sql");
+        return updateSql;
     }
 
     @Override
     protected String getFindAllByDeleteStatusSql() {
-        return ResourceReader.read("sql/dql/user/select_by_delete_status.sql");
+        return findAllByDeleteStatusSql;
     }
 
     @Override
     protected String getFindByIdSql() {
-        return ResourceReader.read("sql/dql/user/select_by_id.sql");
+        return findByIdSql;
     }
-
 
     @Override
     protected String getSaveSql() {
-        return ResourceReader.read("sql/dml/user/insert.sql");
+        return saveSql;
     }
 
     @Override
     protected String getSetDeletionStatusSql() {
-        return ResourceReader.read("sql/dml/user/update_deletion_status.sql");
+        return setDeletionStatusSql;
     }
 
     @Override
     protected String getRemoveSql() {
-        return ResourceReader.read("sql/dml/user/delete.sql");
+        return removeSql;
     }
 
     @Override
@@ -135,7 +180,7 @@ public class UserRepositoryImpl extends ContactableRepositoryImpl<User> implemen
 
     @Override
     public List<User> findAllByRole(UserRole role, Connection conn) {
-        try(PreparedStatement statement = conn.prepareStatement(selectByRoleSQL)){
+        try(PreparedStatement statement = conn.prepareStatement(findByRoleSql)){
             statement.setString(1, role.name());
 
             try(ResultSet rs = statement.executeQuery()){
@@ -143,13 +188,13 @@ public class UserRepositoryImpl extends ContactableRepositoryImpl<User> implemen
             }
         }catch (SQLException e){
             throw new RepositoryException(
-                    "can't try to find users by role!", e
+                    "Can't try to find users by role!", e
             );
         }
     }
 
     @Override
     public boolean existsById(Long id, Connection conn) {
-        return ExistenceChecker.checkExistenceById(conn, id, checkExistenceByIdSql);
+        return ExistenceChecker.checkExistenceById(conn, id, existsByIdSql);
     }
 }

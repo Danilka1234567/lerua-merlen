@@ -19,92 +19,146 @@ import java.util.List;
 public class ManufacturerRepositoryImpl extends OrganizationRepositoryImpl<Manufacturer> implements ManufacturerRepository {
 
 
-    private final String findAllLikeSpecializationSql = ResourceReader.read(
+    private final static String findAllLikeSpecializationSql = ResourceReader.read(
             "sql/dql/manufacturer/select_like_specialization.sql"
     );
 
-    private final String existsByIdSql = ResourceReader.read(
+    private final static String existsByIdSql = ResourceReader.read(
         "sql/dql/manufacturer/select_exists_by_id.sql"
     );
 
+    private final static RsMapper<Manufacturer> mapper = new ManufacturerMapper();
+
+    private final static String existsByFullAddressSql = ResourceReader.read(
+            "sql/dql/manufacturer/exists_by_full_address.sql"
+    );
+
+    private final static String findByFullAddressSql = ResourceReader.read(
+            "sql/dql/manufacturer/select_by_full_address.sql"
+    );
+
+    private final static String findAllByRegionSql = ResourceReader.read(
+            "sql/dql/manufacturer/select_by_region.sql"
+    );
+
+    private final static String findAllByCountrySql = ResourceReader.read(
+            "sql/dql/manufacturer/select_by_country.sql"
+    );
+
+    private final static String findAllByCitySql = ResourceReader.read(
+            "sql/dql/manufacturer/select_by_city.sql"
+    );
+
+    private final static String findByPhoneNumberSql = ResourceReader.read(
+            "sql/dql/manufacturer/select_by_phone_number.sql"
+    ) ;
+
+    private final static String findByEmailSql = ResourceReader.read(
+            "sql/dql/manufacturer/select_by_email.sql"
+    );
+
+    private final static String findAllByRegDateSql = ResourceReader.read(
+            "sql/dql/manufacturer/select_by_reg_date.sql"
+    );
+
+    private final static String findAllBetweenRegDatesSql = ResourceReader.read(
+            "sql/dql/manufacturer/select_between_reg_dates.sql"
+    ) ;
+
+    private final static String updateSQl = ResourceReader.read("sql/dml/manufacturer/update.sql");
+
+    private final static String findAllBetweenDelStatusSql = ResourceReader.read(
+            "sql/dql/manufacturer/select_by_del_status.sql"
+    );
+
+    private final static String findByIdSql = ResourceReader.read("sql/dql/manufacturer/select_by_id.sql");
+
+    private final static String saveSql = ResourceReader.read("sql/dml/manufacturer/insert.sql");
+
+    private final static String setDeletionStatusSql = ResourceReader.read(
+            "sql/dml/manufacturer/update_deletion_status.sql"
+    );
+
+    private final static String removeSql = ResourceReader.read("sql/dml/manufacturer/delete.sql");
+
     @Override
     protected RsMapper<Manufacturer> getMapper() {
-        return new ManufacturerMapper();
+        return mapper;
     }
 
     @Override
     protected String getExistsByFullAddressSql() {
-        return ResourceReader.read("sql/dql/manufacturer/exists_by_full_address.sql");
+        return existsByFullAddressSql;
     }
 
     @Override
     protected String getFindByFullAddressSql() {
-        return ResourceReader.read("sql/dql/manufacturer/select_by_full_address.sql");
+        return findByFullAddressSql;
     }
 
     @Override
     protected String getFindAllByRegionSql() {
-        return ResourceReader.read("sql/dql/manufacturer/select_by_region.sql");
+        return findAllByRegionSql;
     }
 
     @Override
     protected String getFindAllByCountrySql() {
-        return ResourceReader.read("sql/dql/manufacturer/select_by_country.sql");
+        return findAllByCountrySql;
     }
 
     @Override
     protected String getFindAllByCitySql() {
-        return ResourceReader.read("sql/dql/manufacturer/select_by_city.sql");
+        return findAllByCitySql;
     }
 
     @Override
     protected String getFindByPhoneNumberSql() {
-        return ResourceReader.read("sql/dql/manufacturer/select_by_phone_number.sql");
+        return findByPhoneNumberSql;
     }
 
     @Override
     protected String getFindByEmailSql() {
-        return ResourceReader.read("sql/dql/manufacturer/select_by_email.sql");
+        return findByEmailSql;
     }
 
     @Override
     protected String getFindAllByRegDateSql() {
-        return ResourceReader.read("sql/dql/manufacturer/select_by_reg_date.sql");
+        return findAllByRegDateSql;
     }
 
     @Override
     protected String getFindAllBetweenRegDateSql() {
-        return ResourceReader.read("sql/dql/manufacturer/select_between_reg_dates.sql");
+        return findAllBetweenRegDatesSql;
     }
 
     @Override
     protected String getUpdateSql() {
-        return ResourceReader.read("sql/dml/manufacturer/update.sql");
+        return updateSQl;
     }
 
     @Override
     protected String getFindAllByDeleteStatusSql() {
-        return ResourceReader.read("sql/dql/manufacturer/select_by_del_status.sql");
+        return findAllBetweenDelStatusSql;
     }
 
     @Override
     protected String getFindByIdSql() {
-        return ResourceReader.read("sql/dql/manufacturer/select_by_id.sql");
+        return findByIdSql;
     }
 
     @Override
     protected String getSaveSql() {
-        return ResourceReader.read("sql/dml/manufacturer/insert.sql");
+        return saveSql;
     }
 
     @Override
     protected String getSetDeletionStatusSql() {
-        return ResourceReader.read("sql/dml/manufacturer/update_deletion_status.sql");
+        return setDeletionStatusSql;
     }
 
     @Override
     protected String getRemoveSql() {
-        return ResourceReader.read("sql/dml/manufacturer/delete.sql");
+        return removeSql;
     }
 
     @Override

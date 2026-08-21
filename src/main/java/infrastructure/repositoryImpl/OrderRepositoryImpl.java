@@ -22,51 +22,84 @@ public class OrderRepositoryImpl extends ExtendedRepositoryImpl<Order> implement
             "sql/dql/order/select_by_user_id.sql"
     );
 
+    private static final RsMapper<Order> mapper = new OrderMapper();
+
+    private static final String findAllByRegDateSql = ResourceReader.read(
+            "sql/dql/order/select_by_reg_date.sql"
+    );
+
+    private static final String findAllBetweenRegDatesSql = ResourceReader.read(
+            "sql/dql/order/select_between_reg_dates.sql"
+    );
+
+    private static final String updateSql = ResourceReader.read(
+            "sql/dml/order/update.sql"
+    );
+
+    private static final String findAllByDeleteStatusSql = ResourceReader.read(
+            "sql/dql/order/select_by_del_status.sql"
+    );
+
+    private static final String findByIdSql = ResourceReader.read(
+            "sql/dql/order/select_by_id.sql"
+    );
+
+    private static final String removeSql = ResourceReader.read(
+            "sql/dml/order/delete.sql"
+    );
+
+    private static final String saveSql = ResourceReader.read(
+            "sql/dml/order/insert.sql"
+    );
+
+    private static final String setDeletionStatusSql = ResourceReader.read(
+            "sql/dml/order/update_deletion_status.sql"
+    );
+
     @Override
     protected RsMapper<Order> getMapper() {
-        return new OrderMapper();
+        return mapper;
     }
 
     @Override
     protected String getFindAllByRegDateSql() {
-        return ResourceReader.read("sql/dql/order/select_by_reg_date.sql");
+        return findAllByRegDateSql;
     }
 
     @Override
     protected String getFindAllBetweenRegDateSql() {
-        return ResourceReader.read("sql/dql/order/select_between_reg_dates.sql");
+        return findAllBetweenRegDatesSql;
     }
 
     @Override
     protected String getUpdateSql() {
-        return ResourceReader.read("sql/dml/order/update.sql");
+        return updateSql;
     }
 
     @Override
     protected String getFindAllByDeleteStatusSql() {
-        return ResourceReader.read("sql/dql/order/select_by_del_status.sql");
+        return findAllByDeleteStatusSql;
     }
 
     @Override
     protected String getFindByIdSql() {
-        return ResourceReader.read("sql/dql/order/select_by_id.sql");
+        return findByIdSql;
     }
 
     @Override
     protected String getRemoveSql() {
-        return ResourceReader.read("sql/dml/order/delete.sql");
+        return removeSql;
     }
 
     @Override
     protected String getSaveSql() {
-        return ResourceReader.read("sql/dml/order/insert.sql");
+        return saveSql;
     }
 
     @Override
     protected String getSetDeletionStatusSql() {
-        return ResourceReader.read("sql/dml/order/update_deletion_status.sql");
+        return setDeletionStatusSql;
     }
-
 
     @Override
     protected void fillFindAllByRegDatePstmt(PreparedStatement statement, LocalDate date) throws SQLException {

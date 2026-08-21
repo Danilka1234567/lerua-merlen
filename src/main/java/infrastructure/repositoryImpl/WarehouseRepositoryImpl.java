@@ -2,6 +2,7 @@ package infrastructure.repositoryImpl;
 
 import infrastructure.repositoryImpl.abstr.OrganizationRepositoryImpl;
 import infrastructure.repositoryImpl.rsmapper.RsMapper;
+import infrastructure.repositoryImpl.rsmapper.WarehouseMapper;
 import infrastructure.repositoryImpl.shared.ExistenceChecker;
 import infrastructure.utils.ResourceReader;
 import model.entity.Warehouse;
@@ -18,88 +19,150 @@ import java.time.LocalDate;
 
 public class WarehouseRepositoryImpl extends OrganizationRepositoryImpl<Warehouse> implements WarehouseRepository {
 
+    private static final RsMapper<Warehouse> mapper = new WarehouseMapper();
+
+    private static final String existsByFullAddressSql = ResourceReader.read(
+            "sql/dql/warehouse/exists_by_full_address.sql"
+    );
+
+    private static final String findByFullAddressSql = ResourceReader.read(
+            "sql/dql/warehouse/select_by_full_address.sql"
+    );
+
+    private static final String findAllByRegionSql = ResourceReader.read(
+            "sql/dql/warehouse/select_by_region.sql"
+    );
+
+    private static final String findAllByCountrySql = ResourceReader.read(
+            "sql/dql/warehouse/select_by_country.sql"
+    );
+
+    private static final String findAllByCitySql = ResourceReader.read(
+            "sql/dql/warehouse/select_by_city.sql"
+    );
+
+    private static final String findByPhoneNumberSql = ResourceReader.read(
+            "sql/dql/warehouse/select_by_phone_number.sql"
+    );
+
+    private static final String findByEmailSql = ResourceReader.read(
+            "sql/dql/warehouse/select_by_email.sql"
+    );
+
+    private static final String findAllByRegDateSql = ResourceReader.read(
+            "sql/dql/warehouse/select_by_reg_date.sql"
+    );
+
+    private static final String findAllBetweenRegDatesSql = ResourceReader.read(
+            "sql/dql/warehouse/select_between_reg_dates.sql"
+    );
+
+    private static final String updateSql = ResourceReader.read(
+            "sql/dml/warehouse/update.sql"
+    );
+
+    private static final String findAllByDeleteStatusSql = ResourceReader.read(
+            "sql/dql/warehouse/select_by_del_status.sql"
+    );
+
+    private static final String findByIdSql = ResourceReader.read(
+            "sql/dql/warehouse/select_by_id.sql"
+    );
+
+    private static final String saveSql = ResourceReader.read(
+            "sql/dml/warehouse/insert.sql"
+    );
+
+    private static final String setDeletionStatusSql = ResourceReader.read(
+            "sql/dml/warehouse/update_del_status.sql"
+    );
+
+    private static final String removeSql = ResourceReader.read(
+            "sql/dml/warehouse/remove.sql"
+    );
+
+    private static final String existsByIdSql = ResourceReader.read(
+            "sql/dql/warehouse/exists_by_id.sql"
+    );
+
     @Override
     protected RsMapper<Warehouse> getMapper() {
-        return null;
+        return mapper;
     }
 
     @Override
     protected String getExistsByFullAddressSql() {
-        return ResourceReader.read(
-                "sql/dql/warehouse/exists_by_full_address.sql"
-        );
+        return existsByFullAddressSql;
     }
 
     @Override
     protected String getFindByFullAddressSql() {
-        return ResourceReader.read("sql/dql/warehouse/select_by_full_address.sql");
+        return findByFullAddressSql;
     }
 
     @Override
     protected String getFindAllByRegionSql() {
-        return ResourceReader.read("sql/dql/warehouse/select_by_region.sql");
+        return findAllByRegionSql;
     }
 
     @Override
     protected String getFindAllByCountrySql() {
-        return ResourceReader.read("sql/dql/warehouse/select_by_country.sql");
+        return findAllByCountrySql;
     }
 
     @Override
     protected String getFindAllByCitySql() {
-        return ResourceReader.read("sql/dql/warehouse/select_by_city.sql");
+        return findAllByCitySql;
     }
 
     @Override
-    protected String getFindByPhoneNumberSql(){
-        return ResourceReader.read("sql/dql/warehouse/select_by_phone_number.sql");
+    protected String getFindByPhoneNumberSql() {
+        return findByPhoneNumberSql;
     }
 
     @Override
     protected String getFindByEmailSql() {
-        return ResourceReader.read("sql/dql/warehouse/select_by_email.sql");
+        return findByEmailSql;
     }
 
     @Override
     protected String getFindAllByRegDateSql() {
-        return ResourceReader.read("sql/dql/warehouse/select_by_reg_date.sql");
+        return findAllByRegDateSql;
     }
 
     @Override
     protected String getFindAllBetweenRegDateSql() {
-
-        return ResourceReader.read("sql/dql/warehouse/select_between_reg_dates.sql");
+        return findAllBetweenRegDatesSql;
     }
 
     @Override
     protected String getUpdateSql() {
-        return ResourceReader.read("sql/dml/warehouse/update.sql");
+        return updateSql;
     }
 
     @Override
     protected String getFindAllByDeleteStatusSql() {
-        return ResourceReader.read("sql/dql/warehouse/select_by_del_status.sql");
+        return findAllByDeleteStatusSql;
     }
 
     @Override
     protected String getFindByIdSql() {
-        return ResourceReader.read("sql/dql/warehouse/select_by_id.sql");
+        return findByIdSql;
     }
-
 
     @Override
     protected String getSaveSql() {
-        return ResourceReader.read("sql/dml/warehouse/insert.sql");
+        return saveSql;
     }
 
     @Override
     protected String getSetDeletionStatusSql() {
-        return ResourceReader.read("sql/dml/warehouse/update_del_status.sql");
+        return setDeletionStatusSql;
     }
 
     @Override
     protected String getRemoveSql() {
-        return ResourceReader.read("sql/dml/warehouse/remove.sql");
+        return removeSql;
     }
 
     @Override
@@ -195,6 +258,6 @@ public class WarehouseRepositoryImpl extends OrganizationRepositoryImpl<Warehous
 
     @Override
     public boolean existsById(Long id, Connection conn) {
-        return ExistenceChecker.checkExistenceById(conn, id, ResourceReader.read("sql/dql/warehouse/exists_by_id.sql"));
+        return ExistenceChecker.checkExistenceById(conn, id, existsByIdSql);
     }
 }
