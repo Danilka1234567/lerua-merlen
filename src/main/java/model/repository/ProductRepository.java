@@ -11,6 +11,6 @@ public interface ProductRepository extends ExtendedRepository<Product>, Referenc
 
     List<Product> findAllByWarehouseId(Long warehouseId, Connection conn);
     List<Product> findAllByManufacturerId(Long manufacturerId, Connection conn);
-    List<Product> findAllByManufacturerIdAndWarehouseId(Long id, Connection conn);
+    List<Product> findAllByManufacturerIdAndWarehouseId(Long manufacturerId, Long warehouseId, Connection conn);
 
 }
