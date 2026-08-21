@@ -2,11 +2,11 @@ package model.vo;
 
 import java.util.List;
 
-public abstract class BaseVO {
+public abstract class BaseVO<T> {
 
-    private final String value;
+    private final T value;
 
-    public BaseVO(String value){
+    public BaseVO(T value){
 
         if (value == null)
             throw new IllegalArgumentException(
@@ -23,9 +23,9 @@ public abstract class BaseVO {
         this.value = value;
     }
 
-    protected abstract List<String> getViolations(String value);
+    protected abstract List<String> getViolations(T value);
 
-    public String getValue(){
+    public T getValue(){
         return value;
     }
 }

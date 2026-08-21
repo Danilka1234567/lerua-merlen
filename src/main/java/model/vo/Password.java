@@ -5,7 +5,7 @@ import java.util.IllformedLocaleException;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class Password extends BaseVO{
+public class Password extends BaseVO<String>{
 
     public Password(String value) {
         super(value);

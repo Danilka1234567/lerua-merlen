@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class StreetAddress extends BaseVO{
+public class StreetAddress extends BaseVO<String>{
 
     private static final Pattern RU_STREET_ADDRESS = Pattern.compile(
             "^(?:ул(?:ица)?|пр(?:оспект)?|пер(?:еулок)?|пл(?:ощадь)?|" +

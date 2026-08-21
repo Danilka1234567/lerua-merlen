@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class Email extends BaseVO{
+public class Email extends BaseVO<String>{
 
     private static final Pattern EMAIL_PATTERN = Pattern.compile(
             "^(?=[^@]{1,64}@)(?=.{1,255}$)[A-Za-z0-9_%+-]+(\\.[A-Za-z0-9_%+-]+)*@" +
