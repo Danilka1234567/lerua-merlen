@@ -1,0 +1,1 @@
+INSERT INTO products (name, warehouse_id, manufacturer_id, price, discount) VALUES (?, ?, ?, ?, ?)

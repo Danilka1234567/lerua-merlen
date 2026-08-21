@@ -1,0 +1,1 @@
+UPDATE orders SET is_deleted = ? WHERE id = ?
