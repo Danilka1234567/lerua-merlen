@@ -10,6 +10,7 @@ import model.entity.Manufacturer;
 import model.repository.ManufacturerRepository;
 import model.vo.Email;
 import model.vo.FullAddress;
+import model.vo.Id;
 import model.vo.PhoneNumber;
 
 import java.sql.*;
@@ -214,7 +215,7 @@ public class ManufacturerRepositoryImpl extends OrganizationRepositoryImpl<Manuf
     }
 
     @Override
-    protected void fillUpdatePstmt(PreparedStatement statement, Manufacturer entity, Long id) throws SQLException {
+    protected void fillUpdatePstmt(PreparedStatement statement, Manufacturer entity, Id id) throws SQLException {
         statement.setString(1, entity.getName());
         statement.setString(2, entity.getContactInfo().getEmail().getValue());
         statement.setString(3, entity.getContactInfo().getPhoneNumber().getValue());
@@ -223,7 +224,7 @@ public class ManufacturerRepositoryImpl extends OrganizationRepositoryImpl<Manuf
         statement.setString(6, entity.getFullAddress().getCity());
         statement.setString(7, entity.getFullAddress().getStreetAddress().getValue());
         statement.setString(8, entity.getSpecialization());
-        statement.setLong(9, entity.getId());
+        statement.setLong(9, id.getValue());
     }
 
     @Override
@@ -232,8 +233,8 @@ public class ManufacturerRepositoryImpl extends OrganizationRepositoryImpl<Manuf
     }
 
     @Override
-    protected void fillFindByIdPstmt(PreparedStatement statement, Long id) throws SQLException {
-        statement.setLong(1, id);
+    protected void fillFindByIdPstmt(PreparedStatement statement, Id id) throws SQLException {
+        statement.setLong(1, id.getValue());
     }
 
     @Override
@@ -249,9 +250,9 @@ public class ManufacturerRepositoryImpl extends OrganizationRepositoryImpl<Manuf
     }
 
     @Override
-    protected void fillSetDeletionStatusStatement(PreparedStatement statement, Long id, boolean deletionStatus) throws SQLException {
+    protected void fillSetDeletionStatusStatement(PreparedStatement statement, Id id, boolean deletionStatus) throws SQLException {
         statement.setBoolean(1, deletionStatus);
-        statement.setLong(2, id);
+        statement.setLong(2, id.getValue());
     }
 
     @Override
@@ -267,7 +268,7 @@ public class ManufacturerRepositoryImpl extends OrganizationRepositoryImpl<Manuf
     }
 
     @Override
-    public boolean existsById(Long id, Connection conn) {
+    public boolean existsById(Id id, Connection conn) {
         return ExistenceChecker.checkExistenceById(conn, id, existsByIdSql);
     }
 }

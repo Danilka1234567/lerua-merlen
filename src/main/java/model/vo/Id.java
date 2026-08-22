@@ -14,9 +14,9 @@ public class Id extends BaseVO<Long>{
     protected List<String> getViolations(Long value) {
         List<String> violations = new ArrayList<>();
         if (value < 0)
-            violations.add("value can't be negative");
+            violations.add("Id's    value can't be negative");
 
-        
+
         return violations;
     }
 }

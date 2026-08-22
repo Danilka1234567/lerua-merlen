@@ -1,6 +1,7 @@
 package model.entity.abstr;
 
 import model.vo.ContactInfo;
+import model.vo.Id;
 
 import java.time.LocalDate;
 
@@ -13,7 +14,7 @@ public abstract class ContactableEntity extends ExtendedEntity {
         setContactInfo(contactInfo);
     }
 
-    protected ContactableEntity(Long id, boolean isDeleted, LocalDate registrationDate, ContactInfo contactInfo) {
+    protected ContactableEntity(Id id, boolean isDeleted, LocalDate registrationDate, ContactInfo contactInfo) {
         super(id, isDeleted, registrationDate);
         setContactInfo(contactInfo);
     }

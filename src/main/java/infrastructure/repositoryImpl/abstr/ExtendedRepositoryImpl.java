@@ -4,6 +4,7 @@ import infrastructure.exception.RepositoryException;
 import infrastructure.repositoryImpl.rsmapper.RsMapper;
 import model.entity.abstr.ExtendedEntity;
 import model.repository.common.ExtendedRepository;
+import model.vo.Id;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -27,10 +28,10 @@ public abstract class ExtendedRepositoryImpl<T extends ExtendedEntity> extends B
     protected abstract void fillFindAllByRegDatePstmt(PreparedStatement statement, LocalDate date) throws SQLException;
     protected abstract void fillFindAllBetweenRegDatePstmt(PreparedStatement statement,
                                                            LocalDate start, LocalDate end) throws SQLException;
-    protected abstract void fillUpdatePstmt(PreparedStatement statement, T entity, Long id) throws  SQLException;
+    protected abstract void fillUpdatePstmt(PreparedStatement statement, T entity, Id id) throws  SQLException;
     protected abstract void fillFindAllByDeleteStatusPstmt(PreparedStatement statement,
                                                            boolean status) throws  SQLException;
-    protected abstract void fillFindByIdPstmt(PreparedStatement statement, Long id) throws SQLException;
+    protected abstract void fillFindByIdPstmt(PreparedStatement statement, Id id) throws SQLException;
 
 
     protected final List<T> mapRsToList(ResultSet rs) throws SQLException{
@@ -74,7 +75,7 @@ public abstract class ExtendedRepositoryImpl<T extends ExtendedEntity> extends B
     }
 
     @Override
-    public int update(T entity, Long id, Connection conn) {
+    public int update(T entity, Id id, Connection conn) {
         try(PreparedStatement statement = conn.prepareStatement(getUpdateSql())){
             fillUpdatePstmt(statement, entity, id);
             return statement.executeUpdate();
@@ -101,7 +102,7 @@ public abstract class ExtendedRepositoryImpl<T extends ExtendedEntity> extends B
     }
 
     @Override
-    public Optional<T> findById(Long id, Connection conn) {
+    public Optional<T> findById(Id id, Connection conn) {
 
         try(PreparedStatement statement = conn.prepareStatement(getFindByIdSql())){
             fillFindByIdPstmt(statement, id);

@@ -3,6 +3,7 @@ package model.entity;
 import model.entity.abstr.OrganizationEntity;
 import model.vo.ContactInfo;
 import model.vo.FullAddress;
+import model.vo.Id;
 
 import java.time.LocalDate;
 
@@ -14,7 +15,7 @@ public class Warehouse extends OrganizationEntity {
         return new Warehouse(contactInfo, fullAddress, capacity);
     }
 
-    public static Warehouse loadFromDb(Long id, boolean isDeleted, LocalDate registrationDate,
+    public static Warehouse loadFromDb(Id id, boolean isDeleted, LocalDate registrationDate,
                                        ContactInfo contactInfo, FullAddress fullAddress, int capacity){
         return new Warehouse(id, isDeleted, registrationDate, contactInfo, fullAddress, capacity);
     }
@@ -24,7 +25,7 @@ public class Warehouse extends OrganizationEntity {
         setCapacity(capacity);
     }
 
-    private Warehouse(Long id, boolean isDeleted, LocalDate registrationDate, ContactInfo contactInfo, FullAddress fullAddress, int capacity) {
+    private Warehouse(Id id, boolean isDeleted, LocalDate registrationDate, ContactInfo contactInfo, FullAddress fullAddress, int capacity) {
         super(id, isDeleted, registrationDate, contactInfo, fullAddress);
         setCapacity(capacity);
     }

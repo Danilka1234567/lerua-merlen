@@ -7,6 +7,7 @@ import infrastructure.repositoryImpl.rsmapper.SessionMapper;
 import infrastructure.utils.ResourceReader;
 import model.entity.Session;
 import model.repository.SessionRepository;
+import model.vo.Id;
 
 import java.sql.*;
 import java.util.Optional;
@@ -48,20 +49,20 @@ public class SessionRepositoryImpl extends BaseRepositoryImpl<Session> implement
 
     @Override
     protected void fillSaveStatement(PreparedStatement statement, Session entity) throws SQLException {
-        statement.setLong(1, entity.getUserId());
+        statement.setLong(1, entity.getUserId().getValue());
         statement.setTimestamp(2, Timestamp.valueOf(entity.getExpirationDate()));
     }
 
     @Override
-    protected void fillSetDeletionStatusStatement(PreparedStatement statement, Long id, boolean deletionStatus) throws SQLException {
+    protected void fillSetDeletionStatusStatement(PreparedStatement statement, Id id, boolean deletionStatus) throws SQLException {
         statement.setBoolean(1, deletionStatus);
-        statement.setLong(2, id);
+        statement.setLong(2, id.getValue());
     }
 
     @Override
-    public Optional<Session> findByUserId(Long userId, Connection conn) {
+    public Optional<Session> findByUserId(Id userId, Connection conn) {
         try(PreparedStatement statement = conn.prepareStatement(findByUserIdSql)){
-            statement.setLong(1, userId);
+            statement.setLong(1, userId.getValue());
 
             try(ResultSet rs = statement.executeQuery()){
                 if (!rs.next())

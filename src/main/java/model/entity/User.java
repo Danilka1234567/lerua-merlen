@@ -3,6 +3,7 @@ package model.entity;
 import model.entity.abstr.ContactableEntity;
 import model.enums.UserRole;
 import model.vo.ContactInfo;
+import model.vo.Id;
 import model.vo.Password;
 
 import java.time.LocalDate;
@@ -17,7 +18,7 @@ public class User extends ContactableEntity {
         return new User(contactInfo, name, password, role);
     }
 
-    public static User loadFromDb(Long id, boolean isDeleted, LocalDate registrationDate,
+    public static User loadFromDb(Id id, boolean isDeleted, LocalDate registrationDate,
                                   ContactInfo contactInfo, String name, Password password, UserRole role){
         return new User(id, isDeleted, registrationDate, contactInfo, name, password, role);
     }
@@ -29,7 +30,7 @@ public class User extends ContactableEntity {
         setRole(role);
     }
 
-    private User(Long id, boolean isDeleted, LocalDate registrationDate, ContactInfo contactInfo, String name, Password password, UserRole role) {
+    private User(Id id, boolean isDeleted, LocalDate registrationDate, ContactInfo contactInfo, String name, Password password, UserRole role) {
         super(id, isDeleted, registrationDate, contactInfo);
         setName(name);
         setPassword(password);

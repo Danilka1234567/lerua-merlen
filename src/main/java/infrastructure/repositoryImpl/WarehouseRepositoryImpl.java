@@ -9,6 +9,7 @@ import model.entity.Warehouse;
 import model.repository.WarehouseRepository;
 import model.vo.Email;
 import model.vo.FullAddress;
+import model.vo.Id;
 import model.vo.PhoneNumber;
 
 import java.sql.Connection;
@@ -218,7 +219,7 @@ public class WarehouseRepositoryImpl extends OrganizationRepositoryImpl<Warehous
     }
 
     @Override
-    protected void fillUpdatePstmt(PreparedStatement statement, Warehouse entity, Long id) throws SQLException {
+    protected void fillUpdatePstmt(PreparedStatement statement, Warehouse entity, Id id) throws SQLException {
         statement.setString(1, entity.getContactInfo().getPhoneNumber().getValue());
         statement.setString(2, entity.getContactInfo().getEmail().getValue());
         statement.setString(3, entity.getFullAddress().getCountry());
@@ -226,7 +227,7 @@ public class WarehouseRepositoryImpl extends OrganizationRepositoryImpl<Warehous
         statement.setString(5, entity.getFullAddress().getCity());
         statement.setString(6, entity.getFullAddress().getStreetAddress().getValue());
         statement.setInt(7, entity.getCapacity());
-        statement.setLong(8, entity.getId());
+        statement.setLong(8, id.getValue());
     }
 
     @Override
@@ -235,8 +236,8 @@ public class WarehouseRepositoryImpl extends OrganizationRepositoryImpl<Warehous
     }
 
     @Override
-    protected void fillFindByIdPstmt(PreparedStatement statement, Long id) throws SQLException {
-        statement.setLong(1, id);
+    protected void fillFindByIdPstmt(PreparedStatement statement, Id id) throws SQLException {
+        statement.setLong(1, id.getValue());
     }
 
     @Override
@@ -251,13 +252,13 @@ public class WarehouseRepositoryImpl extends OrganizationRepositoryImpl<Warehous
     }
 
     @Override
-    protected void fillSetDeletionStatusStatement(PreparedStatement statement, Long id, boolean deletionStatus) throws SQLException {
+    protected void fillSetDeletionStatusStatement(PreparedStatement statement, Id id, boolean deletionStatus) throws SQLException {
         statement.setBoolean(1, deletionStatus);
-        statement.setLong(2, id);
+        statement.setLong(2, id.getValue());
     }
 
     @Override
-    public boolean existsById(Long id, Connection conn) {
+    public boolean existsById(Id id, Connection conn) {
         return ExistenceChecker.checkExistenceById(conn, id, existsByIdSql);
     }
 }

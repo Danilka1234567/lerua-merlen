@@ -1,5 +1,7 @@
 package model.entity.abstr;
 
+import model.vo.Id;
+
 import java.time.LocalDate;
 
 public abstract class ExtendedEntity extends BaseEntity {
@@ -11,7 +13,7 @@ public abstract class ExtendedEntity extends BaseEntity {
         registrationDate = LocalDate.now();
     }
 
-    protected ExtendedEntity(Long id, boolean isDeleted, LocalDate registrationDate){
+    protected ExtendedEntity(Id id, boolean isDeleted, LocalDate registrationDate){
         super(id, isDeleted);
 
         if(registrationDate == null)

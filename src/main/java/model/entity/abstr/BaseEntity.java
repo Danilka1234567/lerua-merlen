@@ -1,15 +1,19 @@
 package model.entity.abstr;
 
+import model.vo.Id;
+
+import java.util.Optional;
+
 public abstract class BaseEntity{
 
-    private Long id;
+    private Id id;
     private final boolean isDeleted;
 
     protected BaseEntity(){
         isDeleted = false;
     }
 
-    protected BaseEntity(Long id, boolean isDeleted){
+    protected BaseEntity(Id id, boolean isDeleted){
         if (id == null)
             throw new IllegalArgumentException(
                     "Id can't be null"
@@ -23,8 +27,8 @@ public abstract class BaseEntity{
         return isDeleted;
     }
 
-    public void setId(Long id){
-        if (id != null)
+    public void setId(Id id){
+        if (this.id != null)
             throw new RuntimeException(
                     "You can't change id value! Settable only if null"
             );
@@ -32,7 +36,7 @@ public abstract class BaseEntity{
         this.id = id;
     }
 
-    public Long getId() {
+    public Id getId() {
         return id;
     }
 }

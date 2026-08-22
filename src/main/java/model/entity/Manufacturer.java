@@ -3,6 +3,7 @@ package model.entity;
 import model.entity.abstr.OrganizationEntity;
 import model.vo.ContactInfo;
 import model.vo.FullAddress;
+import model.vo.Id;
 
 import java.time.LocalDate;
 
@@ -21,14 +22,14 @@ public class Manufacturer extends OrganizationEntity {
         setSpecialization(specialization);
     }
 
-    public static Manufacturer loadFromDb(Long id, boolean isDeleted, LocalDate registrationDate,
+    public static Manufacturer loadFromDb(Id id, boolean isDeleted, LocalDate registrationDate,
                                           ContactInfo contactInfo, FullAddress fullAddress,
                                           String name, String specialization){
         return new Manufacturer(id, isDeleted, registrationDate, contactInfo, fullAddress, name, specialization);
     }
 
-    private Manufacturer(Long id, boolean isDeleted, LocalDate registrationDate,
-                        ContactInfo contactInfo, FullAddress fullAddress, String name, String specialization) {
+    private Manufacturer(Id id, boolean isDeleted, LocalDate registrationDate,
+                         ContactInfo contactInfo, FullAddress fullAddress, String name, String specialization) {
         super(id, isDeleted, registrationDate, contactInfo, fullAddress);
         setName(name);
         setSpecialization(specialization);

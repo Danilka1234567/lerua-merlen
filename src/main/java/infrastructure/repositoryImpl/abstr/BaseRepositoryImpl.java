@@ -4,6 +4,7 @@ import infrastructure.exception.GeneratedKeysException;
 import infrastructure.exception.RepositoryException;
 import model.entity.abstr.BaseEntity;
 import model.repository.common.BaseRepository;
+import model.vo.Id;
 
 import java.sql.*;
 
@@ -15,10 +16,10 @@ public abstract class BaseRepositoryImpl<T extends BaseEntity> implements BaseRe
 
     protected abstract void fillSaveStatement(PreparedStatement statement, T entity) throws SQLException;
     protected abstract void fillSetDeletionStatusStatement(PreparedStatement statement,
-                                                           Long id, boolean deletionStatus) throws SQLException;
+                                                           Id id, boolean deletionStatus) throws SQLException;
 
     @Override
-    public Long save(T entity, Connection conn) {
+    public Id save(T entity, Connection conn) {
 
         try(PreparedStatement statement = conn.prepareStatement(getSaveSql(), Statement.RETURN_GENERATED_KEYS)){
             fillSaveStatement(statement, entity);
@@ -33,7 +34,7 @@ public abstract class BaseRepositoryImpl<T extends BaseEntity> implements BaseRe
                 if (! rs.next())
                     throw new SQLException("there are no generated keys!");
 
-                return rs.getLong(1);
+                return new Id(rs.getLong(1));
             }catch (SQLException e){
                 throw new GeneratedKeysException(
                         "Can't receive generated key from DB", e
@@ -46,7 +47,7 @@ public abstract class BaseRepositoryImpl<T extends BaseEntity> implements BaseRe
     }
 
     @Override
-    public int setDeletionStatus(boolean status, Long id, Connection conn) {
+    public int setDeletionStatus(boolean status, Id id, Connection conn) {
 
         try(PreparedStatement statement = conn.prepareStatement(getSetDeletionStatusSql())){
             fillSetDeletionStatusStatement(statement, id, status);

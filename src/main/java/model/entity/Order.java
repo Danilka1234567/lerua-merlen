@@ -2,39 +2,40 @@ package model.entity;
 
 import model.entity.abstr.ExtendedEntity;
 import model.vo.FullAddress;
+import model.vo.Id;
 
 import java.time.LocalDate;
 
 public class Order extends ExtendedEntity {
 
-    private Long userId;
-    private Long productId;
+    private Id userId;
+    private Id productId;
     private int deliveryPeriod;
     private FullAddress deliveryAddress;
 
     private User user;
     private Product product;
 
-    public static Order createNew(Long userId, Long productId, int deliveryPeriod, FullAddress deliveryAddress){
+    public static Order createNew(Id userId, Id productId, int deliveryPeriod, FullAddress deliveryAddress){
         return new Order(userId, productId, deliveryPeriod, deliveryAddress);
     }
 
-    public static Order loadFromDb(Long id, boolean isDeleted, LocalDate registrationDate, Long userId,
-                                   Long productId, int deliveryPeriod, FullAddress deliveryAddress,
+    public static Order loadFromDb(Id id, boolean isDeleted, LocalDate registrationDate, Id userId,
+                                   Id productId, int deliveryPeriod, FullAddress deliveryAddress,
                                    Product product, User user){
         return new Order(id, isDeleted, registrationDate, userId,
                 productId, deliveryPeriod, deliveryAddress, product, user);
     }
 
-    private Order(Long userId, Long productId, int deliveryPeriod, FullAddress deliveryAddress) {
+    private Order(Id userId, Id productId, int deliveryPeriod, FullAddress deliveryAddress) {
         setUserId(userId);
         setProductId(productId);
         setDeliveryPeriod(deliveryPeriod);
         setDeliveryAddress(deliveryAddress);
     }
 
-    private Order(Long id, boolean isDeleted, LocalDate registrationDate, Long userId,
-                 Long productId, int deliveryPeriod, FullAddress deliveryAddress, Product product, User user) {
+    private Order(Id id, boolean isDeleted, LocalDate registrationDate, Id userId,
+                 Id productId, int deliveryPeriod, FullAddress deliveryAddress, Product product, User user) {
         super(id, isDeleted, registrationDate);
         setUserId(userId);
         setProductId(productId);
@@ -45,7 +46,7 @@ public class Order extends ExtendedEntity {
     }
 
 
-    private void setUserId(Long userId) {
+    private void setUserId(Id userId) {
         if(userId == null)
             throw new IllegalArgumentException(
                     "userId can't be null"
@@ -54,7 +55,7 @@ public class Order extends ExtendedEntity {
         this.userId = userId;
     }
 
-    private void setProductId(Long productId) {
+    private void setProductId(Id productId) {
                 this.productId = productId;
     }
 
@@ -76,11 +77,11 @@ public class Order extends ExtendedEntity {
         this.deliveryAddress = deliveryAddress;
     }
 
-    public Long getUserId() {
+    public Id getUserId() {
         return userId;
     }
 
-    public Long getProductId() {
+    public Id getProductId() {
         return productId;
     }
 

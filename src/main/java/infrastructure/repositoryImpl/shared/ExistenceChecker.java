@@ -1,6 +1,7 @@
 package infrastructure.repositoryImpl.shared;
 
 import infrastructure.exception.RepositoryException;
+import model.vo.Id;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,9 +11,9 @@ import java.sql.SQLException;
 public class ExistenceChecker {
 
 
-    public static boolean checkExistenceById(Connection connection, Long id, String sqlQuery){
+    public static boolean checkExistenceById(Connection connection, Id id, String sqlQuery){
         try(PreparedStatement statement = connection.prepareStatement(sqlQuery)){
-            statement.setLong(1, id);
+            statement.setLong(1, id.getValue());
 
             try(ResultSet rs = statement.executeQuery()){
                 return rs.getBoolean(1);

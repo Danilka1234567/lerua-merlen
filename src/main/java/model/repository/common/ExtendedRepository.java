@@ -1,6 +1,7 @@
 package model.repository.common;
 
 import model.entity.abstr.ExtendedEntity;
+import model.vo.Id;
 
 import java.sql.Connection;
 import java.time.LocalDate;
@@ -12,8 +13,8 @@ public interface ExtendedRepository<T extends ExtendedEntity> extends BaseReposi
 
     List<T> findAllByRegDate(LocalDate date, Connection conn);
     List<T> findAllBetweenRegDate(LocalDate start, LocalDate end, Connection conn);
-    int update(T entity, Long id, Connection conn);
+    int update(T entity, Id id, Connection conn);
     List<T> findAllByDeleteStatus(boolean status, Connection conn);
-    Optional<T> findById(Long id, Connection conn);
+    Optional<T> findById(Id id, Connection conn);
 
 }

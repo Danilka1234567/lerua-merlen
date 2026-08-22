@@ -10,6 +10,7 @@ import model.entity.User;
 import model.enums.UserRole;
 import model.repository.UserRepository;
 import model.vo.Email;
+import model.vo.Id;
 import model.vo.PhoneNumber;
 
 import java.sql.*;
@@ -135,13 +136,13 @@ public class UserRepositoryImpl extends ContactableRepositoryImpl<User> implemen
     }
 
     @Override
-    protected void fillUpdatePstmt(PreparedStatement statement, User entity, Long id) throws SQLException {
+    protected void fillUpdatePstmt(PreparedStatement statement, User entity, Id id) throws SQLException {
         statement.setString(1, entity.getName());
         statement.setString(2, entity.getContactInfo().getEmail().getValue());
         statement.setString(3, entity.getContactInfo().getPhoneNumber().getValue());
         statement.setString(4, entity.getPassword().getValue());
         statement.setString(5, entity.getRole().name());
-        statement.setLong(6, entity.getId());
+        statement.setLong(6, id.getValue());
     }
 
     @Override
@@ -150,8 +151,8 @@ public class UserRepositoryImpl extends ContactableRepositoryImpl<User> implemen
     }
 
     @Override
-    protected void fillFindByIdPstmt(PreparedStatement statement, Long id) throws SQLException {
-        statement.setLong(1, id);
+    protected void fillFindByIdPstmt(PreparedStatement statement, Id id) throws SQLException {
+        statement.setLong(1, id.getValue());
     }
 
     @Override
@@ -164,8 +165,8 @@ public class UserRepositoryImpl extends ContactableRepositoryImpl<User> implemen
     }
 
     @Override
-    protected void fillSetDeletionStatusStatement(PreparedStatement statement, Long id, boolean deletionStatus) throws SQLException {
-        statement.setLong(1, id);
+    protected void fillSetDeletionStatusStatement(PreparedStatement statement, Id id, boolean deletionStatus) throws SQLException {
+        statement.setLong(1, id.getValue());
     }
 
     @Override
@@ -194,7 +195,7 @@ public class UserRepositoryImpl extends ContactableRepositoryImpl<User> implemen
     }
 
     @Override
-    public boolean existsById(Long id, Connection conn) {
+    public boolean existsById(Id id, Connection conn) {
         return ExistenceChecker.checkExistenceById(conn, id, existsByIdSql);
     }
 }

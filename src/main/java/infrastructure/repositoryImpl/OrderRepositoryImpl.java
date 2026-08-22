@@ -7,6 +7,7 @@ import infrastructure.repositoryImpl.rsmapper.RsMapper;
 import infrastructure.utils.ResourceReader;
 import model.entity.Order;
 import model.repository.OrderRepository;
+import model.vo.Id;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -113,15 +114,15 @@ public class OrderRepositoryImpl extends ExtendedRepositoryImpl<Order> implement
     }
 
     @Override
-    protected void fillUpdatePstmt(PreparedStatement statement, Order entity, Long id) throws SQLException {
-        statement.setLong(1, entity.getUserId());
-        statement.setLong(2, entity.getProductId());
+    protected void fillUpdatePstmt(PreparedStatement statement, Order entity, Id id) throws SQLException {
+        statement.setLong(1, entity.getUserId().getValue());
+        statement.setLong(2, entity.getProductId().getValue());
         statement.setString(3, entity.getDeliveryAddress().getCountry());
         statement.setString(4, entity.getDeliveryAddress().getRegion());
         statement.setString(5, entity.getDeliveryAddress().getCity());
         statement.setString(6, entity.getDeliveryAddress().getStreetAddress().getValue());
         statement.setLong(7, entity.getDeliveryPeriod());
-        statement.setLong(8, id);
+        statement.setLong(8, id.getValue());
     }
 
     @Override
@@ -130,14 +131,14 @@ public class OrderRepositoryImpl extends ExtendedRepositoryImpl<Order> implement
     }
 
     @Override
-    protected void fillFindByIdPstmt(PreparedStatement statement, Long id) throws SQLException {
-        statement.setLong(1, id);
+    protected void fillFindByIdPstmt(PreparedStatement statement, Id id) throws SQLException {
+        statement.setLong(1, id.getValue());
     }
 
     @Override
     protected void fillSaveStatement(PreparedStatement statement, Order entity) throws SQLException {
-        statement.setLong(1, entity.getUserId());
-        statement.setLong(2, entity.getProductId());
+        statement.setLong(1, entity.getUserId().getValue());
+        statement.setLong(2, entity.getProductId().getValue());
         statement.setString(3, entity.getDeliveryAddress().getCountry());
         statement.setString(4, entity.getDeliveryAddress().getRegion());
         statement.setString(5, entity.getDeliveryAddress().getCity());
@@ -146,15 +147,15 @@ public class OrderRepositoryImpl extends ExtendedRepositoryImpl<Order> implement
     }
 
     @Override
-    protected void fillSetDeletionStatusStatement(PreparedStatement statement, Long id, boolean deletionStatus) throws SQLException {
+    protected void fillSetDeletionStatusStatement(PreparedStatement statement, Id id, boolean deletionStatus) throws SQLException {
         statement.setBoolean(1, deletionStatus);
-        statement.setLong(2, id);
+        statement.setLong(2, id.getValue());
     }
 
     @Override
-    public List<Order> findAllByProductId(Long productId, Connection conn) {
+    public List<Order> findAllByProductId(Id productId, Connection conn) {
         try(PreparedStatement statement = conn.prepareStatement(findAllByProductIdSql)){
-            statement.setLong(1, productId);
+            statement.setLong(1, productId.getValue());
 
             try(ResultSet rs = statement.executeQuery()){
                 return mapRsToList(rs);
@@ -167,9 +168,9 @@ public class OrderRepositoryImpl extends ExtendedRepositoryImpl<Order> implement
     }
 
     @Override
-    public List<Order> findAllByUserId(Long userId, Connection conn) {
+    public List<Order> findAllByUserId(Id userId, Connection conn) {
         try(PreparedStatement statement = conn.prepareStatement(findAllByUserIdSql)){
-            statement.setLong(1, userId);
+            statement.setLong(1, userId.getValue());
 
             try(ResultSet rs = statement.executeQuery()){
                 return mapRsToList(rs);

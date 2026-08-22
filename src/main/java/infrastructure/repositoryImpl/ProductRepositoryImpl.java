@@ -8,6 +8,7 @@ import infrastructure.repositoryImpl.shared.ExistenceChecker;
 import infrastructure.utils.ResourceReader;
 import model.entity.Product;
 import model.repository.ProductRepository;
+import model.vo.Id;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -122,13 +123,13 @@ public class ProductRepositoryImpl extends ExtendedRepositoryImpl<Product> imple
     }
 
     @Override
-    protected void fillUpdatePstmt(PreparedStatement statement, Product entity, Long id) throws SQLException {
+    protected void fillUpdatePstmt(PreparedStatement statement, Product entity, Id id) throws SQLException {
         statement.setString(1, entity.getName());
-        statement.setLong(2, entity.getWarehouseId());
-        statement.setLong(3, entity.getManufacturerId());
+        statement.setLong(2, entity.getWarehouseId().getValue());
+        statement.setLong(3, entity.getManufacturerId().getValue());
         statement.setBigDecimal(4, entity.getPrice());
         statement.setBigDecimal(5, entity.getDiscount());
-        statement.setLong(6, entity.getId());
+        statement.setLong(6, id.getValue());
     }
 
     @Override
@@ -137,29 +138,29 @@ public class ProductRepositoryImpl extends ExtendedRepositoryImpl<Product> imple
     }
 
     @Override
-    protected void fillFindByIdPstmt(PreparedStatement statement, Long id) throws SQLException {
-        statement.setLong(1, id);
+    protected void fillFindByIdPstmt(PreparedStatement statement, Id id) throws SQLException {
+        statement.setLong(1, id.getValue());
     }
 
     @Override
     protected void fillSaveStatement(PreparedStatement statement, Product entity) throws SQLException {
         statement.setString(1, entity.getName());
-        statement.setLong(2, entity.getWarehouseId());
-        statement.setLong(3, entity.getManufacturerId());
+        statement.setLong(2, entity.getWarehouseId().getValue());
+        statement.setLong(3, entity.getManufacturerId().getValue());
         statement.setBigDecimal(4, entity.getPrice());
         statement.setBigDecimal(5, entity.getDiscount());
     }
 
     @Override
-    protected void fillSetDeletionStatusStatement(PreparedStatement statement, Long id, boolean deletionStatus) throws SQLException {
+    protected void fillSetDeletionStatusStatement(PreparedStatement statement, Id id, boolean deletionStatus) throws SQLException {
         statement.setBoolean(1, deletionStatus);
-        statement.setLong(2, id);
+        statement.setLong(2, id.getValue());
     }
 
     @Override
-    public List<Product> findAllByWarehouseId(Long warehouseId, Connection conn) {
+    public List<Product> findAllByWarehouseId(Id warehouseId, Connection conn) {
         try(PreparedStatement statement = conn.prepareStatement(findAllByWarehouseIdSql)){
-            statement.setLong(1, warehouseId);
+            statement.setLong(1, warehouseId.getValue());
 
             try(ResultSet rs = statement.executeQuery()){
                 return mapRsToList(rs);
@@ -172,9 +173,9 @@ public class ProductRepositoryImpl extends ExtendedRepositoryImpl<Product> imple
     }
 
     @Override
-    public List<Product> findAllByManufacturerId(Long manufacturerId, Connection conn) {
+    public List<Product> findAllByManufacturerId(Id manufacturerId, Connection conn) {
         try(PreparedStatement statement = conn.prepareStatement(findAllByManufacturerIdSql)){
-            statement.setLong(1, manufacturerId);
+            statement.setLong(1, manufacturerId.getValue());
 
             try(ResultSet rs = statement.executeQuery()){
                 return mapRsToList(rs);
@@ -187,10 +188,10 @@ public class ProductRepositoryImpl extends ExtendedRepositoryImpl<Product> imple
     }
 
     @Override
-    public List<Product> findAllByManufacturerIdAndWarehouseId(Long manufacturerId, Long warehouseId, Connection conn) {
+    public List<Product> findAllByManufacturerIdAndWarehouseId(Id manufacturerId, Id warehouseId, Connection conn) {
         try(PreparedStatement statement = conn.prepareStatement(findAllByWarehouseIdAndManufacturerIdSql)){
-            statement.setLong(1, manufacturerId);
-            statement.setLong(2, warehouseId);
+            statement.setLong(1, manufacturerId.getValue());
+            statement.setLong(2, warehouseId.getValue());
 
             try(ResultSet rs = statement.executeQuery()){
                 return mapRsToList(rs);
@@ -204,7 +205,7 @@ public class ProductRepositoryImpl extends ExtendedRepositoryImpl<Product> imple
     }
 
     @Override
-    public boolean existsById(Long id, Connection conn) {
+    public boolean existsById(Id id, Connection conn) {
         return ExistenceChecker.checkExistenceById(conn, id, existsByIdSql);
     }
 }

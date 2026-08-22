@@ -1,14 +1,15 @@
 package model.entity;
 
 import model.entity.abstr.ExtendedEntity;
+import model.vo.Id;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Product extends ExtendedEntity {
 
-    private Long warehouseId;
-    private Long manufacturerId;
+    private Id warehouseId;
+    private Id manufacturerId;
     private String name;
     private BigDecimal price;
     private BigDecimal discount;
@@ -17,19 +18,19 @@ public class Product extends ExtendedEntity {
     private Manufacturer manufacturer;
 
 
-    public static Product createNew(Long warehouseId, Long manufacturerId, String name,
+    public static Product createNew(Id warehouseId, Id manufacturerId, String name,
                                     BigDecimal price, BigDecimal discount){
         return new Product(warehouseId, manufacturerId, name, price, discount);
     }
 
-    public static Product loadFromDb(Long id, boolean isDeleted, LocalDate registrationDate, Long warehouseId,
-                                     Long manufacturerId, String name, BigDecimal price, BigDecimal discount,
+    public static Product loadFromDb(Id id, boolean isDeleted, LocalDate registrationDate, Id warehouseId,
+                                     Id manufacturerId, String name, BigDecimal price, BigDecimal discount,
                                      Warehouse warehouse, Manufacturer manufacturer){
         return new Product(id, isDeleted, registrationDate, warehouseId, manufacturerId, name, price, discount,
                             warehouse, manufacturer);
     }
 
-    private Product(Long warehouseId, Long manufacturerId, String name, BigDecimal price, BigDecimal discount) {
+    private Product(Id warehouseId, Id manufacturerId, String name, BigDecimal price, BigDecimal discount) {
         setWarehouseId(warehouseId);
         setManufacturerId(manufacturerId);
         setName(name);
@@ -37,8 +38,8 @@ public class Product extends ExtendedEntity {
         setDiscount(discount);
     }
 
-    private Product(Long id, boolean isDeleted, LocalDate registrationDate, Long warehouseId,
-                   Long manufacturerId, String name, BigDecimal price, BigDecimal discount, Warehouse warehouse,
+    private Product(Id id, boolean isDeleted, LocalDate registrationDate, Id warehouseId,
+                   Id manufacturerId, String name, BigDecimal price, BigDecimal discount, Warehouse warehouse,
                    Manufacturer manufacturer) {
         super(id, isDeleted, registrationDate);
         setWarehouseId(warehouseId);
@@ -50,7 +51,7 @@ public class Product extends ExtendedEntity {
         setManufacturer(manufacturer);
     }
 
-    private void setWarehouseId(Long warehouseId) {
+    private void setWarehouseId(Id warehouseId) {
         if (warehouseId == null)
             throw new IllegalArgumentException(
                     "warehouseId can't be null"
@@ -59,7 +60,7 @@ public class Product extends ExtendedEntity {
         this.warehouseId = warehouseId;
     }
 
-    private void setManufacturerId(Long manufacturerId) {
+    private void setManufacturerId(Id manufacturerId) {
         if (manufacturerId == null)
             throw new IllegalArgumentException(
                     "manufacturer id is null"
@@ -101,11 +102,11 @@ public class Product extends ExtendedEntity {
         this.discount = discount;
     }
 
-    public Long getWarehouseId() {
+    public Id getWarehouseId() {
         return warehouseId;
     }
 
-    public Long getManufacturerId() {
+    public Id getManufacturerId() {
         return manufacturerId;
     }
 
