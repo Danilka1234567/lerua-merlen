@@ -1,4 +1,6 @@
-package infrastructure.config;
+package model.service;
+
+import model.exception.ServiceException;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -13,7 +15,7 @@ public class Transaction {
         void run() throws SQLException;
     }
 
-    public static<T> T complete(Connection conn, Operation<T> operation) throws SQLException{
+    public static<T> T complete(Connection conn, Operation<T> operation) throws ServiceException{
 
         if (conn == null)
             throw new IllegalArgumentException(
@@ -25,7 +27,13 @@ public class Transaction {
                     "Operation can't be null!"
             );
 
-        boolean autocommitStatus = conn.getAutoCommit();
+        boolean autocommitStatus;
+        try{
+            autocommitStatus = conn.getAutoCommit();
+        } catch (SQLException e) {
+            throw new ServiceException("Major connection exception", e);
+        }
+
         try{
             conn.setAutoCommit(false);
             T result = operation.run();
@@ -36,17 +44,23 @@ public class Transaction {
                 conn.rollback();
             } catch (SQLException ex) {
                 e.addSuppressed(ex);
-                throw new SQLException("Changes weren't rolled back!", e);
+                throw new ServiceException("Changes weren't rolled back, but should be!", e);
             }
 
-            throw new SQLException("Changes were rolled back!", e);
+            throw new ServiceException("Changes were rolled back!", e);
         }finally {
-            conn.setAutoCommit(autocommitStatus);
+
+            try{
+                conn.setAutoCommit(autocommitStatus);
+            } catch (SQLException e) {
+                throw new ServiceException("Major connection exception", e);
+            }
+
         }
     }
 
 
-    public static void complete(Connection conn, VoidOperation operation) throws SQLException{
+    public static void complete(Connection conn, VoidOperation operation) throws ServiceException{
         complete(conn, () -> {
             operation.run();
             return null;
