@@ -1,8 +1,7 @@
 package infrastructure.repositoryImpl;
 
-import infrastructure.exception.RepositoryException;
+import model.exception.RepositoryException;
 import infrastructure.repositoryImpl.abstr.BaseRepositoryImpl;
-import infrastructure.repositoryImpl.rsmapper.RsMapper;
 import infrastructure.repositoryImpl.rsmapper.SessionMapper;
 import infrastructure.utils.ResourceReader;
 import model.entity.Session;

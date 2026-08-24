@@ -1,6 +1,6 @@
 package infrastructure.repositoryImpl.abstr;
 
-import infrastructure.exception.RepositoryException;
+import model.exception.RepositoryException;
 import model.entity.abstr.OrganizationEntity;
 import model.repository.common.OrganizationRepository;
 import model.vo.FullAddress;

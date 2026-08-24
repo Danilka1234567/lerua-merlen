@@ -1,6 +1,6 @@
 package infrastructure.repositoryImpl.shared;
 
-import infrastructure.exception.RepositoryException;
+import model.exception.RepositoryException;
 import model.vo.Id;
 
 import java.sql.Connection;

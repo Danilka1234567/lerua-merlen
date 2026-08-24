@@ -1,7 +1,7 @@
 package infrastructure.repositoryImpl.abstr;
 
-import infrastructure.exception.GeneratedKeysException;
-import infrastructure.exception.RepositoryException;
+import model.exception.GeneratedKeysException;
+import model.exception.RepositoryException;
 import model.entity.abstr.BaseEntity;
 import model.repository.common.BaseRepository;
 import model.vo.Id;

@@ -41,7 +41,8 @@ public class ConnectionManager {
 
     }
 
-    public static Connection getConnection(){
+
+    public static Connection getConnectionSingletone(){
         try{
 
             if(currentConn.isClosed())

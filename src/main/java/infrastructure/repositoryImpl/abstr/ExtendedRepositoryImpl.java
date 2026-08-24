@@ -1,6 +1,6 @@
 package infrastructure.repositoryImpl.abstr;
 
-import infrastructure.exception.RepositoryException;
+import model.exception.RepositoryException;
 import infrastructure.repositoryImpl.rsmapper.RsMapper;
 import model.entity.abstr.ExtendedEntity;
 import model.repository.common.ExtendedRepository;

@@ -1,6 +1,6 @@
 package infrastructure.repositoryImpl;
 
-import infrastructure.exception.RepositoryException;
+import model.exception.RepositoryException;
 import infrastructure.repositoryImpl.abstr.OrganizationRepositoryImpl;
 import infrastructure.repositoryImpl.rsmapper.ManufacturerMapper;
 import infrastructure.repositoryImpl.rsmapper.RsMapper;

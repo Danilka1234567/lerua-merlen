@@ -1,6 +1,6 @@
 package infrastructure.repositoryImpl.abstr;
 
-import infrastructure.exception.RepositoryException;
+import model.exception.RepositoryException;
 import model.entity.abstr.ContactableEntity;
 import model.repository.common.ContactableRepository;
 import model.vo.Email;

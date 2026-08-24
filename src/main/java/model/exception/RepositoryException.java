@@ -1,4 +1,4 @@
-package infrastructure.exception;
+package model.exception;
 
 public class RepositoryException extends RuntimeException {
     public RepositoryException(String message, Throwable cause) {
