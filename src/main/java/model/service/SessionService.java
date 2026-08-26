@@ -6,7 +6,7 @@ import model.exception.RepositoryException;
 import model.exception.ServiceException;
 import model.repository.SessionRepository;
 import model.repository.UserRepository;
-import model.exception.ForeignKeyException;
+import model.exception.EntityNotFoundException;
 import model.vo.Id;
 
 import java.sql.Connection;
@@ -42,7 +42,7 @@ public class SessionService {
             );
 
         if ( ! userRepository.existsById(userId, conn))
-            throw new ForeignKeyException("Unknown user");
+            throw new EntityNotFoundException("Unknown user");
     }
 
 
