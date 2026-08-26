@@ -59,23 +59,19 @@ public class SessionService {
 
     public boolean isLogged(Id userId){
         Connection conn = ConnectionManager.getConnectionSingletone();
-        try{
-            validateUserId(userId, conn);
+        validateUserId(userId, conn);
 
-            Optional<Session> session = sessionRepository.findByUserId(userId, conn);
+        Optional<Session> session = sessionRepository.findByUserId(userId, conn);
 
-            if (session.isEmpty())
-                return false;
+        if (session.isEmpty())
+            return false;
 
-            if (session.get().getExpirationDate().isBefore(LocalDateTime.now())){
-                sessionRepository.setDeletionStatus(true, session.get().getId(), conn);
-                return false;
-            }
-
-            return true;
-        }catch (RepositoryException e){
-            throw new ServiceException("Can't check user logging status", e);
+        if (session.get().getExpirationDate().isBefore(LocalDateTime.now())){
+            sessionRepository.setDeletionStatus(true, session.get().getId(), conn);
+            return false;
         }
+
+        return true;
     }
 
     public int cleanDeleted(){

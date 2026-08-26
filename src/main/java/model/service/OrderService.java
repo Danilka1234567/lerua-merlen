@@ -68,7 +68,12 @@ public class OrderService {
 
     public void markAsDeleted(Id orderId){
         Validator.validateNotNull(orderId, "Order id");
-        orderRepository.setDeletionStatus(true, orderId, ConnectionManager.getConnectionSingletone());
+        int affectedRows = orderRepository.setDeletionStatus(true, orderId,
+                ConnectionManager.getConnectionSingletone());
+        if (affectedRows == 0)
+            throw new ServiceException(
+                    "Can't mark order as deleted"
+            );
     }
 
     public Order getOrderById(Id orderId){

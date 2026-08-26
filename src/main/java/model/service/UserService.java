@@ -83,7 +83,12 @@ public class UserService {
 
     public void markAsDeleted(Id userId){
         Validator.validateNotNull(userId, "Order id");
-        userRepository.setDeletionStatus(true, userId, ConnectionManager.getConnectionSingletone());
+        int affectedRows = userRepository.setDeletionStatus(
+                true, userId, ConnectionManager.getConnectionSingletone());
+        if (affectedRows == 0)
+            throw new ServiceException(
+                    "Can't mark user as deleted"
+            );
     }
 
     public List<User> getDeletedUsers(){
