@@ -1,9 +1,7 @@
 package model.vo;
 
 import java.util.ArrayList;
-import java.util.IllformedLocaleException;
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class Password extends BaseVO<String>{
 
@@ -16,11 +14,18 @@ public class Password extends BaseVO<String>{
 
         List<String> violations = new ArrayList<>();
 
-        if (value == null || value.length() < 8)
+        if (value == null){
+            violations.add("password can't be null.");
+            return violations;
+        }
+
+        if (value.length() < 8)
             violations.add("password is too short. minimum length is 8");
+
 
         if (value.length() > 64)
             violations.add("password is too long. maximum length is 64");
+
         boolean hasSpecialSymbols = false;
         boolean hasCapitalLetter = false;
         boolean hasSmallLetter = false;
@@ -61,5 +66,21 @@ public class Password extends BaseVO<String>{
             violations.add("Password must include at least one number");
 
         return violations;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+
+        if (obj == null || this.getClass() != obj.getClass())
+            return false;
+
+        return getValue().equals(((Password) obj).getValue());
+    }
+
+    @Override
+    public int hashCode() {
+        return getValue().hashCode();
     }
 }
