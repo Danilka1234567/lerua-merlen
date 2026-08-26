@@ -15,9 +15,8 @@ public abstract class OrganizationEntity extends ContactableEntity {
         setFullAddress(fullAddress);
     }
 
-    protected OrganizationEntity(Id id, boolean isDeleted, LocalDate registrationDate,
-                                 ContactInfo contactInfo, FullAddress fullAddress) {
-        super(id, isDeleted, registrationDate, contactInfo);
+    protected OrganizationEntity(Id id, boolean isDeleted, ContactInfo contactInfo, FullAddress fullAddress) {
+        super(id, isDeleted, contactInfo);
         setFullAddress(fullAddress);
     }
 

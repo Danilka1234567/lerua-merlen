@@ -18,8 +18,6 @@ public interface ManufacturerRepository{
     Id save(Manufacturer entity, Connection conn) throws GeneratedKeysException, RepositoryException;
     int setDeletionStatus(boolean status, Id id, Connection conn) throws RepositoryException;
     int remove(Connection conn) throws RepositoryException;
-    List<Manufacturer> findAllByRegDate(LocalDate date, Connection conn) throws RepositoryException;
-    List<Manufacturer> findAllBetweenRegDate(LocalDate start, LocalDate end, Connection conn) throws RepositoryException;
     int update(Manufacturer entity, Id id, Connection conn) throws RepositoryException;
     List<Manufacturer> findAllByDeleteStatus(boolean status, Connection conn) throws RepositoryException;
     Optional<Manufacturer> findById(Id id, Connection conn) throws RepositoryException;

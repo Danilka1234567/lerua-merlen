@@ -37,14 +37,6 @@ public class UserRepositoryImpl extends ContactableRepositoryImpl<User> implemen
             "sql/dql/user/select_by_email.sql"
     );
 
-    private static final String findAllByRegDateSql = ResourceReader.read(
-            "sql/dql/user/select_by_reg_date.sql"
-    );
-
-    private static final String findAllBetweenRegDatesSql = ResourceReader.read(
-            "sql/dql/user/select_between_reg_dates.sql"
-    );
-
     private static final String updateSql = ResourceReader.read(
             "sql/dml/user/update.sql"
     );
@@ -85,16 +77,6 @@ public class UserRepositoryImpl extends ContactableRepositoryImpl<User> implemen
     }
 
     @Override
-    protected String getFindAllByRegDateSql() {
-        return findAllByRegDateSql;
-    }
-
-    @Override
-    protected String getFindAllBetweenRegDateSql() {
-        return findAllBetweenRegDatesSql;
-    }
-
-    @Override
     protected String getUpdateSql() {
         return updateSql;
     }
@@ -125,11 +107,6 @@ public class UserRepositoryImpl extends ContactableRepositoryImpl<User> implemen
     }
 
     @Override
-    protected void fillFindAllByRegDatePstmt(PreparedStatement statement, LocalDate date) throws SQLException {
-        statement.setDate(1, Date.valueOf(date));
-    }
-
-    @Override
     protected String getExistsByEmailSql() {
         return "SELECT EXISTS(SELECT 1 FROM users WHERE email = ? AND is_deleted = false)";
     }
@@ -137,12 +114,6 @@ public class UserRepositoryImpl extends ContactableRepositoryImpl<User> implemen
     @Override
     protected String getExistsByPhoneNumberSql() {
         return "SELECT EXISTS(SELECT 1 FROM users WHERE phone_number = ? AND is_deleted = false)";
-    }
-
-    @Override
-    protected void fillFindAllBetweenRegDatePstmt(PreparedStatement statement, LocalDate start, LocalDate end) throws SQLException {
-        statement.setDate(1, Date.valueOf(start));
-        statement.setDate(2, Date.valueOf(end));
     }
 
     @Override

@@ -5,7 +5,6 @@ CREATE TABLE IF NOT EXISTS products(
     manufacturer_id BIGINT NOT NULL,
     price NUMERIC(12, 2) CHECK(price > 0),
     discount NUMERIC(3, 2) CHECK(discount >= 0 AND discount < 1),
-    registration_date DATE DEFAULT CURRENT_DATE,
     is_deleted BOOLEAN DEFAULT FALSE,
 
     CONSTRAINT fk_products_warehouse

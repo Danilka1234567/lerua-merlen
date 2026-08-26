@@ -25,14 +25,6 @@ public class OrderRepositoryImpl extends ExtendedRepositoryImpl<Order> implement
 
     private static final RsMapper<Order> mapper = new OrderMapper();
 
-    private static final String findAllByRegDateSql = ResourceReader.read(
-            "sql/dql/order/select_by_reg_date.sql"
-    );
-
-    private static final String findAllBetweenRegDatesSql = ResourceReader.read(
-            "sql/dql/order/select_between_reg_dates.sql"
-    );
-
     private static final String updateSql = ResourceReader.read(
             "sql/dml/order/update.sql"
     );
@@ -63,16 +55,6 @@ public class OrderRepositoryImpl extends ExtendedRepositoryImpl<Order> implement
     }
 
     @Override
-    protected String getFindAllByRegDateSql() {
-        return findAllByRegDateSql;
-    }
-
-    @Override
-    protected String getFindAllBetweenRegDateSql() {
-        return findAllBetweenRegDatesSql;
-    }
-
-    @Override
     protected String getUpdateSql() {
         return updateSql;
     }
@@ -100,17 +82,6 @@ public class OrderRepositoryImpl extends ExtendedRepositoryImpl<Order> implement
     @Override
     protected String getSetDeletionStatusSql() {
         return setDeletionStatusSql;
-    }
-
-    @Override
-    protected void fillFindAllByRegDatePstmt(PreparedStatement statement, LocalDate date) throws SQLException {
-        statement.setDate(1, Date.valueOf(date));
-    }
-
-    @Override
-    protected void fillFindAllBetweenRegDatePstmt(PreparedStatement statement, LocalDate start, LocalDate end) throws SQLException {
-        statement.setDate(1, Date.valueOf(start));
-        statement.setDate(2, Date.valueOf(end));
     }
 
     @Override

@@ -99,19 +99,6 @@ public class OrderService {
     }
 
 
-    public List<Order> getOrdersByRegDate(LocalDate regDate){
-        Validator.validateNotNull(regDate, "Reg date");
-        return orderRepository.findAllByRegDate(regDate, ConnectionManager.getConnectionSingletone());
-    }
-
-
-    public List<Order> getOrdersBetweenRegDates(LocalDate start, LocalDate end){
-        Validator.validateNotNull(start, "Starting date");
-        Validator.validateNotNull(end, "Ending date");
-        return orderRepository.findAllBetweenRegDate(start, end, ConnectionManager.getConnectionSingletone());
-    }
-
-
     public List<Order> getDeletedOrders(){
         return orderRepository.findAllByDeleteStatus(true, ConnectionManager.getConnectionSingletone());
     }

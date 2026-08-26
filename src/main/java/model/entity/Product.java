@@ -1,12 +1,12 @@
 package model.entity;
 
-import model.entity.abstr.ExtendedEntity;
+import model.entity.abstr.BaseEntity;
 import model.vo.Id;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class Product extends ExtendedEntity {
+public class Product extends BaseEntity {
 
     private Id warehouseId;
     private Id manufacturerId;
@@ -23,10 +23,10 @@ public class Product extends ExtendedEntity {
         return new Product(warehouseId, manufacturerId, name, price, discount);
     }
 
-    public static Product loadFromDb(Id id, boolean isDeleted, LocalDate registrationDate, Id warehouseId,
+    public static Product loadFromDb(Id id, boolean isDeleted, Id warehouseId,
                                      Id manufacturerId, String name, BigDecimal price, BigDecimal discount,
                                      Warehouse warehouse, Manufacturer manufacturer){
-        return new Product(id, isDeleted, registrationDate, warehouseId, manufacturerId, name, price, discount,
+        return new Product(id, isDeleted, warehouseId, manufacturerId, name, price, discount,
                             warehouse, manufacturer);
     }
 
@@ -38,10 +38,10 @@ public class Product extends ExtendedEntity {
         setDiscount(discount);
     }
 
-    private Product(Id id, boolean isDeleted, LocalDate registrationDate, Id warehouseId,
+    private Product(Id id, boolean isDeleted, Id warehouseId,
                    Id manufacturerId, String name, BigDecimal price, BigDecimal discount, Warehouse warehouse,
                    Manufacturer manufacturer) {
-        super(id, isDeleted, registrationDate);
+        super(id, isDeleted);
         setWarehouseId(warehouseId);
         setManufacturerId(manufacturerId);
         setName(name);

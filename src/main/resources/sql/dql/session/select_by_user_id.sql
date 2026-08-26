@@ -8,7 +8,6 @@ SELECT
     u.phone_number,
     u.password,
     u.role,
-    u.registration_date,
     u.is_deleted AS user_is_deleted
 FROM sessions s
 JOIN users u ON s.user_id = u.id

@@ -18,8 +18,6 @@ public interface UserRepository{
     Id save(User entity, Connection conn) throws GeneratedKeysException, RepositoryException;
     int setDeletionStatus(boolean status, Id id, Connection conn) throws RepositoryException;
     int remove(Connection conn) throws RepositoryException;
-    List<User> findAllByRegDate(LocalDate date, Connection conn) throws RepositoryException;
-    List<User> findAllBetweenRegDate(LocalDate start, LocalDate end, Connection conn) throws RepositoryException;
     int update(User entity, Id id, Connection conn) throws RepositoryException;
     List<User> findAllByDeleteStatus(boolean status, Connection conn) throws RepositoryException;
     Optional<User> findById(Id id, Connection conn) throws RepositoryException;

@@ -9,7 +9,6 @@ CREATE TABLE IF NOT EXISTS manufacturers(
     city VARCHAR(64) NOT NULL,
     street_address VARCHAR(128) NOT NULL,
     specialization VARCHAR(255) NOT NULL,
-    registration_date DATE DEFAULT CURRENT_DATE,
     is_deleted BOOLEAN DEFAULT FALSE,
 
     CONSTRAINT manufacturers_unique_address UNIQUE (country, region, city, street_address)

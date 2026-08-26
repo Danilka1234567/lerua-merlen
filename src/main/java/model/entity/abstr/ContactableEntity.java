@@ -5,7 +5,7 @@ import model.vo.Id;
 
 import java.time.LocalDate;
 
-public abstract class ContactableEntity extends ExtendedEntity {
+public abstract class ContactableEntity extends BaseEntity {
 
     private ContactInfo contactInfo;
 
@@ -14,8 +14,8 @@ public abstract class ContactableEntity extends ExtendedEntity {
         setContactInfo(contactInfo);
     }
 
-    protected ContactableEntity(Id id, boolean isDeleted, LocalDate registrationDate, ContactInfo contactInfo) {
-        super(id, isDeleted, registrationDate);
+    protected ContactableEntity(Id id, boolean isDeleted, ContactInfo contactInfo) {
+        super(id, isDeleted);
         setContactInfo(contactInfo);
     }
 

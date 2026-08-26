@@ -15,9 +15,9 @@ public class Warehouse extends OrganizationEntity {
         return new Warehouse(contactInfo, fullAddress, capacity);
     }
 
-    public static Warehouse loadFromDb(Id id, boolean isDeleted, LocalDate registrationDate,
+    public static Warehouse loadFromDb(Id id, boolean isDeleted,
                                        ContactInfo contactInfo, FullAddress fullAddress, int capacity){
-        return new Warehouse(id, isDeleted, registrationDate, contactInfo, fullAddress, capacity);
+        return new Warehouse(id, isDeleted, contactInfo, fullAddress, capacity);
     }
 
     private Warehouse(ContactInfo contactInfo, FullAddress fullAddress, int capacity) {
@@ -25,8 +25,8 @@ public class Warehouse extends OrganizationEntity {
         setCapacity(capacity);
     }
 
-    private Warehouse(Id id, boolean isDeleted, LocalDate registrationDate, ContactInfo contactInfo, FullAddress fullAddress, int capacity) {
-        super(id, isDeleted, registrationDate, contactInfo, fullAddress);
+    private Warehouse(Id id, boolean isDeleted, ContactInfo contactInfo, FullAddress fullAddress, int capacity) {
+        super(id, isDeleted, contactInfo, fullAddress);
         setCapacity(capacity);
     }
 

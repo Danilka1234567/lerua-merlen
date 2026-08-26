@@ -15,7 +15,6 @@ public class ProductMapper implements RsMapper<Product>{
         return Product.loadFromDb(
                 new Id(rs.getLong("product_id")),
                 rs.getBoolean("product_is_deleted"),
-                rs.getDate("product_registration_date").toLocalDate(),
                 new Id(rs.getLong("warehouse_id")),
                 new Id(rs.getLong("manufacturer_id")),
                 rs.getString("product_name"),
@@ -40,7 +39,6 @@ public class ProductMapper implements RsMapper<Product>{
                 Manufacturer.loadFromDb(
                         new Id(rs.getLong("manufacturer_id")),
                         rs.getBoolean("manufacturer_is_deleted"),
-                        rs.getDate("manufacturer_registration_date").toLocalDate(),
                         new ContactInfo(
                                 new PhoneNumber(rs.getString("manufacturer_phone_number")),
                                 new Email(rs.getString("manufacturer_email"))

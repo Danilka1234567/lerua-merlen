@@ -6,7 +6,6 @@ CREATE TABLE IF NOT EXISTS orders(
     region VARCHAR(128) NOT NULL,
     city VARCHAR(64) NOT NULL,
     street_address VARCHAR(128) NOT NULL,
-    registration_date DATE DEFAULT CURRENT_DATE,
     delivery_period INT NOT NULL CHECK(delivery_period > 0),
     is_deleted BOOLEAN DEFAULT FALSE,
 

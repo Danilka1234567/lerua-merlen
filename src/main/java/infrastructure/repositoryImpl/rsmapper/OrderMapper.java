@@ -16,7 +16,6 @@ public class OrderMapper implements RsMapper<Order> {
         return Order.loadFromDb(
                 new Id(rs.getLong("order_id")),
                 rs.getBoolean("order_is_deleted"),
-                rs.getDate("order_registration_date").toLocalDate(),
                 new Id(rs.getLong("user_id")),
                 new Id(rs.getLong("product_id")),
                 rs.getInt("delivery_period"),
@@ -29,7 +28,6 @@ public class OrderMapper implements RsMapper<Order> {
                 Product.loadFromDb(
                         new Id(rs.getLong("product_id")),
                         rs.getBoolean("product_is_deleted"),
-                        rs.getDate("product_registration_date").toLocalDate(),
                         new Id(rs.getLong("warehouse_id")),
                         new Id(rs.getLong("manufacturer_id")),
                         rs.getString("product_name"),
@@ -41,7 +39,6 @@ public class OrderMapper implements RsMapper<Order> {
                 User.loadFromDb(
                         new Id(rs.getLong("user_id")),
                         rs.getBoolean("user_is_deleted"),
-                        rs.getDate("user_registration_date").toLocalDate(),
                         new ContactInfo(
                                 new PhoneNumber(rs.getString("phone_number")),
                                 new Email(rs.getString("email"))

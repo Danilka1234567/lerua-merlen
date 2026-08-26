@@ -22,15 +22,15 @@ public class Manufacturer extends OrganizationEntity {
         setSpecialization(specialization);
     }
 
-    public static Manufacturer loadFromDb(Id id, boolean isDeleted, LocalDate registrationDate,
+    public static Manufacturer loadFromDb(Id id, boolean isDeleted,
                                           ContactInfo contactInfo, FullAddress fullAddress,
                                           String name, String specialization){
-        return new Manufacturer(id, isDeleted, registrationDate, contactInfo, fullAddress, name, specialization);
+        return new Manufacturer(id, isDeleted, contactInfo, fullAddress, name, specialization);
     }
 
-    private Manufacturer(Id id, boolean isDeleted, LocalDate registrationDate,
+    private Manufacturer(Id id, boolean isDeleted,
                          ContactInfo contactInfo, FullAddress fullAddress, String name, String specialization) {
-        super(id, isDeleted, registrationDate, contactInfo, fullAddress);
+        super(id, isDeleted, contactInfo, fullAddress);
         setName(name);
         setSpecialization(specialization);
     }

@@ -50,14 +50,6 @@ public class WarehouseRepositoryImpl extends OrganizationRepositoryImpl<Warehous
             "sql/dql/warehouse/select_by_email.sql"
     );
 
-    private static final String findAllByRegDateSql = ResourceReader.read(
-            "sql/dql/warehouse/select_by_reg_date.sql"
-    );
-
-    private static final String findAllBetweenRegDatesSql = ResourceReader.read(
-            "sql/dql/warehouse/select_between_reg_dates.sql"
-    );
-
     private static final String updateSql = ResourceReader.read(
             "sql/dml/warehouse/update.sql"
     );
@@ -124,16 +116,6 @@ public class WarehouseRepositoryImpl extends OrganizationRepositoryImpl<Warehous
     @Override
     protected String getFindByEmailSql() {
         return findByEmailSql;
-    }
-
-    @Override
-    protected String getFindAllByRegDateSql() {
-        return findAllByRegDateSql;
-    }
-
-    @Override
-    protected String getFindAllBetweenRegDateSql() {
-        return findAllBetweenRegDatesSql;
     }
 
     @Override
@@ -215,17 +197,6 @@ public class WarehouseRepositoryImpl extends OrganizationRepositoryImpl<Warehous
     @Override
     protected void fillFindByEmailPstmt(PreparedStatement statement, Email email) throws SQLException {
         statement.setString(1, email.getValue());
-    }
-
-    @Override
-    protected void fillFindAllByRegDatePstmt(PreparedStatement statement, LocalDate date) throws SQLException {
-        statement.setDate(1, Date.valueOf(date));
-    }
-
-    @Override
-    protected void fillFindAllBetweenRegDatePstmt(PreparedStatement statement, LocalDate start, LocalDate end) throws SQLException {
-        statement.setDate(1, Date.valueOf(start));
-        statement.setDate(2, Date.valueOf(end));
     }
 
     @Override

@@ -30,14 +30,6 @@ public class ProductRepositoryImpl extends ExtendedRepositoryImpl<Product> imple
 
     private static final RsMapper<Product> mapper = new ProductMapper();
 
-    private static final String findAllByRegDateSql = ResourceReader.read(
-            "sql/dql/product/select_by_reg_date.sql"
-    );
-
-    private static final String findAllBetweenRegDatesSql = ResourceReader.read(
-            "sql/dql/product/select_between_reg_dates.sql"
-    );
-
     private static final String updateSql = ResourceReader.read(
             "sql/dml/product/update.sql"
     );
@@ -72,16 +64,6 @@ public class ProductRepositoryImpl extends ExtendedRepositoryImpl<Product> imple
     }
 
     @Override
-    protected String getFindAllByRegDateSql() {
-        return findAllByRegDateSql;
-    }
-
-    @Override
-    protected String getFindAllBetweenRegDateSql() {
-        return findAllBetweenRegDatesSql;
-    }
-
-    @Override
     protected String getUpdateSql() {
         return updateSql;
     }
@@ -109,17 +91,6 @@ public class ProductRepositoryImpl extends ExtendedRepositoryImpl<Product> imple
     @Override
     protected String getRemoveSql() {
         return removeSql;
-    }
-
-    @Override
-    protected void fillFindAllByRegDatePstmt(PreparedStatement statement, LocalDate date) throws SQLException {
-        statement.setDate(1, Date.valueOf(date));
-    }
-
-    @Override
-    protected void fillFindAllBetweenRegDatePstmt(PreparedStatement statement, LocalDate start, LocalDate end) throws SQLException {
-        statement.setDate(1, Date.valueOf(start));
-        statement.setDate(2, Date.valueOf(end));
     }
 
     @Override
@@ -183,23 +154,6 @@ public class ProductRepositoryImpl extends ExtendedRepositoryImpl<Product> imple
         }catch (SQLException e){
             throw new RepositoryException(
                     "Can't try to find products by manufacturer id", e
-            );
-        }
-    }
-
-    @Override
-    public List<Product> findAllByManufacturerIdAndWarehouseId(Id manufacturerId, Id warehouseId, Connection conn) {
-        try(PreparedStatement statement = conn.prepareStatement(findAllByWarehouseIdAndManufacturerIdSql)){
-            statement.setLong(1, manufacturerId.getValue());
-            statement.setLong(2, warehouseId.getValue());
-
-            try(ResultSet rs = statement.executeQuery()){
-                return mapRsToList(rs);
-            }
-
-        }catch (SQLException e){
-            throw new RepositoryException(
-                    "Can't try to find products by manufacturer id and warehouse id", e
             );
         }
     }

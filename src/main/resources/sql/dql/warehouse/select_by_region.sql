@@ -1,2 +1,2 @@
-SELECT id, email, phone_number, country, region, city, street_address, capacity, registration_date, is_deleted
+SELECT id, email, phone_number, country, region, city, street_address, capacity, is_deleted
 WHERE region = ? AND is_deleted = false

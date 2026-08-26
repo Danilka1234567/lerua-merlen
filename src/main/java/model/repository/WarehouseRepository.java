@@ -16,8 +16,6 @@ public interface WarehouseRepository{
     Id save(Warehouse entity, Connection conn) throws GeneratedKeysException, RepositoryException;
     int setDeletionStatus(boolean status, Id id, Connection conn) throws RepositoryException;
     int remove(Connection conn) throws RepositoryException;
-    List<Warehouse> findAllByRegDate(LocalDate date, Connection conn) throws RepositoryException;
-    List<Warehouse> findAllBetweenRegDate(LocalDate start, LocalDate end, Connection conn) throws RepositoryException;
     int update(Warehouse entity, Id id, Connection conn) throws RepositoryException;
     List<Warehouse> findAllByDeleteStatus(boolean status, Connection conn) throws RepositoryException;
     Optional<Warehouse> findById(Id id, Connection conn) throws RepositoryException;

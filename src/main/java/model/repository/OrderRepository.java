@@ -15,8 +15,6 @@ public interface OrderRepository {
     Id save(Order entity, Connection conn) throws GeneratedKeysException, RepositoryException;
     int setDeletionStatus(boolean status, Id id, Connection conn) throws RepositoryException;
     int remove(Connection conn) throws RepositoryException;
-    List<Order> findAllByRegDate(LocalDate date, Connection conn) throws RepositoryException;
-    List<Order> findAllBetweenRegDate(LocalDate start, LocalDate end, Connection conn) throws RepositoryException;
     int update(Order entity, Id id, Connection conn) throws RepositoryException;
     List<Order> findAllByDeleteStatus(boolean status, Connection conn) throws RepositoryException;
     Optional<Order> findById(Id id, Connection conn) throws RepositoryException;

@@ -1,12 +1,12 @@
 package model.entity;
 
-import model.entity.abstr.ExtendedEntity;
+import model.entity.abstr.BaseEntity;
 import model.vo.FullAddress;
 import model.vo.Id;
 
 import java.time.LocalDate;
 
-public class Order extends ExtendedEntity {
+public class Order extends BaseEntity {
 
     private Id userId;
     private Id productId;
@@ -20,10 +20,9 @@ public class Order extends ExtendedEntity {
         return new Order(userId, productId, deliveryPeriod, deliveryAddress);
     }
 
-    public static Order loadFromDb(Id id, boolean isDeleted, LocalDate registrationDate, Id userId,
-                                   Id productId, int deliveryPeriod, FullAddress deliveryAddress,
-                                   Product product, User user){
-        return new Order(id, isDeleted, registrationDate, userId,
+    public static Order loadFromDb(Id id, boolean isDeleted, Id userId, Id productId, int deliveryPeriod,
+                                   FullAddress deliveryAddress, Product product, User user){
+        return new Order(id, isDeleted, userId,
                 productId, deliveryPeriod, deliveryAddress, product, user);
     }
 
@@ -34,9 +33,9 @@ public class Order extends ExtendedEntity {
         setDeliveryAddress(deliveryAddress);
     }
 
-    private Order(Id id, boolean isDeleted, LocalDate registrationDate, Id userId,
+    private Order(Id id, boolean isDeleted, Id userId,
                  Id productId, int deliveryPeriod, FullAddress deliveryAddress, Product product, User user) {
-        super(id, isDeleted, registrationDate);
+        super(id, isDeleted);
         setUserId(userId);
         setProductId(productId);
         setDeliveryPeriod(deliveryPeriod);

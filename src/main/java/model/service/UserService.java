@@ -125,17 +125,6 @@ public class UserService {
         );
     }
 
-    public List<User> getAllByRegistrationDate(LocalDate regDate){
-        Validator.validateNotNull(regDate, "Registration date");
-        return userRepository.findAllByRegDate(regDate, ConnectionManager.getConnectionSingletone());
-    }
-
-    public List<User> getAllBetweenRegDates(LocalDate start, LocalDate end){
-        Validator.validateNotNull(start, "Starting date");
-        Validator.validateNotNull(end, "Ending date");
-        return userRepository.findAllBetweenRegDate(start, end, ConnectionManager.getConnectionSingletone());
-    }
-
     public List<User> getAllByRole(UserRole role){
         Validator.validateNotNull(role, "User role");
         return userRepository.findAllByRole(role, ConnectionManager.getConnectionSingletone());

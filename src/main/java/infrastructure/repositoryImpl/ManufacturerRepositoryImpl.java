@@ -58,14 +58,6 @@ public class ManufacturerRepositoryImpl extends OrganizationRepositoryImpl<Manuf
             "sql/dql/manufacturer/select_by_email.sql"
     );
 
-    private final static String findAllByRegDateSql = ResourceReader.read(
-            "sql/dql/manufacturer/select_by_reg_date.sql"
-    );
-
-    private final static String findAllBetweenRegDatesSql = ResourceReader.read(
-            "sql/dql/manufacturer/select_between_reg_dates.sql"
-    ) ;
-
     private final static String updateSQl = ResourceReader.read("sql/dml/manufacturer/update.sql");
 
     private final static String findAllBetweenDelStatusSql = ResourceReader.read(
@@ -130,16 +122,6 @@ public class ManufacturerRepositoryImpl extends OrganizationRepositoryImpl<Manuf
     @Override
     protected String getFindByEmailSql() {
         return findByEmailSql;
-    }
-
-    @Override
-    protected String getFindAllByRegDateSql() {
-        return findAllByRegDateSql;
-    }
-
-    @Override
-    protected String getFindAllBetweenRegDateSql() {
-        return findAllBetweenRegDatesSql;
     }
 
     @Override
@@ -211,17 +193,6 @@ public class ManufacturerRepositoryImpl extends OrganizationRepositoryImpl<Manuf
     @Override
     protected void fillFindAllByCityPstmt(PreparedStatement statement, String city) throws SQLException {
         statement.setString(1, city);
-    }
-
-    @Override
-    protected void fillFindAllByRegDatePstmt(PreparedStatement statement, LocalDate date) throws SQLException {
-        statement.setDate(1, Date.valueOf(date));
-    }
-
-    @Override
-    protected void fillFindAllBetweenRegDatePstmt(PreparedStatement statement, LocalDate start, LocalDate end) throws SQLException {
-        statement.setDate(1, Date.valueOf(start));
-        statement.setDate(2, Date.valueOf(end));
     }
 
     @Override

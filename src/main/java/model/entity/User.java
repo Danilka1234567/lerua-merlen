@@ -18,9 +18,9 @@ public class User extends ContactableEntity {
         return new User(contactInfo, name, password, role);
     }
 
-    public static User loadFromDb(Id id, boolean isDeleted, LocalDate registrationDate,
+    public static User loadFromDb(Id id, boolean isDeleted,
                                   ContactInfo contactInfo, String name, Password password, UserRole role){
-        return new User(id, isDeleted, registrationDate, contactInfo, name, password, role);
+        return new User(id, isDeleted, contactInfo, name, password, role);
     }
 
     private User(ContactInfo contactInfo, String name, Password password, UserRole role) {
@@ -30,8 +30,8 @@ public class User extends ContactableEntity {
         setRole(role);
     }
 
-    private User(Id id, boolean isDeleted, LocalDate registrationDate, ContactInfo contactInfo, String name, Password password, UserRole role) {
-        super(id, isDeleted, registrationDate, contactInfo);
+    private User(Id id, boolean isDeleted, ContactInfo contactInfo, String name, Password password, UserRole role) {
+        super(id, isDeleted, contactInfo);
         setName(name);
         setPassword(password);
         setRole(role);

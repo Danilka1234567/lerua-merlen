@@ -13,7 +13,6 @@ public class WarehouseMapper implements RsMapper<Warehouse> {
         return Warehouse.loadFromDb(
                 new Id(rs.getLong("id")),
                 rs.getBoolean("is_deleted"),
-                rs.getDate("registration_date").toLocalDate(),
                 new ContactInfo(
                         new PhoneNumber(rs.getString("phone_number")),
                         new Email(rs.getString("email"))

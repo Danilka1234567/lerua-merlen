@@ -5,6 +5,5 @@ CREATE TABLE IF NOT EXISTS users (
     phone_number VARCHAR(11) UNIQUE,
     password VARCHAR(64) NOT NULL,
     role VARCHAR(32) DEFAULT 'USER',
-    registration_date DATE DEFAULT CURRENT_DATE,
     is_deleted BOOLEAN DEFAULT FALSE
 )

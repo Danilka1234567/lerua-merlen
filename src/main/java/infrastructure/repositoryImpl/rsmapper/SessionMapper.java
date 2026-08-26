@@ -20,7 +20,6 @@ public class SessionMapper implements RsMapper<Session> {
                 User.loadFromDb(
                         new Id(rs.getLong("user_id")),
                         rs.getBoolean("user_is_deleted"),
-                        rs.getDate("registration_date").toLocalDate(),
                         new ContactInfo(
                                 new PhoneNumber(rs.getString("phone_number")),
                                 new Email(rs.getString("email"))
