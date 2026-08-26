@@ -42,19 +42,6 @@ public class Transaction {
             T result = operation.run();
             conn.commit();
             return result;
-        } catch (ForeignKeyViolationException | UniqueViolationException e){
-            try{
-                conn.rollback();
-            } catch (SQLException ex) {
-                e.addSuppressed(ex);
-                throw new ServiceException("Changes weren't rolled back, but should be!", e);
-            }
-
-            String errorMessage = e.getMessage() + "changes were rolled back!";
-            if (e instanceof ForeignKeyViolationException)
-                throw new ForeignKeyViolationException(errorMessage);
-            else
-                throw new UniqueViolationException(errorMessage);
 
         } catch (Exception e) {
             try{
@@ -63,6 +50,11 @@ public class Transaction {
                 e.addSuppressed(ex);
                 throw new ServiceException("Changes weren't rolled back, but should be!", e);
             }
+
+            if (e instanceof UniqueViolationException ue)
+                throw ue;
+            else if (e instanceof ForeignKeyViolationException fe)
+                throw fe;
 
             throw new ServiceException("Changes were rolled back!", e);
         }finally {
@@ -77,7 +69,8 @@ public class Transaction {
     }
 
 
-    public static void complete(Connection conn, VoidOperation operation) throws ServiceException{
+    public static void complete(Connection conn, VoidOperation operation) throws ServiceException,
+            ForeignKeyViolationException, UniqueViolationException{
         complete(conn, () -> {
             operation.run();
             return null;

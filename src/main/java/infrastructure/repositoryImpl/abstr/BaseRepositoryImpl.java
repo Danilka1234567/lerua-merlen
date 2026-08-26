@@ -49,11 +49,11 @@ public abstract class BaseRepositoryImpl<T extends BaseEntity> {
         }catch (SQLException e){
 
             if (e.getSQLState().equals(UNIQUE_VIOLATION_STATE)){
-                throw new UniqueViolationException();
+                throw new UniqueViolationException(e);
             }
 
             if (e.getSQLState().equals(FOREIGN_KEY_VIOLATION_STATE))
-                throw new ForeignKeyViolationException();
+                throw new ForeignKeyViolationException(e);
 
             throw new RepositoryException("Can't save entity into DB!", e);
         }

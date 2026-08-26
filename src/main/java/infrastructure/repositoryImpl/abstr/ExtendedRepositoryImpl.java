@@ -41,9 +41,9 @@ public abstract class ExtendedRepositoryImpl<T extends BaseEntity> extends BaseR
         }catch (SQLException e){
 
             if (e.getSQLState().equals(FOREIGN_KEY_VIOLATION_STATE))
-                throw new ForeignKeyViolationException();
+                throw new ForeignKeyViolationException(e);
             if (e.getSQLState().equals(UNIQUE_VIOLATION_STATE))
-                throw new UniqueViolationException();
+                throw new UniqueViolationException(e);
 
             throw new RepositoryException(
                     "Can't update entity!", e
