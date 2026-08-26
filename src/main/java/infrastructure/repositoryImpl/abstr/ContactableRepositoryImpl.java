@@ -2,7 +2,6 @@ package infrastructure.repositoryImpl.abstr;
 
 import model.exception.RepositoryException;
 import model.entity.abstr.ContactableEntity;
-import model.repository.common.ContactableRepository;
 import model.vo.Email;
 import model.vo.PhoneNumber;
 
@@ -12,8 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
-public abstract class ContactableRepositoryImpl<T extends ContactableEntity> extends ExtendedRepositoryImpl<T>
-                                        implements ContactableRepository<T> {
+public abstract class ContactableRepositoryImpl<T extends ContactableEntity> extends ExtendedRepositoryImpl<T> {
 
     protected abstract String getExistsByEmailSql();
     protected abstract String getExistsByPhoneNumberSql();
@@ -25,7 +23,7 @@ public abstract class ContactableRepositoryImpl<T extends ContactableEntity> ext
 
     protected abstract void fillFindByEmailPstmt(PreparedStatement statement,
                                                  Email email) throws SQLException;
-    @Override
+
     public Optional<T> findByPhoneNumber(PhoneNumber phoneNumber, Connection conn) {
         try(PreparedStatement statement = conn.prepareStatement(getFindByPhoneNumberSql())){
                 fillFindByPhoneNumberPstmt(statement, phoneNumber);
@@ -42,7 +40,7 @@ public abstract class ContactableRepositoryImpl<T extends ContactableEntity> ext
         }
     }
 
-    @Override
+
     public Optional<T> findByEmail(Email email, Connection conn) {
         try(PreparedStatement statement = conn.prepareStatement(getFindByEmailSql())){
             fillFindByEmailPstmt(statement, email);
@@ -59,7 +57,7 @@ public abstract class ContactableRepositoryImpl<T extends ContactableEntity> ext
         }
     }
 
-    @Override
+
     public boolean existsByEmail(Email email, Connection conn) throws RepositoryException {
         try(PreparedStatement statement = conn.prepareStatement(getExistsByEmailSql())){
             statement.setString(1, email.getValue());
@@ -74,7 +72,7 @@ public abstract class ContactableRepositoryImpl<T extends ContactableEntity> ext
         }
     }
 
-    @Override
+
     public boolean existsByPhoneNumber(PhoneNumber phoneNumber, Connection conn) throws RepositoryException {
         try(PreparedStatement statement = conn.prepareStatement(getExistsByPhoneNumberSql())){
             statement.setString(1, phoneNumber.getValue());

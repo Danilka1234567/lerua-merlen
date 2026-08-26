@@ -2,7 +2,6 @@ package infrastructure.repositoryImpl.abstr;
 
 import model.exception.RepositoryException;
 import model.entity.abstr.OrganizationEntity;
-import model.repository.common.OrganizationRepository;
 import model.vo.FullAddress;
 
 import java.sql.Connection;
@@ -12,8 +11,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class OrganizationRepositoryImpl<T extends OrganizationEntity> extends ContactableRepositoryImpl<T>
-                                                                    implements OrganizationRepository<T> {
+public abstract class OrganizationRepositoryImpl<T extends OrganizationEntity> extends ContactableRepositoryImpl<T>{
 
 
     protected abstract String getExistsByFullAddressSql();
@@ -34,7 +32,7 @@ public abstract class OrganizationRepositoryImpl<T extends OrganizationEntity> e
                                                    String city) throws SQLException;
 
 
-    @Override
+
     public boolean existsByFullAddress(FullAddress fullAddress, Connection conn) {
         try(PreparedStatement statement = conn.prepareStatement(getExistsByFullAddressSql())){
             fillExistsByFullAddressPstmt(statement, fullAddress);
@@ -55,7 +53,7 @@ public abstract class OrganizationRepositoryImpl<T extends OrganizationEntity> e
         }
     }
 
-    @Override
+
     public Optional<T> findByFullAddress(FullAddress fullAddress, Connection conn) {
         try(PreparedStatement statement = conn.prepareStatement(getFindByFullAddressSql())){
             fillFindByFullAddressPstmt(statement, fullAddress);
@@ -74,7 +72,7 @@ public abstract class OrganizationRepositoryImpl<T extends OrganizationEntity> e
         }
     }
 
-    @Override
+
     public List<T> findAllByRegion(String region, Connection conn) {
 
         try(PreparedStatement statement = conn.prepareStatement(getFindAllByRegionSql())){
@@ -90,7 +88,7 @@ public abstract class OrganizationRepositoryImpl<T extends OrganizationEntity> e
         }
     }
 
-    @Override
+
     public List<T> findAllByCountry(String country, Connection conn) {
 
         try(PreparedStatement statement = conn.prepareStatement(getFindAllByCountrySql())){
@@ -105,7 +103,7 @@ public abstract class OrganizationRepositoryImpl<T extends OrganizationEntity> e
         }
     }
 
-    @Override
+
     public List<T> findAllByCity(String city, Connection conn) {
 
         try(PreparedStatement statement = conn.prepareStatement(getFindAllByCitySql())){

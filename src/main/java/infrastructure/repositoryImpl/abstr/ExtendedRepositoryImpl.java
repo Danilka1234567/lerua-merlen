@@ -3,7 +3,6 @@ package infrastructure.repositoryImpl.abstr;
 import model.exception.RepositoryException;
 import infrastructure.repositoryImpl.rsmapper.RsMapper;
 import model.entity.abstr.ExtendedEntity;
-import model.repository.common.ExtendedRepository;
 import model.vo.Id;
 
 import java.sql.*;
@@ -12,8 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class ExtendedRepositoryImpl<T extends ExtendedEntity> extends BaseRepositoryImpl<T>
-        implements ExtendedRepository<T> {
+public abstract class ExtendedRepositoryImpl<T extends ExtendedEntity> extends BaseRepositoryImpl<T> {
 
 
     protected abstract RsMapper<T> getMapper();
@@ -42,7 +40,7 @@ public abstract class ExtendedRepositoryImpl<T extends ExtendedEntity> extends B
         return entities;
     }
 
-    @Override
+
     public List<T> findAllByRegDate(LocalDate date, Connection conn) {
 
         try(PreparedStatement statement = conn.prepareStatement(getFindAllByRegDateSql())){
@@ -58,7 +56,7 @@ public abstract class ExtendedRepositoryImpl<T extends ExtendedEntity> extends B
         }
     }
 
-    @Override
+
     public List<T> findAllBetweenRegDate(LocalDate start, LocalDate end, Connection conn) {
 
         try(PreparedStatement statement = conn.prepareStatement(getFindAllBetweenRegDateSql())){
@@ -74,7 +72,7 @@ public abstract class ExtendedRepositoryImpl<T extends ExtendedEntity> extends B
         }
     }
 
-    @Override
+
     public int update(T entity, Id id, Connection conn) {
         try(PreparedStatement statement = conn.prepareStatement(getUpdateSql())){
             fillUpdatePstmt(statement, entity, id);
@@ -86,7 +84,7 @@ public abstract class ExtendedRepositoryImpl<T extends ExtendedEntity> extends B
         }
     }
 
-    @Override
+
     public List<T> findAllByDeleteStatus(boolean status, Connection conn) {
         try(PreparedStatement statement = conn.prepareStatement(getFindAllByDeleteStatusSql())){
             fillFindAllByDeleteStatusPstmt(statement, status);
@@ -101,7 +99,7 @@ public abstract class ExtendedRepositoryImpl<T extends ExtendedEntity> extends B
         }
     }
 
-    @Override
+
     public Optional<T> findById(Id id, Connection conn) {
 
         try(PreparedStatement statement = conn.prepareStatement(getFindByIdSql())){

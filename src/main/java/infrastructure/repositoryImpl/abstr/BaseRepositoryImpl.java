@@ -3,12 +3,11 @@ package infrastructure.repositoryImpl.abstr;
 import model.exception.GeneratedKeysException;
 import model.exception.RepositoryException;
 import model.entity.abstr.BaseEntity;
-import model.repository.common.BaseRepository;
 import model.vo.Id;
 
 import java.sql.*;
 
-public abstract class BaseRepositoryImpl<T extends BaseEntity> implements BaseRepository<T> {
+public abstract class BaseRepositoryImpl<T extends BaseEntity> {
 
     protected abstract String getSaveSql();
     protected abstract String getSetDeletionStatusSql();
@@ -18,7 +17,7 @@ public abstract class BaseRepositoryImpl<T extends BaseEntity> implements BaseRe
     protected abstract void fillSetDeletionStatusStatement(PreparedStatement statement,
                                                            Id id, boolean deletionStatus) throws SQLException;
 
-    @Override
+
     public Id save(T entity, Connection conn) {
 
         try(PreparedStatement statement = conn.prepareStatement(getSaveSql(), Statement.RETURN_GENERATED_KEYS)){
@@ -46,7 +45,7 @@ public abstract class BaseRepositoryImpl<T extends BaseEntity> implements BaseRe
         }
     }
 
-    @Override
+
     public int setDeletionStatus(boolean status, Id id, Connection conn) {
 
         try(PreparedStatement statement = conn.prepareStatement(getSetDeletionStatusSql())){
@@ -58,7 +57,7 @@ public abstract class BaseRepositoryImpl<T extends BaseEntity> implements BaseRe
         }
     }
 
-    @Override
+
     public int remove(Connection conn) {
 
         try(PreparedStatement statement = conn.prepareStatement(getRemoveSql())){

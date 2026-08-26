@@ -1,15 +1,37 @@
 package model.repository;
 
 import model.entity.Manufacturer;
+import model.exception.GeneratedKeysException;
 import model.exception.RepositoryException;
-import model.repository.common.OrganizationRepository;
-import model.repository.common.ReferencableRepository;
+import model.vo.Email;
+import model.vo.FullAddress;
+import model.vo.Id;
+import model.vo.PhoneNumber;
 
 import java.sql.Connection;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
-public interface ManufacturerRepository extends OrganizationRepository<Manufacturer>, ReferencableRepository {
+public interface ManufacturerRepository{
 
+    Id save(Manufacturer entity, Connection conn) throws GeneratedKeysException, RepositoryException;
+    int setDeletionStatus(boolean status, Id id, Connection conn) throws RepositoryException;
+    int remove(Connection conn) throws RepositoryException;
+    List<Manufacturer> findAllByRegDate(LocalDate date, Connection conn) throws RepositoryException;
+    List<Manufacturer> findAllBetweenRegDate(LocalDate start, LocalDate end, Connection conn) throws RepositoryException;
+    int update(Manufacturer entity, Id id, Connection conn) throws RepositoryException;
+    List<Manufacturer> findAllByDeleteStatus(boolean status, Connection conn) throws RepositoryException;
+    Optional<Manufacturer> findById(Id id, Connection conn) throws RepositoryException;
     List<Manufacturer> findAllBySpecialization(String specialization, Connection conn) throws RepositoryException;
-
+    Optional<Manufacturer> findByPhoneNumber(PhoneNumber phoneNumber, Connection conn) throws RepositoryException;
+    Optional<Manufacturer> findByEmail(Email email, Connection conn) throws RepositoryException;
+    boolean existsByEmail(Email email, Connection conn) throws RepositoryException;
+    boolean existsByPhoneNumber(PhoneNumber phoneNumber, Connection conn) throws RepositoryException;
+    List<Manufacturer> findAllByCity(String city, Connection conn) throws RepositoryException;
+    List<Manufacturer> findAllByCountry(String country, Connection conn) throws RepositoryException;
+    List<Manufacturer> findAllByRegion(String region, Connection conn) throws RepositoryException;
+    Optional<Manufacturer> findByFullAddress(FullAddress fullAddress, Connection conn) throws RepositoryException;
+    boolean existsByFullAddress(FullAddress fullAddress, Connection conn) throws RepositoryException;
+    boolean existsById(Id id, Connection conn) throws RepositoryException;
 }
