@@ -7,6 +7,7 @@ import model.exception.ServiceException;
 import model.repository.SessionRepository;
 import model.repository.UserRepository;
 import model.exception.EntityNotFoundException;
+import model.service.shared.Transaction;
 import model.vo.Id;
 
 import java.sql.Connection;

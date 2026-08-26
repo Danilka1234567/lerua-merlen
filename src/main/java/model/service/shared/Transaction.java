@@ -1,4 +1,4 @@
-package model.service;
+package model.service.shared;
 
 import model.exception.ServiceException;
 

@@ -9,6 +9,7 @@ import model.exception.ServiceException;
 import model.repository.OrderRepository;
 import model.repository.ProductRepository;
 import model.repository.UserRepository;
+import model.service.shared.Transaction;
 import model.service.shared.Validator;
 import model.service.mapper.OrderMapper;
 import model.vo.Id;

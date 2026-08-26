@@ -9,6 +9,7 @@ import model.exception.EntityNotFoundException;
 import model.exception.ServiceException;
 import model.repository.UserRepository;
 import model.service.mapper.UserMapper;
+import model.service.shared.Transaction;
 import model.service.shared.Validator;
 import model.vo.ContactInfo;
 import model.vo.Email;
