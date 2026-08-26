@@ -17,40 +17,20 @@ import java.util.Optional;
 public class SessionService {
 
     private final SessionRepository sessionRepository;
-    private final UserRepository userRepository;
     private final static int LIVING_PERIOD_DAYS = 1;
 
-    public SessionService(SessionRepository sessionRepository, UserRepository userRepository){
+    public SessionService(SessionRepository sessionRepository){
         if (sessionRepository == null)
             throw new IllegalArgumentException(
                     "Session repository can't be null"
             );
 
-        if(userRepository == null)
-            throw new IllegalArgumentException(
-                    "User repository can't be null"
-            );
-
-        this.userRepository = userRepository;
         this.sessionRepository = sessionRepository;
     }
-
-
-    private void validateUserId(Id userId, Connection conn){
-        if (userId == null)
-            throw new IllegalArgumentException(
-                    "User id can't be null!"
-            );
-
-        if ( ! userRepository.existsById(userId, conn))
-            throw new EntityNotFoundException("Unknown user");
-    }
-
 
     public Id create(Id userId){
         Connection conn = ConnectionManager.getConnectionSingletone();
         return Transaction.complete(conn, () -> {
-            validateUserId(userId, conn);
             Session session = Session.createNew(userId, LocalDateTime.now().plusDays(LIVING_PERIOD_DAYS));
             return sessionRepository.save(session, conn);
         });
@@ -59,10 +39,8 @@ public class SessionService {
 
     public boolean isLogged(Id userId){
         Connection conn = ConnectionManager.getConnectionSingletone();
-        validateUserId(userId, conn);
 
         Optional<Session> session = sessionRepository.findByUserId(userId, conn);
-
         if (session.isEmpty())
             return false;
 

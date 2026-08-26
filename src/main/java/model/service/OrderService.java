@@ -36,20 +36,7 @@ public class OrderService {
         Validator.validateNotNull(order, "Order");
 
         Connection conn = ConnectionManager.getConnectionSingletone();
-
-        return Transaction.complete(conn, () -> {
-            if (! userRepository.existsById(order.getUserId(), conn))
-                throw new EntityNotFoundException(
-                        "Unknown user"
-                );
-
-            if (!productRepository.existsById(order.getProductId(), conn))
-                throw new EntityNotFoundException(
-                        "Unknown product"
-                );
-
-            return Transaction.complete(conn, () -> orderRepository.save(order, conn));
-        });
+        return Transaction.complete(conn, () -> orderRepository.save(order, conn));
     }
 
 
@@ -58,11 +45,13 @@ public class OrderService {
         Validator.validateNotNull(orderId, "Order id");
 
         Connection conn = ConnectionManager.getConnectionSingletone();
-        int affectedRows = orderRepository.update(order, orderId, conn);
-        if (affectedRows == 0)
-            throw new ServiceException(
-                    "Can't update order information"
-            );
+        Transaction.complete(conn, () -> {
+            int affectedRows = orderRepository.update(order, orderId, conn);
+            if (affectedRows == 0)
+                throw new ServiceException(
+                        "Can't update order information"
+                );
+        });
     }
 
 

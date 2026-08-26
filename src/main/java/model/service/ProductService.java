@@ -38,19 +38,6 @@ public class ProductService {
         Connection conn = ConnectionManager.getConnectionSingletone();
 
         return Transaction.complete(conn, () -> {
-
-            if (! warehouseRepository.existsById(product.getWarehouseId(), conn)){
-                throw new EntityNotFoundException(
-                        "Unknown warehouse id"
-                );
-            }
-
-            if (! manufacturerRepository.existsById(product.getManufacturerId(), conn)){
-                throw new EntityNotFoundException(
-                        "Unknown manufacturer repository"
-                );
-            }
-
             return productRepository.save(product, conn);
         });
     }
@@ -60,8 +47,11 @@ public class ProductService {
         Validator.validateNotNull(product, "Product");
         Validator.validateNotNull(productId, "Product id");
 
-        int affectedRows = productRepository.update(product, productId,
-                ConnectionManager.getConnectionSingletone());
+        Connection conn = ConnectionManager.getConnectionSingletone();
+        Transaction.complete(conn, () -> {
+            int affectedRows = productRepository.update(product, productId,
+                    ConnectionManager.getConnectionSingletone());
+        });
     }
 
     public void markAsDeleted(Id productId){

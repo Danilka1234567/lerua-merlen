@@ -27,31 +27,24 @@ public class WarehouseService {
     public Id create(Warehouse warehouse){
         Validator.validateNotNull(warehouse, "Warehouse");
         Connection conn = ConnectionManager.getConnectionSingletone();
-        return Transaction.complete(conn, () ->{
-
-            if (warehouseRepository.existsByFullAddress(warehouse.getFullAddress(), conn))
-                throw new ServiceException("Warehouse with such full address already exists in db");
-
-            if (warehouseRepository.existsByEmail(warehouse.getContactInfo().getEmail(), conn))
-                throw new ServiceException("Warehouse with such email already exists in db");
-
-            if (warehouseRepository.existsByPhoneNumber(warehouse.getContactInfo().getPhoneNumber(), conn))
-                throw new ServiceException("Warehouse with such phone number already exists in db");
-
-            return warehouseRepository.save(warehouse, conn);
-        });
+        return Transaction.complete(conn, () -> warehouseRepository.save(warehouse, conn));
     }
 
     public void updateInfo(Warehouse warehouse, Id id){
         Validator.validateNotNull(warehouse, "Warehouse");
         Validator.validateNotNull(id, "Id");
 
-        int affectedRows = warehouseRepository.update(warehouse, id,
-                ConnectionManager.getConnectionSingletone());
-        if (affectedRows == 0)
-            throw new ServiceException(
-                    "Can't update warehouse info"
-            );
+        Connection conn = ConnectionManager.getConnectionSingletone();
+
+        Transaction.complete(conn, () -> {
+            int affectedRows = warehouseRepository.update(warehouse, id,
+                    ConnectionManager.getConnectionSingletone());
+            if (affectedRows == 0)
+                throw new ServiceException(
+                        "Can't update warehouse info"
+                );
+        });
+
     }
 
     public void markAsDeleted(Id id){

@@ -52,17 +52,6 @@ public class UserService {
         ContactInfo contactInfo = user.getContactInfo();
 
         return Transaction.complete(conn, () -> {
-            if (userRepository.existsByEmail(contactInfo.getEmail(), conn))
-                throw new ServiceException(
-                        "User with such email is already exists in database"
-                );
-
-            if (contactInfo.getPhoneNumber() != null &&
-                    userRepository.existsByPhoneNumber(contactInfo.getPhoneNumber(), conn))
-                throw new ServiceException(
-                        "User with such phone number is already exists in database"
-                );
-
             Id userId =  userRepository.save(user, conn);
             sessionService.create(userId);
             return userId;
@@ -75,9 +64,13 @@ public class UserService {
         Validator.validateNotNull(user, "User");
         Validator.validateNotNull(userId, "User id");
 
-        int affectedRows = userRepository.update(user, userId, ConnectionManager.getConnectionSingletone());
-        if (affectedRows == 0)
-            throw new ServiceException("Can't update user's info");
+        Connection conn = ConnectionManager.getConnectionSingletone();
+        Transaction.complete(conn, () -> {
+            int affectedRows = userRepository.update(user, userId, ConnectionManager.getConnectionSingletone());
+            if (affectedRows == 0)
+                throw new ServiceException("Can't update user's info");
+            }
+        );
     }
 
 
