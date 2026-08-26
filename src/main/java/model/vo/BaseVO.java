@@ -1,6 +1,7 @@
 package model.vo;
 
 import java.util.List;
+import java.util.Objects;
 
 public abstract class BaseVO<T> {
 
@@ -21,6 +22,20 @@ public abstract class BaseVO<T> {
         }
 
         this.value = value;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj.getClass() != getClass())
+            return false;
+        if (obj == this)
+            return true;
+        return ((BaseVO<?>) obj).getValue().equals(value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(value);
     }
 
     protected abstract List<String> getViolations(T value);

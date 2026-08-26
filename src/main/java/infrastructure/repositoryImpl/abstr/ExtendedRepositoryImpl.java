@@ -1,7 +1,10 @@
 package infrastructure.repositoryImpl.abstr;
 
+import model.entity.abstr.BaseEntity;
+import model.exception.ForeignKeyViolationException;
 import model.exception.RepositoryException;
 import infrastructure.repositoryImpl.rsmapper.RsMapper;
+import model.exception.UniqueViolationException;
 import model.vo.Id;
 
 import java.sql.*;
@@ -9,15 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class ExtendedRepositoryImpl<T extends ExtendedEntity> extends BaseRepositoryImpl<T> {
-
+public abstract class ExtendedRepositoryImpl<T extends BaseEntity> extends BaseRepositoryImpl<T> {
 
     protected abstract RsMapper<T> getMapper();
 
     protected abstract String getUpdateSql();
     protected abstract String getFindAllByDeleteStatusSql();
     protected abstract String getFindByIdSql();
-
     protected abstract void fillUpdatePstmt(PreparedStatement statement, T entity, Id id) throws  SQLException;
     protected abstract void fillFindAllByDeleteStatusPstmt(PreparedStatement statement,
                                                            boolean status) throws  SQLException;
@@ -38,6 +39,12 @@ public abstract class ExtendedRepositoryImpl<T extends ExtendedEntity> extends B
             fillUpdatePstmt(statement, entity, id);
             return statement.executeUpdate();
         }catch (SQLException e){
+
+            if (e.getSQLState().equals(FOREIGN_KEY_VIOLATION_STATE))
+                throw new ForeignKeyViolationException();
+            if (e.getSQLState().equals(UNIQUE_VIOLATION_STATE))
+                throw new UniqueViolationException();
+
             throw new RepositoryException(
                     "Can't update entity!", e
             );

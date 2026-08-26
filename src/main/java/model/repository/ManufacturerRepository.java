@@ -1,8 +1,10 @@
 package model.repository;
 
 import model.entity.Manufacturer;
+import model.exception.ForeignKeyViolationException;
 import model.exception.GeneratedKeysException;
 import model.exception.RepositoryException;
+import model.exception.UniqueViolationException;
 import model.vo.Email;
 import model.vo.FullAddress;
 import model.vo.Id;
@@ -15,10 +17,12 @@ import java.util.Optional;
 
 public interface ManufacturerRepository{
 
-    Id save(Manufacturer entity, Connection conn) throws GeneratedKeysException, RepositoryException;
+    Id save(Manufacturer entity, Connection conn) throws GeneratedKeysException, RepositoryException,
+            UniqueViolationException;
+
     int setDeletionStatus(boolean status, Id id, Connection conn) throws RepositoryException;
     int remove(Connection conn) throws RepositoryException;
-    int update(Manufacturer entity, Id id, Connection conn) throws RepositoryException;
+    int update(Manufacturer entity, Id id, Connection conn) throws RepositoryException, UniqueViolationException;
     List<Manufacturer> findAllByDeleteStatus(boolean status, Connection conn) throws RepositoryException;
     Optional<Manufacturer> findById(Id id, Connection conn) throws RepositoryException;
     List<Manufacturer> findAllBySpecialization(String specialization, Connection conn) throws RepositoryException;

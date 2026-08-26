@@ -1,6 +1,8 @@
 package model.service.shared;
 
+import model.exception.ForeignKeyViolationException;
 import model.exception.ServiceException;
+import model.exception.UniqueViolationException;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,7 +17,8 @@ public class Transaction {
         void run() throws SQLException;
     }
 
-    public static<T> T complete(Connection conn, Operation<T> operation) throws ServiceException{
+    public static<T> T complete(Connection conn, Operation<T> operation) throws ServiceException,
+                ForeignKeyViolationException, UniqueViolationException{
 
         if (conn == null)
             throw new IllegalArgumentException(
@@ -39,6 +42,20 @@ public class Transaction {
             T result = operation.run();
             conn.commit();
             return result;
+        } catch (ForeignKeyViolationException | UniqueViolationException e){
+            try{
+                conn.rollback();
+            } catch (SQLException ex) {
+                e.addSuppressed(ex);
+                throw new ServiceException("Changes weren't rolled back, but should be!", e);
+            }
+
+            String errorMessage = e.getMessage() + "changes were rolled back!";
+            if (e instanceof ForeignKeyViolationException)
+                throw new ForeignKeyViolationException(errorMessage);
+            else
+                throw new UniqueViolationException(errorMessage);
+
         } catch (Exception e) {
             try{
                 conn.rollback();

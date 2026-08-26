@@ -1,13 +1,18 @@
 package infrastructure.repositoryImpl.abstr;
 
+import model.exception.ForeignKeyViolationException;
 import model.exception.GeneratedKeysException;
 import model.exception.RepositoryException;
 import model.entity.abstr.BaseEntity;
+import model.exception.UniqueViolationException;
 import model.vo.Id;
 
 import java.sql.*;
 
 public abstract class BaseRepositoryImpl<T extends BaseEntity> {
+
+    protected static final String FOREIGN_KEY_VIOLATION_STATE = "23503";
+    protected static final String UNIQUE_VIOLATION_STATE = "23505";
 
     protected abstract String getSaveSql();
     protected abstract String getSetDeletionStatusSql();
@@ -35,12 +40,21 @@ public abstract class BaseRepositoryImpl<T extends BaseEntity> {
 
                 return new Id(rs.getLong(1));
             }catch (SQLException e){
+
                 throw new GeneratedKeysException(
                         "Can't receive generated key from DB", e
                 );
             }
 
         }catch (SQLException e){
+
+            if (e.getSQLState().equals(UNIQUE_VIOLATION_STATE)){
+                throw new UniqueViolationException();
+            }
+
+            if (e.getSQLState().equals(FOREIGN_KEY_VIOLATION_STATE))
+                throw new ForeignKeyViolationException();
+
             throw new RepositoryException("Can't save entity into DB!", e);
         }
     }

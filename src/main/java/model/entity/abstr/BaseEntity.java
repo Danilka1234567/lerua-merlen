@@ -2,6 +2,7 @@ package model.entity.abstr;
 
 import model.vo.Id;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public abstract class BaseEntity{
@@ -34,6 +35,20 @@ public abstract class BaseEntity{
             );
 
         this.id = id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj.getClass() != getClass())
+            return false;
+
+        if (obj == this) return true;
+        return Objects.equals(id, ((BaseEntity) obj).getId());
     }
 
     public Id getId() {
