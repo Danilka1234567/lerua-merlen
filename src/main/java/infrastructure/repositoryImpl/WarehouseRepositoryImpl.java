@@ -167,6 +167,16 @@ public class WarehouseRepositoryImpl extends OrganizationRepositoryImpl<Warehous
     }
 
     @Override
+    protected String getExistsByEmailSql() {
+        return "SELECT EXISTS(SELECT 1 FROM warehouses WHERE email = ? AND is_deleted = false)";
+    }
+
+    @Override
+    protected String getExistsByPhoneNumberSql() {
+        return "SELECT EXISTS(SELECT 1 FROM warehouses WHERE phone_number = ? AND is_deleted = false)";
+    }
+
+    @Override
     protected void fillExistsByFullAddressPstmt(PreparedStatement statement, FullAddress fullAddress) throws SQLException {
         statement.setString(1, fullAddress.getCountry());
         statement.setString(2, fullAddress.getRegion());

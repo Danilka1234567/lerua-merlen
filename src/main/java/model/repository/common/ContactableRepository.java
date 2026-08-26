@@ -12,5 +12,6 @@ public interface ContactableRepository<T extends ContactableEntity> extends Exte
 
     Optional<T> findByPhoneNumber(PhoneNumber phoneNumber, Connection conn) throws RepositoryException;
     Optional<T> findByEmail(Email email, Connection conn) throws RepositoryException;
-
+    boolean existsByEmail(Email email, Connection conn) throws RepositoryException;
+    boolean existsByPhoneNumber(PhoneNumber phoneNumber, Connection conn) throws RepositoryException;
 }

@@ -130,6 +130,16 @@ public class UserRepositoryImpl extends ContactableRepositoryImpl<User> implemen
     }
 
     @Override
+    protected String getExistsByEmailSql() {
+        return "SELECT EXISTS(SELECT 1 FROM users WHERE email = ? AND is_deleted = false)";
+    }
+
+    @Override
+    protected String getExistsByPhoneNumberSql() {
+        return "SELECT EXISTS(SELECT 1 FROM users WHERE phone_number = ? AND is_deleted = false)";
+    }
+
+    @Override
     protected void fillFindAllBetweenRegDatePstmt(PreparedStatement statement, LocalDate start, LocalDate end) throws SQLException {
         statement.setDate(1, Date.valueOf(start));
         statement.setDate(2, Date.valueOf(end));

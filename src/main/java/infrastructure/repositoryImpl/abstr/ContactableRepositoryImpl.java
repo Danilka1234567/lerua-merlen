@@ -15,14 +15,16 @@ import java.util.Optional;
 public abstract class ContactableRepositoryImpl<T extends ContactableEntity> extends ExtendedRepositoryImpl<T>
                                         implements ContactableRepository<T> {
 
+    protected abstract String getExistsByEmailSql();
+    protected abstract String getExistsByPhoneNumberSql();
     protected abstract String getFindByPhoneNumberSql();
     protected abstract String getFindByEmailSql();
 
     protected abstract void fillFindByPhoneNumberPstmt(PreparedStatement statement,
                                                        PhoneNumber phoneNumber) throws SQLException;
+
     protected abstract void fillFindByEmailPstmt(PreparedStatement statement,
                                                  Email email) throws SQLException;
-
     @Override
     public Optional<T> findByPhoneNumber(PhoneNumber phoneNumber, Connection conn) {
         try(PreparedStatement statement = conn.prepareStatement(getFindByPhoneNumberSql())){
@@ -53,6 +55,36 @@ public abstract class ContactableRepositoryImpl<T extends ContactableEntity> ext
         }catch (SQLException e){
             throw new RepositoryException(
                     "Can't try to find entity by email" , e
+            );
+        }
+    }
+
+    @Override
+    public boolean existsByEmail(Email email, Connection conn) throws RepositoryException {
+        try(PreparedStatement statement = conn.prepareStatement(getExistsByEmailSql())){
+            statement.setString(1, email.getValue());
+
+            try(ResultSet rs = statement.executeQuery()){
+                return rs.getBoolean(1);
+            }
+        }catch (SQLException e){
+            throw new RepositoryException(
+                    "Can't try to check entity existence by email", e
+            );
+        }
+    }
+
+    @Override
+    public boolean existsByPhoneNumber(PhoneNumber phoneNumber, Connection conn) throws RepositoryException {
+        try(PreparedStatement statement = conn.prepareStatement(getExistsByPhoneNumberSql())){
+            statement.setString(1, phoneNumber.getValue());
+
+            try(ResultSet rs = statement.executeQuery()){
+                return rs.getBoolean(1);
+            }
+        }catch (SQLException e){
+            throw new RepositoryException(
+                    "Can't try to check entity existence by phone number", e
             );
         }
     }

@@ -113,6 +113,16 @@ public class ManufacturerRepositoryImpl extends OrganizationRepositoryImpl<Manuf
     }
 
     @Override
+    protected String getExistsByEmailSql() {
+        return "SELECT EXISTS(SELECT 1 FROM manufacturers WHERE email = ? AND is_deleted = false)";
+    }
+
+    @Override
+    protected String getExistsByPhoneNumberSql() {
+        return "SELECT EXISTS(SELECT 1 FROM manufacturers WHERE phone_number = ? AND is_deleted = false)";
+    }
+
+    @Override
     protected String getFindByPhoneNumberSql() {
         return findByPhoneNumberSql;
     }
