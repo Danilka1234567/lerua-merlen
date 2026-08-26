@@ -1,8 +1,6 @@
 package model.service;
 
 import infrastructure.config.ConnectionManager;
-import model.dto.request.OrderCreateDto;
-import model.dto.request.OrderRequestDto;
 import model.entity.Order;
 import model.exception.EntityNotFoundException;
 import model.exception.ServiceException;
@@ -11,11 +9,9 @@ import model.repository.ProductRepository;
 import model.repository.UserRepository;
 import model.service.shared.Transaction;
 import model.service.shared.Validator;
-import model.service.mapper.OrderMapper;
 import model.vo.Id;
 
 import java.sql.Connection;
-import java.time.LocalDate;
 import java.util.List;
 
 public class OrderService {
@@ -36,34 +32,31 @@ public class OrderService {
         this.userRepository = userRepository;
     }
 
-    public Id createOrder(OrderCreateDto request, Id currentUserId){
-        Validator.validateNotNull(request, "Request dto");
-        Validator.validateNotNull(currentUserId, "User id");
+    public Id createOrder(Order order){
+        Validator.validateNotNull(order, "Order");
 
         Connection conn = ConnectionManager.getConnectionSingletone();
 
         return Transaction.complete(conn, () -> {
-            if (! userRepository.existsById(currentUserId, conn))
+            if (! userRepository.existsById(order.getUserId(), conn))
                 throw new EntityNotFoundException(
                         "Unknown user"
                 );
 
-            if (!productRepository.existsById(request.productId(), conn))
+            if (!productRepository.existsById(order.getProductId(), conn))
                 throw new EntityNotFoundException(
                         "Unknown product"
                 );
 
-            Order order = OrderMapper.mapRequestToEntity(request, currentUserId);
             return Transaction.complete(conn, () -> orderRepository.save(order, conn));
         });
     }
 
 
-    public void updateOrderInfo(OrderRequestDto request, Id orderId){
-        Validator.validateNotNull(request, "Request dto");
+    public void updateOrderInfo(Order order, Id orderId){
+        Validator.validateNotNull(order, "Request dto");
         Validator.validateNotNull(orderId, "Order id");
 
-        Order order = OrderMapper.mapRequestToEntity(request);
         Connection conn = ConnectionManager.getConnectionSingletone();
         int affectedRows = orderRepository.update(order, orderId, conn);
         if (affectedRows == 0)
@@ -71,7 +64,6 @@ public class OrderService {
                     "Can't update order information"
             );
     }
-
 
 
     public void markAsDeleted(Id orderId){

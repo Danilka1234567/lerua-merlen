@@ -1,23 +1,16 @@
 package model.service;
 
 import infrastructure.config.ConnectionManager;
-import model.dto.request.UserLoginDto;
-import model.dto.request.UserRequestDto;
 import model.entity.User;
 import model.enums.UserRole;
 import model.exception.EntityNotFoundException;
 import model.exception.ServiceException;
 import model.repository.UserRepository;
-import model.service.mapper.UserMapper;
 import model.service.shared.Transaction;
 import model.service.shared.Validator;
-import model.vo.ContactInfo;
-import model.vo.Email;
-import model.vo.Id;
-import model.vo.PhoneNumber;
+import model.vo.*;
 
 import java.sql.Connection;
-import java.time.LocalDate;
 import java.util.List;
 
 public class UserService {
@@ -33,19 +26,17 @@ public class UserService {
     }
 
 
-    public Id loginUser(UserLoginDto request){
-        Validator.validateNotNull(request, "Request dto");
+    public Id loginUser(Email email, Password password){
+        Validator.validateNotNull(email, "Email");
+        Validator.validateNotNull(password, "Password");
         Connection conn = ConnectionManager.getConnectionSingletone();
 
-        User userFromDb = userRepository.findByEmail(request.email(), conn).orElseThrow(
+        User userFromDb = userRepository.findByEmail(email, conn).orElseThrow(
                 () -> new EntityNotFoundException("Unknown user email")
         );
 
-        if (! userFromDb.getName().equals(request.name()))
-            throw new ServiceException("Wrong user name");
-
         /// Пароли - просто VO, не хешируются, не кодируются! допустимо только в рамках учебного проекта!
-        if (! userFromDb.getPassword().equals(request.password()))
+        if (! userFromDb.getPassword().equals(password))
             throw new ServiceException("Wrong password");
 
         Id userId = userFromDb.getId();
@@ -54,11 +45,11 @@ public class UserService {
     }
 
 
-    public Id registerUser(UserRequestDto request){
-        Validator.validateNotNull(request, "Request dto");
+    public Id registerUser(User user){
+        Validator.validateNotNull(user, "User");
         Connection conn = ConnectionManager.getConnectionSingletone();
 
-        ContactInfo contactInfo = request.contactInfo();
+        ContactInfo contactInfo = user.getContactInfo();
 
         return Transaction.complete(conn, () -> {
             if (userRepository.existsByEmail(contactInfo.getEmail(), conn))
@@ -72,7 +63,7 @@ public class UserService {
                         "User with such phone number is already exists in database"
                 );
 
-            Id userId =  userRepository.save(UserMapper.mapRequestToEntity(request), conn);
+            Id userId =  userRepository.save(user, conn);
             sessionService.create(userId);
             return userId;
         });
@@ -80,11 +71,10 @@ public class UserService {
 
 
 
-    public void updateUserInfo(UserRequestDto request, Id userId){
-        Validator.validateNotNull(request, "Request dto");
+    public void updateUserInfo(User user, Id userId){
+        Validator.validateNotNull(user, "User");
         Validator.validateNotNull(userId, "User id");
 
-        User user = UserMapper.mapRequestToEntity(request);
         int affectedRows = userRepository.update(user, userId, ConnectionManager.getConnectionSingletone());
         if (affectedRows == 0)
             throw new ServiceException("Can't update user's info");
