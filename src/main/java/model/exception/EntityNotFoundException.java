@@ -1,7 +1,7 @@
 package model.exception;
 
-public class ForeignKeyException extends RuntimeException {
-    public ForeignKeyException(String message) {
+public class EntityNotFoundException extends RuntimeException {
+    public EntityNotFoundException(String message) {
         super(message);
     }
 }
