@@ -38,6 +38,7 @@ public class Main {
                 warehouseController
         );
 
-        appController.run();
+        warehouseController.setUserRole(userService.getUserById(new Id(27L)).getRole());
+        warehouseController.run();
     }
 }

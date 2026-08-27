@@ -4,7 +4,7 @@ SELECT
     m.name AS manufacturer_name,
     w.city,
     u.name AS last_customer_name,
-    s.expiration_date,
+    s.expiration_date
 FROM products p
 JOIN manufacturers m ON p.manufacturer_id = m.id
 JOIN warehouses w ON p.warehouse_id = w.id

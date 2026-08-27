@@ -54,8 +54,8 @@ public class ProductRepositoryImpl extends ExtendedRepositoryImpl<Product> imple
             "sql/dml/product/delete.sql"
     );
 
-    private static final String findMostRelevantProductsSql = ResourceReader.read(
-            "sql/dml/product/select_most_relevant_products.sql"
+    private static final String findProductDetailsSql = ResourceReader.read(
+            "sql/dql/product/select_product_details.sql"
     );
 
     @Override
@@ -161,7 +161,7 @@ public class ProductRepositoryImpl extends ExtendedRepositoryImpl<Product> imple
     @Override
     public List<Product> findAllLikeName(String name, Connection conn) throws RepositoryException {
         try(PreparedStatement statement = conn.prepareStatement(findAllLikeNameSql)){
-            statement.setString(1, "%" + name);
+            statement.setString(1, name + "%");
 
             try(ResultSet rs = statement.executeQuery()){
                 if (! rs.next())
@@ -178,8 +178,8 @@ public class ProductRepositoryImpl extends ExtendedRepositoryImpl<Product> imple
 
     @Override
     public List<ProductDetails> findProductsDetails(String manufacturerName, Connection conn) throws RepositoryException {
-        try(PreparedStatement preparedStatement = conn.prepareStatement(findMostRelevantProductsSql)){
-            preparedStatement.setString(1, "%" + manufacturerName);
+        try(PreparedStatement preparedStatement = conn.prepareStatement(findProductDetailsSql)){
+            preparedStatement.setString(1, manufacturerName + "%");
             try(ResultSet rs = preparedStatement.executeQuery()){
                 if (! rs.next())
                     return List.of();

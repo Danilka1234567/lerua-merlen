@@ -23,3 +23,5 @@ FROM orders o
 JOIN users u ON o.user_id = u.id
 JOIN products p ON o.product_id = p.id
 WHERE o.is_deleted = ?
+ORDER BY p.price DESC
+LIMIT 250

@@ -193,6 +193,9 @@ public class ProductController implements Runnable{
                 ));
             }
 
+            if(choice == 6)
+                break;
+
             if (product != null){
                 System.out.println(mapProductToString(product));
                 break;
