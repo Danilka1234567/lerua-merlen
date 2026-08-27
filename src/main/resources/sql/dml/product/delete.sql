@@ -1,1 +1,1 @@
-DELETE FROM products WHERE is_deleted = false
+DELETE FROM products WHERE is_deleted = true

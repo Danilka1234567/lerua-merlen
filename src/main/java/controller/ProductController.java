@@ -137,8 +137,7 @@ public class ProductController implements Runnable{
         if (! agreement)
             return;
 
-        productService.cleanDeleted();
-
+        System.out.println(productService.cleanDeleted() + "- было удалено из бд");
     }
 
 
