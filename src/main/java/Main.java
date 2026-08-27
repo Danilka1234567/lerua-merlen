@@ -2,6 +2,7 @@ import controller.*;
 import infrastructure.config.ConnectionManager;
 import infrastructure.config.DbInitializer;
 import infrastructure.repositoryImpl.*;
+import model.enums.UserRole;
 import model.service.*;
 import model.vo.Id;
 
@@ -15,7 +16,7 @@ public class Main {
 
         ManufacturerService manufacturerService = new ManufacturerService(new ManufacturerRepositoryImpl());
         OrderService orderService = new OrderService(new OrderRepositoryImpl());
-        ProductService productService = new ProductService(new ProductRepositoryImpl());
+        ProductService productService = new ProductService(new ProductRepositoryImpl(), new WarehouseRepositoryImpl());
         SessionService sessionService = new SessionService(new SessionRepositoryImpl());
         UserService userService = new UserService(new UserRepositoryImpl(), sessionService);
         WarehouseService warehouseService = new WarehouseService(new WarehouseRepositoryImpl());
@@ -37,10 +38,6 @@ public class Main {
                 warehouseController
         );
 
-//        appController.run();
-
-        productController.setCurrentUser(userService.getUserById(new Id(1L)));
-        productController.run();
+        appController.run();
     }
-
 }

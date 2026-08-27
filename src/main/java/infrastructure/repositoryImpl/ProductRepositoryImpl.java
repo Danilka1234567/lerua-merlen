@@ -1,5 +1,6 @@
 package infrastructure.repositoryImpl;
 
+import model.dto.ProductDetails;
 import model.exception.RepositoryException;
 import infrastructure.repositoryImpl.abstr.ExtendedRepositoryImpl;
 import infrastructure.repositoryImpl.rsmapper.ProductMapper;
@@ -10,6 +11,7 @@ import model.repository.ProductRepository;
 import model.vo.Id;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductRepositoryImpl extends ExtendedRepositoryImpl<Product> implements ProductRepository {
@@ -50,6 +52,10 @@ public class ProductRepositoryImpl extends ExtendedRepositoryImpl<Product> imple
 
     private static final String removeSql = ResourceReader.read(
             "sql/dml/product/delete.sql"
+    );
+
+    private static final String findMostRelevantProductsSql = ResourceReader.read(
+            "sql/dml/product/select_most_relevant_products.sql"
     );
 
     @Override
@@ -166,6 +172,35 @@ public class ProductRepositoryImpl extends ExtendedRepositoryImpl<Product> imple
         }catch (SQLException e){
             throw new RepositoryException(
                     "Failed to find all products like name", e
+            );
+        }
+    }
+
+    @Override
+    public List<ProductDetails> findProductsDetails(String manufacturerName, Connection conn) throws RepositoryException {
+        try(PreparedStatement preparedStatement = conn.prepareStatement(findMostRelevantProductsSql)){
+            preparedStatement.setString(1, "%" + manufacturerName);
+            try(ResultSet rs = preparedStatement.executeQuery()){
+                if (! rs.next())
+                    return List.of();
+
+                List<ProductDetails> statisticDtos = new ArrayList<>();
+                while (rs.next()){
+                    statisticDtos.add(new ProductDetails(
+                            rs.getString("product_name"),
+                            rs.getBigDecimal("price"),
+                            rs.getString("manufacturer_name"),
+                            rs.getString("city"),
+                            rs.getString("last_customer_name"),
+                            rs.getTimestamp("expiration_date").toLocalDateTime()
+                            )
+                    );
+                }
+                return statisticDtos;
+            }
+        }catch (SQLException e){
+            throw new RepositoryException(
+                    "Failed to find most relevant products", e
             );
         }
     }

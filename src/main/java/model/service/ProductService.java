@@ -1,17 +1,17 @@
 package model.service;
 
 import infrastructure.config.ConnectionManager;
+import model.dto.ProductDetails;
 import model.entity.Product;
+import model.entity.Warehouse;
 import model.exception.EntityNotFoundException;
 import model.exception.ServiceException;
-import model.repository.ManufacturerRepository;
 import model.repository.ProductRepository;
 import model.repository.WarehouseRepository;
 import model.service.shared.Transaction;
 import model.service.shared.Validator;
 import model.vo.Id;
 
-import javax.sql.rowset.serial.SerialException;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.util.List;
@@ -19,11 +19,13 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final WarehouseRepository warehouseRepository;
 
-    public ProductService(ProductRepository productRepository) {
-
+    public ProductService(ProductRepository productRepository, WarehouseRepository warehouseRepository) {
+        Validator.validateNotNull(warehouseRepository, "Warehouse repository");
         Validator.validateNotNull(productRepository, "Product repository");
 
+        this.warehouseRepository = warehouseRepository;
         this.productRepository = productRepository;
     }
 
@@ -32,9 +34,20 @@ public class ProductService {
         Validator.validateNotNull(product, "Product");
         Connection conn = ConnectionManager.getConnectionSingletone();
 
-        return Transaction.complete(conn, () -> {
-            return productRepository.save(product, conn);
-        });
+        Warehouse warehouse = warehouseRepository.findById(
+                product.getWarehouseId(), ConnectionManager.getConnectionSingletone()).orElseThrow(
+                () -> new EntityNotFoundException("Unknown warehouseId")
+        );
+
+        if (getAllByWarehouseId(product.getWarehouseId()).size() > warehouse.getCapacity()){
+            throw new ServiceException(
+                    "Warehouse is full"
+            );
+        }
+
+        return Transaction.complete(conn, () ->
+            productRepository.save(product, conn)
+        );
     }
 
 
@@ -110,5 +123,10 @@ public class ProductService {
 
     public List<Product> getAllLikeName(String name){
         return productRepository.findAllLikeName(name, ConnectionManager.getConnectionSingletone());
+    }
+
+    public List<ProductDetails> getProductDetails(String manufacturerName){
+        return productRepository.findProductsDetails(manufacturerName,
+                ConnectionManager.getConnectionSingletone());
     }
 }

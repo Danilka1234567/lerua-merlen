@@ -237,7 +237,7 @@ public class OrderController implements Runnable{
     protected static String mapOrderToString(Order order){
         return "{type: Заказ, id: %d, user: %s, product: %s, %s, deliveryPeriod: %d}".formatted(
                 order.getId().getValue(), UserController.mapUserToString(order.getUser()),
-                ProductController.mapProductToString(order.getProduct()),
+                ProductController.mapProductToString(order.getProduct()) ,
                 order.getDeliveryAddress(), order.getDeliveryPeriod()
         );
     }

@@ -47,7 +47,7 @@ public class WarehouseService {
         );
         int affectedRows = Transaction.complete(conn, () ->
             warehouseRepository.update(warehouseToUpdate, id,
-                    ConnectionManager.getConnectionSingletone())
+                    conn)
         );
         if (affectedRows == 0)
             throw new ServiceException(

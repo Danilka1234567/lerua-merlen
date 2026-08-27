@@ -1,6 +1,7 @@
 package controller;
 
 import controller.shared.InputHandler;
+import model.dto.ProductDetails;
 import model.entity.Product;
 import model.entity.User;
 import model.enums.UserRole;
@@ -154,17 +155,18 @@ public class ProductController implements Runnable{
                 3. Получить спиcок товар по айди склада
                 4. Получить список удалённых товаров
                 5. Получить список товаров по имени
-                6. Выйти в меню
+                6. Получить список товаров с расширенной информацией
+                7. Выйти в меню
                 """;
 
         while(true){
 
             int choice = InputHandler.getIntFromClient(message);
 
-            if (choice == 6)
+            if (choice == 7)
                 return;
 
-            if (choice < 1 || choice > 6){
+            if (choice < 1 || choice > 7){
                 System.out.println("Такого номера нет в списке! Попробуйте снова");
                 continue;
             }
@@ -186,6 +188,9 @@ public class ProductController implements Runnable{
                 case 5 -> products = productService.getAllLikeName(
                         InputHandler.getStringFromClient("Введите наименование товара:")
                 );
+                case 6 -> soutProductsDetails(productService.getProductDetails(
+                        InputHandler.getStringFromClient("Введите имя производителя:")
+                ));
             }
 
             if (product != null){
@@ -257,11 +262,26 @@ public class ProductController implements Runnable{
         }
     }
 
+    private static void soutProductsDetails(List<ProductDetails> productsDetails){
+        int i = 1;
+        for (ProductDetails productDetails : productsDetails){
+            System.out.println(i++ + ". "+
+                    ("{type: ProductDetails, productName: %s, price: %.2f,  manufacturerName: %s" +
+                            ", lastCustomerName: %s,  sessionExpiredAt: %s, warehouseCity: %s}").formatted(
+                    productDetails.productName(), productDetails.price(),  productDetails.manufacturerName(),
+                            productDetails.lastCustomerName(), productDetails.sessionExpiredAt(),
+                            productDetails.warehouseCity()
+            ));
+        }
+    }
+
     protected static String mapProductToString(Product product){
         return ("{type: Товар, id: %d, name: %s, warehouse: %s," +
                 "manufacturer: %s, price: %.2f, discount: %.2f}").formatted(
-                        product.getId().getValue(), product.getName(), WarehouseController.mapWarehouseToString(product.getWarehouse()),
-                    ManufacturerController.mapManufacturerToString(product.getManufacturer()), product.getPrice(), product.getDiscount()
+                        product.getId().getValue(), product.getName(),
+                product.getWarehouse() == null ? product.getWarehouseId().getValue() : WarehouseController.mapWarehouseToString(product.getWarehouse()),
+                product.getManufacturer() == null ? product.getManufacturerId().getValue() : ManufacturerController.mapManufacturerToString(product.getManufacturer())
+                , product.getPrice(), product.getDiscount()
         );
     }
 }

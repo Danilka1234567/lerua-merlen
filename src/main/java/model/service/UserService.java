@@ -80,7 +80,7 @@ public class UserService {
 
         int affectedRows = Transaction.complete(conn, () ->
             userRepository.update(
-                    userToUpdate, userId, ConnectionManager.getConnectionSingletone()
+                    userToUpdate, userId, conn
             )
         );
         if (affectedRows == 0)
