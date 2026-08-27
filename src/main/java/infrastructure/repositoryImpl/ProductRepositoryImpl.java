@@ -4,17 +4,19 @@ import model.exception.RepositoryException;
 import infrastructure.repositoryImpl.abstr.ExtendedRepositoryImpl;
 import infrastructure.repositoryImpl.rsmapper.ProductMapper;
 import infrastructure.repositoryImpl.rsmapper.RsMapper;
-import infrastructure.repositoryImpl.shared.ExistenceChecker;
 import infrastructure.utils.ResourceReader;
 import model.entity.Product;
 import model.repository.ProductRepository;
 import model.vo.Id;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.List;
 
 public class ProductRepositoryImpl extends ExtendedRepositoryImpl<Product> implements ProductRepository {
+
+    private static final String findAllLikeNameSql = ResourceReader.read(
+            "sql/dql/product/select_like_name.sql"
+    );
 
     private static final String findAllByWarehouseIdSql = ResourceReader.read(
             "sql/dql/product/select_by_warehouse_id.sql"
@@ -22,10 +24,6 @@ public class ProductRepositoryImpl extends ExtendedRepositoryImpl<Product> imple
 
     private static final String findAllByManufacturerIdSql = ResourceReader.read(
             "sql/dql/product/select_by_manufacturer_id.sql"
-    );
-
-    private static final String findAllByWarehouseIdAndManufacturerIdSql = ResourceReader.read(
-            "sql/dql/product/select_by_manufacturer_id_and_warehouse_id.sql"
     );
 
     private static final RsMapper<Product> mapper = new ProductMapper();
@@ -52,10 +50,6 @@ public class ProductRepositoryImpl extends ExtendedRepositoryImpl<Product> imple
 
     private static final String removeSql = ResourceReader.read(
             "sql/dml/product/delete.sql"
-    );
-
-    private static final String existsByIdSql = ResourceReader.read(
-            "sql/dql/product/exists_by_id.sql"
     );
 
     @Override
@@ -159,7 +153,20 @@ public class ProductRepositoryImpl extends ExtendedRepositoryImpl<Product> imple
     }
 
     @Override
-    public boolean existsById(Id id, Connection conn) {
-        return ExistenceChecker.checkExistenceById(conn, id, existsByIdSql);
+    public List<Product> findAllLikeName(String name, Connection conn) throws RepositoryException {
+        try(PreparedStatement statement = conn.prepareStatement(findAllLikeNameSql)){
+            statement.setString(1, "%name");
+
+            try(ResultSet rs = statement.executeQuery()){
+                if (! rs.next())
+                    return List.of();
+
+                return mapRsToList(rs);
+            }
+        }catch (SQLException e){
+            throw new RepositoryException(
+                    "Failed to find all products like name", e
+            );
+        }
     }
 }

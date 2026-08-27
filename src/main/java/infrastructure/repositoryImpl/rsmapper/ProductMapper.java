@@ -22,8 +22,7 @@ public class ProductMapper implements RsMapper<Product>{
                 rs.getBigDecimal("discount"),
                 Warehouse.loadFromDb(
                         new Id(rs.getLong("warehouse_id")),
-                        rs.getBoolean("warehouse_id_deleted"),
-                        rs.getDate("warehouse_registration_date").toLocalDate(),
+                        rs.getBoolean("warehouse_is_deleted"),
                         new ContactInfo(
                                 new PhoneNumber(rs.getString("warehouse_phone_number")),
                                 new Email(rs.getString("warehouse_email"))
@@ -32,7 +31,7 @@ public class ProductMapper implements RsMapper<Product>{
                                 rs.getString("warehouse_country"),
                                 rs.getString("warehouse_region"),
                                 rs.getString("warehouse_city"),
-                                new StreetAddress("warehouse_street_address")
+                                new StreetAddress(rs.getString("warehouse_street_address"))
                         ),
                         rs.getInt("capacity")
                 ),
@@ -47,10 +46,10 @@ public class ProductMapper implements RsMapper<Product>{
                                 rs.getString("manufacturer_country"),
                                 rs.getString("manufacturer_region"),
                                 rs.getString("manufacturer_city"),
-                                new StreetAddress(rs.getString("street_address"))
+                                new StreetAddress(rs.getString("manufacturer_street_address"))
                         ),
                         rs.getString("manufacturer_name"),
-                        rs.getString("manufacturer_specialization")
+                        rs.getString("specialization")
                 )
         );
     }

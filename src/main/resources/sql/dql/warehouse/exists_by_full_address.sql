@@ -1,1 +1,0 @@
-SELECT EXISTS(SELECT 1 FROM warehouses WHERE country = ? AND region = ? AND city = ? AND street_address = ? AND is_deleted = false)

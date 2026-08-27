@@ -4,7 +4,6 @@ import model.exception.RepositoryException;
 import infrastructure.repositoryImpl.abstr.ContactableRepositoryImpl;
 import infrastructure.repositoryImpl.rsmapper.RsMapper;
 import infrastructure.repositoryImpl.rsmapper.UserMapper;
-import infrastructure.repositoryImpl.shared.ExistenceChecker;
 import infrastructure.utils.ResourceReader;
 import model.entity.User;
 import model.enums.UserRole;
@@ -14,7 +13,6 @@ import model.vo.Id;
 import model.vo.PhoneNumber;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.List;
 
 public class UserRepositoryImpl extends ContactableRepositoryImpl<User> implements UserRepository {
@@ -24,11 +22,6 @@ public class UserRepositoryImpl extends ContactableRepositoryImpl<User> implemen
     private static final String findByRoleSql = ResourceReader.read(
             "sql/dql/user/select_by_role.sql"
     );
-
-    private static final String existsByIdSql = ResourceReader.read(
-            "sql/dql/user/exists_by_id.sql"
-    );
-
     private static final String findByPhoneNumberSql = ResourceReader.read(
             "sql/dql/user/select_by_phone_number.sql"
     );
@@ -106,15 +99,6 @@ public class UserRepositoryImpl extends ContactableRepositoryImpl<User> implemen
         return removeSql;
     }
 
-    @Override
-    protected String getExistsByEmailSql() {
-        return "SELECT EXISTS(SELECT 1 FROM users WHERE email = ? AND is_deleted = false)";
-    }
-
-    @Override
-    protected String getExistsByPhoneNumberSql() {
-        return "SELECT EXISTS(SELECT 1 FROM users WHERE phone_number = ? AND is_deleted = false)";
-    }
 
     @Override
     protected void fillUpdatePstmt(PreparedStatement statement, User entity, Id id) throws SQLException {
@@ -173,10 +157,5 @@ public class UserRepositoryImpl extends ContactableRepositoryImpl<User> implemen
                     "Can't try to find users by role!", e
             );
         }
-    }
-
-    @Override
-    public boolean existsById(Id id, Connection conn) {
-        return ExistenceChecker.checkExistenceById(conn, id, existsByIdSql);
     }
 }

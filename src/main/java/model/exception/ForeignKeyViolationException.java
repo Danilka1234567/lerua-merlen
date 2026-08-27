@@ -14,11 +14,11 @@ public class ForeignKeyViolationException extends RuntimeException {
     @Override
     public String getMessage() {
         return switch (fieldName){
-            case "warehouse_id" -> "Where are no warehouse with such id in db";
-            case "manufacturer_id" -> "Where are no manufacturer with such id in db";
-            case "user_id" -> "Where are no user with such id in db";
-            case "product_id" -> "Where are no product with such id in db";
-            default -> "Where are no unknown entity with such id in db";
+            case "warehouse_id" -> "В базе данных нет скалада с таким айди!";
+            case "manufacturer_id" -> "В базе данных нет производителя с таким айди!";
+            case "user_id" -> "В базе данных нет пользователя с таким айди!";
+            case "product_id" -> "В базе данных нет товара с таким айди!";
+            default -> "Неизвестная ошибка 'иностранного' ключа";
         };
     }
 }

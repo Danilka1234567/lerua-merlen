@@ -21,8 +21,8 @@ public class UserService {
     public UserService(UserRepository userRepository, SessionService sessionService){
         Validator.validateNotNull(userRepository, "User repository");
         Validator.validateNotNull(sessionService, "Session service");
-        this.userRepository = userRepository;
         this.sessionService = sessionService;
+        this.userRepository = userRepository;
     }
 
 
@@ -40,7 +40,8 @@ public class UserService {
             throw new ServiceException("Wrong password");
 
         Id userId = userFromDb.getId();
-        sessionService.create(userId);
+        if (! sessionService.isLogged(userId))
+            sessionService.create(userId);
         return userId;
     }
 
@@ -49,28 +50,42 @@ public class UserService {
         Validator.validateNotNull(user, "User");
         Connection conn = ConnectionManager.getConnectionSingletone();
 
-        ContactInfo contactInfo = user.getContactInfo();
+        Id userId = Transaction.complete(conn, () ->
+                userRepository.save(user, conn)
+        );
 
-        return Transaction.complete(conn, () -> {
-            Id userId =  userRepository.save(user, conn);
-            sessionService.create(userId);
-            return userId;
-        });
+        sessionService.create(userId);
+        return userId;
     }
 
 
-
-    public void updateUserInfo(User user, Id userId){
-        Validator.validateNotNull(user, "User");
+    public void updateUserInfo(ContactInfo contactInfo, Password password, UserRole role, Id userId){
+        Validator.validateNotNull(role, "User role");
         Validator.validateNotNull(userId, "User id");
 
         Connection conn = ConnectionManager.getConnectionSingletone();
-        Transaction.complete(conn, () -> {
-            int affectedRows = userRepository.update(user, userId, ConnectionManager.getConnectionSingletone());
-            if (affectedRows == 0)
-                throw new ServiceException("Can't update user's info");
-            }
+
+        User userFromDb = userRepository.findById(userId, conn).orElseThrow(
+                () -> new EntityNotFoundException("Unknown user id")
         );
+
+        User userToUpdate = User.loadFromDb(
+                userFromDb.getId(),
+                userFromDb.isDeleted(),
+                contactInfo == null ? userFromDb.getContactInfo() : contactInfo,
+                userFromDb.getName(),
+                password == null ? userFromDb.getPassword() : password,
+                role
+        );
+
+        int affectedRows = Transaction.complete(conn, () ->
+            userRepository.update(
+                    userToUpdate, userId, ConnectionManager.getConnectionSingletone()
+            )
+        );
+        if (affectedRows == 0)
+            throw new ServiceException("Can't update user's info");
+
     }
 
 

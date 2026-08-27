@@ -23,4 +23,11 @@ public class ContactInfo {
     public Email getEmail() {
         return email;
     }
+
+    @Override
+    public String toString(){
+        return "email: %s, phoneNumber: %s".formatted(
+                email.getValue(), phoneNumber == null ? "no data" : phoneNumber.getValue()
+        );
+    }
 }

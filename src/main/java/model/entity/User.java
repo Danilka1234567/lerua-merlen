@@ -37,7 +37,6 @@ public class User extends ContactableEntity {
         setRole(role);
     }
 
-
     private void setName(String name) {
         if (name == null)
             throw new IllegalArgumentException(
@@ -56,7 +55,7 @@ public class User extends ContactableEntity {
         this.password = password;
     }
 
-    private void setRole(UserRole role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 

@@ -1,1 +1,1 @@
-UPDATE orders SET is_deleted = ? WHERE id = ?
+UPDATE products SET is_deleted = ? WHERE id = ?

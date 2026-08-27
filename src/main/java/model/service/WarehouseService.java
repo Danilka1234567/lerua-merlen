@@ -7,10 +7,7 @@ import model.exception.ServiceException;
 import model.repository.WarehouseRepository;
 import model.service.shared.Transaction;
 import model.service.shared.Validator;
-import model.vo.Email;
-import model.vo.FullAddress;
-import model.vo.Id;
-import model.vo.PhoneNumber;
+import model.vo.*;
 
 import java.sql.Connection;
 import java.util.List;
@@ -30,21 +27,32 @@ public class WarehouseService {
         return Transaction.complete(conn, () -> warehouseRepository.save(warehouse, conn));
     }
 
-    public void updateInfo(Warehouse warehouse, Id id){
-        Validator.validateNotNull(warehouse, "Warehouse");
+    public void updateInfo(ContactInfo contactInfo, FullAddress fullAddress, int capacity, Id id){
+        Validator.validateNotNull(contactInfo, "Contact info");
+        Validator.validateNotNull(fullAddress, "fullAddress");
         Validator.validateNotNull(id, "Id");
 
         Connection conn = ConnectionManager.getConnectionSingletone();
 
-        Transaction.complete(conn, () -> {
-            int affectedRows = warehouseRepository.update(warehouse, id,
-                    ConnectionManager.getConnectionSingletone());
-            if (affectedRows == 0)
-                throw new ServiceException(
-                        "Can't update warehouse info"
-                );
-        });
+        Warehouse warehouseFromDb = warehouseRepository.findById(id, conn).orElseThrow(
+                () -> new EntityNotFoundException("Unknown warehouse id")
+        );
 
+        Warehouse warehouseToUpdate = Warehouse.loadFromDb(
+                warehouseFromDb.getId(),
+                warehouseFromDb.isDeleted(),
+                contactInfo,
+                fullAddress,
+                capacity
+        );
+        int affectedRows = Transaction.complete(conn, () ->
+            warehouseRepository.update(warehouseToUpdate, id,
+                    ConnectionManager.getConnectionSingletone())
+        );
+        if (affectedRows == 0)
+            throw new ServiceException(
+                    "Failed to update warehouse info"
+            );
     }
 
     public void markAsDeleted(Id id){

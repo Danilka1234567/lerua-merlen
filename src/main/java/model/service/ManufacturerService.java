@@ -24,30 +24,45 @@ public class ManufacturerService {
     public Id create(Manufacturer manufacturer){
         Validator.validateNotNull(manufacturer, "Manufacturer");
         Connection conn = ConnectionManager.getConnectionSingletone();
-        ContactInfo contactInfo = manufacturer.getContactInfo();
 
         return Transaction.complete(conn,() ->  manufacturerRepository.save(manufacturer, conn));
     }
 
-    public void updateInfo(Manufacturer manufacturer, Id manufacturerId){
-        Validator.validateNotNull(manufacturer, "Manufacturer");
+    public void updateInfo(ContactInfo contactInfo, FullAddress fullAddress,
+                           String specialization, Id manufacturerId){
+        Validator.validateNotNull(contactInfo, "Contact info");
+        Validator.validateNotNull(fullAddress, "Full address");
+        Validator.validateNotNull(specialization, "Specialization");
         Validator.validateNotNull(manufacturerId, "Manufacturer id");
         Connection conn = ConnectionManager.getConnectionSingletone();
 
-        Transaction.complete(conn, () -> {
-            int affectedRows = manufacturerRepository.update(manufacturer, manufacturerId, conn);
 
-            if (affectedRows == 0)
-                throw new ServiceException(
+        Manufacturer manufacturerFromDb = manufacturerRepository.findById(manufacturerId, conn).orElseThrow(
+                () -> new EntityNotFoundException("Unknown manufacturer id")
+        );
+        Manufacturer manufacturerToUpdate = Manufacturer.loadFromDb(
+                manufacturerFromDb.getId(),
+                manufacturerFromDb.isDeleted(),
+                contactInfo,
+                fullAddress,
+                manufacturerFromDb.getName(),
+                specialization
+        );
+
+        int affectedRows = Transaction.complete(conn, () ->
+                manufacturerRepository.update(manufacturerToUpdate, manufacturerId, conn)
+        );
+
+        if (affectedRows == 0)
+            throw new ServiceException(
                     "Failed to update manufacturer info"
-                );
-        });
+            );
     }
 
     public void markAsDeleted(Id id){
         Validator.validateNotNull(id, "Id");
-        int affectedRows = manufacturerRepository.setDeletionStatus(false,
-                 id, ConnectionManager.getConnectionSingletone());
+        int affectedRows = manufacturerRepository.setDeletionStatus(
+                true, id, ConnectionManager.getConnectionSingletone());
         if (affectedRows == 0)
             throw new ServiceException("Can't mark manufacturer as deleted");
     }

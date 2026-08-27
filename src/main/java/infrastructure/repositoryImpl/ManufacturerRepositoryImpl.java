@@ -4,7 +4,6 @@ import model.exception.RepositoryException;
 import infrastructure.repositoryImpl.abstr.OrganizationRepositoryImpl;
 import infrastructure.repositoryImpl.rsmapper.ManufacturerMapper;
 import infrastructure.repositoryImpl.rsmapper.RsMapper;
-import infrastructure.repositoryImpl.shared.ExistenceChecker;
 import infrastructure.utils.ResourceReader;
 import model.entity.Manufacturer;
 import model.repository.ManufacturerRepository;
@@ -24,15 +23,7 @@ public class ManufacturerRepositoryImpl extends OrganizationRepositoryImpl<Manuf
             "sql/dql/manufacturer/select_like_specialization.sql"
     );
 
-    private final static String existsByIdSql = ResourceReader.read(
-        "sql/dql/manufacturer/select_exists_by_id.sql"
-    );
-
     private final static RsMapper<Manufacturer> mapper = new ManufacturerMapper();
-
-    private final static String existsByFullAddressSql = ResourceReader.read(
-            "sql/dql/manufacturer/exists_by_full_address.sql"
-    );
 
     private final static String findByFullAddressSql = ResourceReader.read(
             "sql/dql/manufacturer/select_by_full_address.sql"
@@ -80,11 +71,6 @@ public class ManufacturerRepositoryImpl extends OrganizationRepositoryImpl<Manuf
     }
 
     @Override
-    protected String getExistsByFullAddressSql() {
-        return existsByFullAddressSql;
-    }
-
-    @Override
     protected String getFindByFullAddressSql() {
         return findByFullAddressSql;
     }
@@ -102,16 +88,6 @@ public class ManufacturerRepositoryImpl extends OrganizationRepositoryImpl<Manuf
     @Override
     protected String getFindAllByCitySql() {
         return findAllByCitySql;
-    }
-
-    @Override
-    protected String getExistsByEmailSql() {
-        return "SELECT EXISTS(SELECT 1 FROM manufacturers WHERE email = ? AND is_deleted = false)";
-    }
-
-    @Override
-    protected String getExistsByPhoneNumberSql() {
-        return "SELECT EXISTS(SELECT 1 FROM manufacturers WHERE phone_number = ? AND is_deleted = false)";
     }
 
     @Override
@@ -164,13 +140,6 @@ public class ManufacturerRepositoryImpl extends OrganizationRepositoryImpl<Manuf
         statement.setString(1, email.getValue());
     }
 
-    @Override
-    protected void fillExistsByFullAddressPstmt(PreparedStatement statement, FullAddress fullAddress) throws SQLException {
-        statement.setString(1, fullAddress.getCountry());
-        statement.setString(2, fullAddress.getRegion());
-        statement.setString(3, fullAddress.getCity());
-        statement.setString(4, fullAddress.getStreetAddress().getValue());
-    }
 
     @Override
     protected void fillFindByFullAddressPstmt(PreparedStatement statement, FullAddress fullAddress) throws SQLException {
@@ -246,10 +215,5 @@ public class ManufacturerRepositoryImpl extends OrganizationRepositoryImpl<Manuf
         }catch (SQLException e){
             throw new RepositoryException("Can't try to find manufacturer by specialization", e);
         }
-    }
-
-    @Override
-    public boolean existsById(Id id, Connection conn) {
-        return ExistenceChecker.checkExistenceById(conn, id, existsByIdSql);
     }
 }

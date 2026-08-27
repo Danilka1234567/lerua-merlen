@@ -3,7 +3,6 @@ package infrastructure.repositoryImpl;
 import infrastructure.repositoryImpl.abstr.OrganizationRepositoryImpl;
 import infrastructure.repositoryImpl.rsmapper.RsMapper;
 import infrastructure.repositoryImpl.rsmapper.WarehouseMapper;
-import infrastructure.repositoryImpl.shared.ExistenceChecker;
 import infrastructure.utils.ResourceReader;
 import model.entity.Warehouse;
 import model.repository.WarehouseRepository;
@@ -21,10 +20,6 @@ import java.time.LocalDate;
 public class WarehouseRepositoryImpl extends OrganizationRepositoryImpl<Warehouse> implements WarehouseRepository {
 
     private static final RsMapper<Warehouse> mapper = new WarehouseMapper();
-
-    private static final String existsByFullAddressSql = ResourceReader.read(
-            "sql/dql/warehouse/exists_by_full_address.sql"
-    );
 
     private static final String findByFullAddressSql = ResourceReader.read(
             "sql/dql/warehouse/select_by_full_address.sql"
@@ -74,18 +69,10 @@ public class WarehouseRepositoryImpl extends OrganizationRepositoryImpl<Warehous
             "sql/dml/warehouse/remove.sql"
     );
 
-    private static final String existsByIdSql = ResourceReader.read(
-            "sql/dql/warehouse/exists_by_id.sql"
-    );
 
     @Override
     protected RsMapper<Warehouse> getMapper() {
         return mapper;
-    }
-
-    @Override
-    protected String getExistsByFullAddressSql() {
-        return existsByFullAddressSql;
     }
 
     @Override
@@ -146,24 +133,6 @@ public class WarehouseRepositoryImpl extends OrganizationRepositoryImpl<Warehous
     @Override
     protected String getRemoveSql() {
         return removeSql;
-    }
-
-    @Override
-    protected String getExistsByEmailSql() {
-        return "SELECT EXISTS(SELECT 1 FROM warehouses WHERE email = ? AND is_deleted = false)";
-    }
-
-    @Override
-    protected String getExistsByPhoneNumberSql() {
-        return "SELECT EXISTS(SELECT 1 FROM warehouses WHERE phone_number = ? AND is_deleted = false)";
-    }
-
-    @Override
-    protected void fillExistsByFullAddressPstmt(PreparedStatement statement, FullAddress fullAddress) throws SQLException {
-        statement.setString(1, fullAddress.getCountry());
-        statement.setString(2, fullAddress.getRegion());
-        statement.setString(3, fullAddress.getCity());
-        statement.setString(4, fullAddress.getStreetAddress().getValue());
     }
 
     @Override
@@ -236,10 +205,5 @@ public class WarehouseRepositoryImpl extends OrganizationRepositoryImpl<Warehous
     protected void fillSetDeletionStatusStatement(PreparedStatement statement, Id id, boolean deletionStatus) throws SQLException {
         statement.setBoolean(1, deletionStatus);
         statement.setLong(2, id.getValue());
-    }
-
-    @Override
-    public boolean existsById(Id id, Connection conn) {
-        return ExistenceChecker.checkExistenceById(conn, id, existsByIdSql);
     }
 }

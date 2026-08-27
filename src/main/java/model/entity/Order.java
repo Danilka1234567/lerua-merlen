@@ -58,7 +58,7 @@ public class Order extends BaseEntity {
                 this.productId = productId;
     }
 
-    private void setDeliveryPeriod(int deliveryPeriod) {
+    public void setDeliveryPeriod(int deliveryPeriod) {
         if (deliveryPeriod <= 0)
             throw new IllegalArgumentException(
                     "deliveryPeriod can't be less than zero or equal to it"

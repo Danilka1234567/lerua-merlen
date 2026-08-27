@@ -11,25 +11,20 @@ import model.service.shared.Transaction;
 import model.service.shared.Validator;
 import model.vo.Id;
 
+import javax.sql.rowset.serial.SerialException;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.util.List;
 
 public class ProductService {
 
     private final ProductRepository productRepository;
-    private final WarehouseRepository warehouseRepository;
-    private final ManufacturerRepository manufacturerRepository;
 
-    public ProductService(ProductRepository productRepository, WarehouseRepository warehouseRepository,
-                          ManufacturerRepository manufacturerRepository) {
+    public ProductService(ProductRepository productRepository) {
 
         Validator.validateNotNull(productRepository, "Product repository");
-        Validator.validateNotNull(warehouseRepository, "Warehouse repository");
-        Validator.validateNotNull(manufacturerRepository, "Manufacturer repository");
 
         this.productRepository = productRepository;
-        this.warehouseRepository = warehouseRepository;
-        this.manufacturerRepository = manufacturerRepository;
     }
 
 
@@ -43,15 +38,42 @@ public class ProductService {
     }
 
 
-    public void updateInfo(Product product, Id productId){
-        Validator.validateNotNull(product, "Product");
+    public void updateInfo(Id warehouseId, Id manufacturerId, String name,
+                           BigDecimal price, BigDecimal discount, Id productId){
+        Validator.validateNotNull(warehouseId, "Warehouse id");
+        Validator.validateNotNull(manufacturerId, "Manufacturer id");
+        Validator.validateNotNull(name, "Name");
+        Validator.validateNotNull(price, "Price");
+        Validator.validateNotNull(discount, "Discount");
         Validator.validateNotNull(productId, "Product id");
 
+
         Connection conn = ConnectionManager.getConnectionSingletone();
-        Transaction.complete(conn, () -> {
-            int affectedRows = productRepository.update(product, productId,
-                    ConnectionManager.getConnectionSingletone());
-        });
+
+        Product productFromDb = productRepository.findById(productId, conn).orElseThrow(
+                () -> new EntityNotFoundException("Unknown product id")
+        );
+
+        Product productToUpdate = Product.loadFromDb(
+                productId,
+                productFromDb.isDeleted(),
+                warehouseId,
+                manufacturerId,
+                name,
+                price,
+                discount,
+                null,
+                null
+        );
+        int affectedRows = Transaction.complete(conn, () ->
+            productRepository.update(productToUpdate, productId,
+                    conn)
+        );
+
+        if (affectedRows == 0)
+            throw new ServiceException(
+                    "Failed to update product info"
+            );
     }
 
     public void markAsDeleted(Id productId){
@@ -60,7 +82,7 @@ public class ProductService {
                 true, productId, ConnectionManager.getConnectionSingletone());
         if (affectedRows == 0)
             throw new ServiceException(
-                    "Can't mark prouct as deleted"
+                    "Can't mark product as deleted"
             );
     }
 
@@ -84,5 +106,9 @@ public class ProductService {
 
     public List<Product> getAllByManufacturerId(Id manufacturerId){
         return productRepository.findAllByManufacturerId(manufacturerId, ConnectionManager.getConnectionSingletone());
+    }
+
+    public List<Product> getAllLikeName(String name){
+        return productRepository.findAllLikeName(name, ConnectionManager.getConnectionSingletone());
     }
 }

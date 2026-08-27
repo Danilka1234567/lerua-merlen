@@ -24,5 +24,5 @@ public interface ProductRepository{
     Optional<Product> findById(Id id, Connection conn) throws RepositoryException;
     List<Product> findAllByWarehouseId(Id warehouseId, Connection conn) throws RepositoryException;
     List<Product> findAllByManufacturerId(Id manufacturerId, Connection conn) throws RepositoryException;
-    boolean existsById(Id id, Connection conn) throws RepositoryException;
+    List<Product> findAllLikeName(String name, Connection conn) throws RepositoryException;
 }

@@ -10,7 +10,7 @@ public class DbInitializer {
 
     public static void init(){
 
-        Connection conn = ConnectionManager.getConnection();
+        Connection conn = ConnectionManager.getConnectionSingletone();
 
 
         try(Statement statement = conn.createStatement();){

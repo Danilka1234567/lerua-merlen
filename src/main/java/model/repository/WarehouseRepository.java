@@ -31,9 +31,5 @@ public interface WarehouseRepository{
     List<Warehouse> findAllByRegion(String region, Connection conn) throws RepositoryException;
     Optional<Warehouse> findByPhoneNumber(PhoneNumber phoneNumber, Connection conn) throws RepositoryException;
     Optional<Warehouse> findByEmail(Email email, Connection conn) throws RepositoryException;
-    boolean existsByEmail(Email email, Connection conn) throws RepositoryException;
-    boolean existsByPhoneNumber(PhoneNumber phoneNumber, Connection conn) throws RepositoryException;
     Optional<Warehouse> findByFullAddress(FullAddress fullAddress, Connection conn) throws RepositoryException;
-    boolean existsByFullAddress(FullAddress fullAddress, Connection conn) throws RepositoryException;
-    boolean existsById(Id id, Connection conn) throws RepositoryException;
 }

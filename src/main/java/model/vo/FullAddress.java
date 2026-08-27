@@ -66,4 +66,9 @@ public class FullAddress {
     public StreetAddress getStreetAddress() {
         return streetAddress;
     }
+
+    @Override
+    public String toString() {
+        return "fullAddress" + ":" + country + "," + region + "," + city + "," + streetAddress.toString();
+    }
 }

@@ -28,7 +28,4 @@ public interface UserRepository{
     List<User> findAllByRole(UserRole role, Connection conn) throws RepositoryException;
     Optional<User> findByPhoneNumber(PhoneNumber phoneNumber, Connection conn) throws RepositoryException;
     Optional<User> findByEmail(Email email, Connection conn) throws RepositoryException;
-    boolean existsByEmail(Email email, Connection conn) throws RepositoryException;
-    boolean existsByPhoneNumber(PhoneNumber phoneNumber, Connection conn) throws RepositoryException;
-    boolean existsById(Id id, Connection conn) throws RepositoryException;
 }

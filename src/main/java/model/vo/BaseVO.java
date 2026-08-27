@@ -17,7 +17,7 @@ public abstract class BaseVO<T> {
         List<String> violations = getViolations(value);
         if (! violations.isEmpty()){
             throw new IllegalArgumentException(
-                    "vo validation error:" + String.join("\n", violations)
+                    "validation error:" + String.join("\n", violations)
             );
         }
 
@@ -42,5 +42,10 @@ public abstract class BaseVO<T> {
 
     public T getValue(){
         return value;
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName().toLowerCase() + ":" + value;
     }
 }

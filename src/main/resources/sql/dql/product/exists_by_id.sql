@@ -1,1 +1,0 @@
-SELECT EXISTS (SELECT 1 FROM orders WHERE id = ? AND is_deleted = false)

@@ -93,7 +93,16 @@ public class Product extends BaseEntity {
     }
 
 
-    private void setDiscount(BigDecimal discount) {
+    private void setDiscount(BigDecimal discount){
+        if (discount.precision() > 3)
+            throw new IllegalArgumentException(
+                    "discount must contain maximum 3 digits!"
+            );
+        if (discount.scale() > 2)
+            throw new IllegalArgumentException(
+                    "discount must contain 2 or less digits after dot"
+            );
+
         if (discount.compareTo(BigDecimal.ZERO) < 0 || discount.compareTo(BigDecimal.ONE) >= 0)
             throw new IllegalArgumentException(
                     "discount can't be less than zero or >= 1"

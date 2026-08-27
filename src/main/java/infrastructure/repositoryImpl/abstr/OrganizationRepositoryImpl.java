@@ -14,14 +14,12 @@ import java.util.Optional;
 public abstract class OrganizationRepositoryImpl<T extends OrganizationEntity> extends ContactableRepositoryImpl<T>{
 
 
-    protected abstract String getExistsByFullAddressSql();
+
     protected abstract String getFindByFullAddressSql();
     protected abstract String getFindAllByRegionSql();
     protected abstract String getFindAllByCountrySql();
     protected abstract String getFindAllByCitySql();
 
-    protected abstract void fillExistsByFullAddressPstmt(PreparedStatement statement,
-                                                         FullAddress fullAddress) throws SQLException;
     protected abstract void fillFindByFullAddressPstmt(PreparedStatement statement,
                                                        FullAddress fullAddress) throws SQLException;
     protected abstract void fillFindAllByRegionPstmt(PreparedStatement statement,
@@ -30,29 +28,6 @@ public abstract class OrganizationRepositoryImpl<T extends OrganizationEntity> e
                                                       String country)throws SQLException;
     protected abstract void fillFindAllByCityPstmt(PreparedStatement statement,
                                                    String city) throws SQLException;
-
-
-
-    public boolean existsByFullAddress(FullAddress fullAddress, Connection conn) {
-        try(PreparedStatement statement = conn.prepareStatement(getExistsByFullAddressSql())){
-            fillExistsByFullAddressPstmt(statement, fullAddress);
-
-            try(ResultSet rs = statement.executeQuery()){
-
-                if (! rs.next())
-                    throw new SQLException(
-                            "answer from db is empty"
-                    );
-
-                return rs.getBoolean(1);
-            }
-        }catch (SQLException e){
-            throw new RepositoryException(
-                    "Can't check entity existence by full address", e
-            );
-        }
-    }
-
 
     public Optional<T> findByFullAddress(FullAddress fullAddress, Connection conn) {
         try(PreparedStatement statement = conn.prepareStatement(getFindByFullAddressSql())){
