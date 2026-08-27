@@ -26,4 +26,4 @@ SELECT
 FROM products p
 JOIN manufacturers m ON p.manufacturer_id = m.id
 JOIN warehouses w ON p.warehouse_id = w.id
-WHERE name LIKE ?
+WHERE p.name LIKE ?

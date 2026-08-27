@@ -155,7 +155,7 @@ public class ProductRepositoryImpl extends ExtendedRepositoryImpl<Product> imple
     @Override
     public List<Product> findAllLikeName(String name, Connection conn) throws RepositoryException {
         try(PreparedStatement statement = conn.prepareStatement(findAllLikeNameSql)){
-            statement.setString(1, "%name");
+            statement.setString(1, "%" + name);
 
             try(ResultSet rs = statement.executeQuery()){
                 if (! rs.next())
